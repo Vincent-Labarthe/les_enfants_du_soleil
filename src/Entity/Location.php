@@ -40,14 +40,15 @@ class Location
     private $type;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Person::class, mappedBy="location")
-     */
-    private $person;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Address::class)
      */
     private $address;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="locations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $person;
 
     public function __construct()
     {
@@ -107,33 +108,6 @@ class Location
         return $this;
     }
 
-    /**
-     * @return Collection<int, Person>
-     */
-    public function getPerson(): Collection
-    {
-        return $this->person;
-    }
-
-    public function addPerson(Person $person): self
-    {
-        if (!$this->person->contains($person)) {
-            $this->person[] = $person;
-            $person->addLocation($this);
-        }
-
-        return $this;
-    }
-
-    public function removePerson(Person $person): self
-    {
-        if ($this->person->removeElement($person)) {
-            $person->removeLocation($this);
-        }
-
-        return $this;
-    }
-
     public function getAddress(): ?Address
     {
         return $this->address;
@@ -142,6 +116,18 @@ class Location
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getPerson(): ?Person
+    {
+        return $this->person;
+    }
+
+    public function setPerson(?Person $person): self
+    {
+        $this->person = $person;
 
         return $this;
     }

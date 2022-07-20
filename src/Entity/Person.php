@@ -85,16 +85,6 @@ class Person
     private $tel;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Location::class, inversedBy="person")
-     */
-    private $location;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Job::class)
-     */
-    private $job;
-
-    /**
      * @ORM\OneToMany(targetEntity=BehaviorEvent::class, mappedBy="person", orphanRemoval=true)
      */
     private $behaviorEvent;
@@ -130,14 +120,22 @@ class Person
     private $aid;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Formation::class, mappedBy="person")
+     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="person")
      */
     private $formations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="person")
+     */
+    private $jobs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="person")
+     */
+    private $locations;
+
     public function __construct()
     {
-        $this->location = new ArrayCollection();
-        $this->job = new ArrayCollection();
         $this->behaviorEvent = new ArrayCollection();
         $this->sponsorship = new ArrayCollection();
         $this->sponsorships = new ArrayCollection();
@@ -145,6 +143,8 @@ class Person
         $this->interviewReports = new ArrayCollection();
         $this->aid = new ArrayCollection();
         $this->formations = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -304,54 +304,6 @@ class Person
     public function setTel(?string $tel): self
     {
         $this->tel = $tel;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Location>
-     */
-    public function getLocation(): Collection
-    {
-        return $this->location;
-    }
-
-    public function addLocation(Location $location): self
-    {
-        if (!$this->location->contains($location)) {
-            $this->location[] = $location;
-        }
-
-        return $this;
-    }
-
-    public function removeLocation(Location $location): self
-    {
-        $this->location->removeElement($location);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Job>
-     */
-    public function getJob(): Collection
-    {
-        return $this->job;
-    }
-
-    public function addJob(Job $job): self
-    {
-        if (!$this->job->contains($job)) {
-            $this->job[] = $job;
-        }
-
-        return $this;
-    }
-
-    public function removeJob(Job $job): self
-    {
-        $this->job->removeElement($job);
 
         return $this;
     }
@@ -537,7 +489,7 @@ class Person
     {
         if (!$this->formations->contains($formation)) {
             $this->formations[] = $formation;
-            $formation->addPerson($this);
+            $formation->setPerson($this);
         }
 
         return $this;
@@ -546,7 +498,70 @@ class Person
     public function removeFormation(Formation $formation): self
     {
         if ($this->formations->removeElement($formation)) {
-            $formation->removePerson($this);
+            // set the owning side to null (unless already changed)
+            if ($formation->getPerson() === $this) {
+                $formation->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Job>
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs[] = $job;
+            $job->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->removeElement($job)) {
+            // set the owning side to null (unless already changed)
+            if ($job->getPerson() === $this) {
+                $job->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Location>
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    public function addLocation(Location $location): self
+    {
+        if (!$this->locations->contains($location)) {
+            $this->locations[] = $location;
+            $location->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->locations->removeElement($location)) {
+            // set the owning side to null (unless already changed)
+            if ($location->getPerson() === $this) {
+                $location->setPerson(null);
+            }
         }
 
         return $this;

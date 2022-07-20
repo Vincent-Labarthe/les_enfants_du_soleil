@@ -51,7 +51,8 @@ class Formation
     private $organization;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Person::class, inversedBy="formations")
+     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="formations")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $person;
 
@@ -137,26 +138,14 @@ class Formation
         return $this;
     }
 
-    /**
-     * @return Collection<int, Person>
-     */
-    public function getPerson(): Collection
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
 
-    public function addPerson(Person $person): self
+    public function setPerson(?Person $person): self
     {
-        if (!$this->person->contains($person)) {
-            $this->person[] = $person;
-        }
-
-        return $this;
-    }
-
-    public function removePerson(Person $person): self
-    {
-        $this->person->removeElement($person);
+        $this->person = $person;
 
         return $this;
     }

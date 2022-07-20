@@ -1,0 +1,8 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: top no-repeat url("../images/logo.png") ;
+}

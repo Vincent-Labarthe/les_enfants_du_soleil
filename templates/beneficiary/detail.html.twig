@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="mt-5">
+            <div class="card card-hero-header col-12">
+                <div class="m-2">
+                    <img src="{{ asset('images/enfant_1.jpg') }}" class="card-img-top" alt="...">
+                </div>
+                <div class="card-body card-body-header">
+                    <h5 class="card-title">{{ beneficiarie.firstname ~ ' ' ~ beneficiarie.lastname }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Date de naissance : {{ beneficiarie.birthdate }} | {{ beneficiarie.gender }}</h6>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi dignissimos doloremque eaque id molestiae nostrum nulla qui similique soluta totam!</p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <nav class="navbar navbar-expand-lg menu-bg">
+                <div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a id="resume" class="nav-link menu-link" aria-current="page" href="#">Résumé</a>
+                            <a class="nav-link menu-link" href="#">Localisation</a>
+                            <a class="nav-link menu-link" href="#">Formation</a>
+                            <a class="nav-link menu-link" href="#">Emploi</a>
+                            <a class="nav-link menu-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Evènements
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">Santé</a></li>
+                                <li><a class="dropdown-item" href="#">Comportement</a></li>
+                            </ul>
+                            <a class="nav-link" href="#">Entretiens</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div id="hero-content">
+
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        let id = "{{ beneficiarie.id }}"
+    </script>
+    <script src="{{ asset('js/detail.js') }}"></script>
+{% endblock %}

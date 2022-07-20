@@ -10,12 +10,18 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
+        "friendsofsymfony/jsrouting-bundle": "^2.8",
+        "league/fractal": "^0.20.1",
+        "sensio/framework-extra-bundle": "^6.2",
+        "symfony/asset": "5.4.*",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
         "symfony/flex": "^1.17|^2",
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
+        "symfony/google-mailer": "5.4.*",
         "symfony/mailer": "5.4.*",
+        "symfony/monolog-bundle": "^3.8",
         "symfony/proxy-manager-bridge": "5.4.*",
         "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
@@ -73,8 +79,10 @@
         }
     },
     "require-dev": {
+        "symfony/debug-bundle": "5.4.*",
         "symfony/maker-bundle": "^1.43",
         "symfony/stopwatch": "5.4.*",
+        "symfony/var-dumper": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*"
     }
 }
