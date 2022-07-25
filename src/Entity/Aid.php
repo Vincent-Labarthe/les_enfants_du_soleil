@@ -18,12 +18,7 @@ class Aid
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
-
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $endedAt;
 
@@ -38,29 +33,28 @@ class Aid
      */
     private $person;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $startedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AidType::class, inversedBy="aid")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $aidType;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getEndedAt(): ?\DateTimeImmutable
+    public function getEndedAt(): ?\datetime
     {
         return $this->endedAt;
     }
 
-    public function setEndedAt(?\DateTimeImmutable $endedAt): self
+    public function setEndedAt(?\datetime $endedAt): self
     {
         $this->endedAt = $endedAt;
 
@@ -89,5 +83,34 @@ class Aid
         $this->person = $person;
 
         return $this;
+    }
+
+    public function getStartedAt(): ?\datetime
+    {
+        return $this->startedAt;
+    }
+
+    public function setStartedAt(\datetime $startedAt): self
+    {
+        $this->startedAt = $startedAt;
+
+        return $this;
+    }
+
+    public function getAidType(): ?AidType
+    {
+        return $this->aidType;
+    }
+
+    public function setAidType(?AidType $aidType): self
+    {
+        $this->aidType = $aidType;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->aidType->getCategory() . ' ' . $this->aidType->getDescription();
     }
 }

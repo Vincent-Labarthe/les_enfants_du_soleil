@@ -35,19 +35,9 @@ class Person
     private $sexe;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $dateOfBirth;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $currentSiteAttachment;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $degree;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -65,17 +55,12 @@ class Person
     private $imageUrl;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastGradeLevel;
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $supportStartedAt;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $supportEndedAt;
 
@@ -105,9 +90,9 @@ class Person
     private $healthEvent;
 
     /**
-     * @ORM\OneToOne(targetEntity=Organization::class, mappedBy="correspondent", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=TrainingInstitution::class, mappedBy="correspondent", cascade={"persist", "remove"})
      */
-    private $organization;
+    private $trainingInstitution;
 
     /**
      * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="manager")
@@ -133,6 +118,27 @@ class Person
      * @ORM\OneToMany(targetEntity=Location::class, mappedBy="person")
      */
     private $locations;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Origin::class, inversedBy="person")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $origin;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SchoolLevel::class, inversedBy="person")
+     */
+    private $schoolLevel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Degree::class, inversedBy="person")
+     */
+    private $degree;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=EdsEntity::class, inversedBy="manager")
+     */
+    private $edsManage;
 
     public function __construct()
     {
@@ -200,30 +206,6 @@ class Person
         return $this;
     }
 
-    public function getCurrentSiteAttachment(): ?string
-    {
-        return $this->currentSiteAttachment;
-    }
-
-    public function setCurrentSiteAttachment(?string $currentSiteAttachment): self
-    {
-        $this->currentSiteAttachment = $currentSiteAttachment;
-
-        return $this;
-    }
-
-    public function getDegree(): ?string
-    {
-        return $this->degree;
-    }
-
-    public function setDegree(?string $degree): self
-    {
-        $this->degree = $degree;
-
-        return $this;
-    }
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -260,36 +242,24 @@ class Person
         return $this;
     }
 
-    public function getLastGradeLevel(): ?string
-    {
-        return $this->lastGradeLevel;
-    }
-
-    public function setLastGradeLevel(string $lastGradeLevel): self
-    {
-        $this->lastGradeLevel = $lastGradeLevel;
-
-        return $this;
-    }
-
-    public function getSupportStartedAt(): ?\DateTimeImmutable
+    public function getSupportStartedAt(): ?\DateTime
     {
         return $this->supportStartedAt;
     }
 
-    public function setSupportStartedAt(\DateTimeImmutable $supportStartedAt): self
+    public function setSupportStartedAt(?\DateTime $supportStartedAt): self
     {
         $this->supportStartedAt = $supportStartedAt;
 
         return $this;
     }
 
-    public function getSupportEndedAt(): ?\DateTimeImmutable
+    public function getSupportEndedAt(): ?\DateTime
     {
         return $this->supportEndedAt;
     }
 
-    public function setSupportEndedAt(?\DateTimeImmutable $supportEndedAt): self
+    public function setSupportEndedAt(?\DateTime $supportEndedAt): self
     {
         $this->supportEndedAt = $supportEndedAt;
 
@@ -400,19 +370,19 @@ class Person
         return $this;
     }
 
-    public function getOrganization(): ?Organization
+    public function getOrganization(): ?TrainingInstitution
     {
-        return $this->organization;
+        return $this->trainingInstitution;
     }
 
-    public function setOrganization(Organization $organization): self
+    public function setOrganization(TrainingInstitution $trainingInstitution): self
     {
         // set the owning side of the relation if necessary
-        if ($organization->getCorrespondent() !== $this) {
-            $organization->setCorrespondent($this);
+        if ($trainingInstitution->getCorrespondent() !== $this) {
+            $trainingInstitution->setCorrespondent($this);
         }
 
-        $this->organization = $organization;
+        $this->trainingInstitution = $trainingInstitution;
 
         return $this;
     }
@@ -565,5 +535,74 @@ class Person
         }
 
         return $this;
+    }
+
+    public function getOrigin(): ?Origin
+    {
+        return $this->origin;
+    }
+
+    public function setOrigin(?Origin $origin): self
+    {
+        $this->origin = $origin;
+
+        return $this;
+    }
+
+    public function getSchoolLevel(): ?SchoolLevel
+    {
+        return $this->schoolLevel;
+    }
+
+    public function setSchoolLevel(?SchoolLevel $schoolLevel): self
+    {
+        $this->schoolLevel = $schoolLevel;
+
+        return $this;
+    }
+
+    public function getDegree(): ?Degree
+    {
+        return $this->degree;
+    }
+
+    public function setDegree(?Degree $degree): self
+    {
+        $this->degree = $degree;
+
+        return $this;
+    }
+
+    public function getEdsManage(): ?EdsEntity
+    {
+        return $this->edsManage;
+    }
+
+    public function setEdsManage(?EdsEntity $edsManage): self
+    {
+        $this->edsManage = $edsManage;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTrainingInstitution()
+    {
+        return $this->trainingInstitution;
+    }
+
+    /**
+     * @param mixed $trainingInstitution
+     */
+    public function setTrainingInstitution($trainingInstitution): void
+    {
+        $this->trainingInstitution = $trainingInstitution;
+    }
+
+    public function __toString()
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 }

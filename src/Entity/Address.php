@@ -89,4 +89,9 @@ class Address
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->street . ' ' . $this->zip . ' ' . $this->city . ' ' . $this->country;
+    }
 }

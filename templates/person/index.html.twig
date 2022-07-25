@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Person index{% endblock %}
+
+{% block body %}
+    <h1>Person index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Sexe</th>
+                <th>DateOfBirth</th>
+                <th>Email</th>
+                <th>FamilyRelation</th>
+                <th>ImageUrl</th>
+                <th>LastGradeLevel</th>
+                <th>SupportStartedAt</th>
+                <th>SupportEndedAt</th>
+                <th>Tel</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for person in people %}
+            <tr>
+                <td>{{ person.id }}</td>
+                <td>{{ person.firstname }}</td>
+                <td>{{ person.lastname }}</td>
+                <td>{{ person.sexe }}</td>
+                <td>{{ person.dateOfBirth ? person.dateOfBirth|date('Y-m-d') : '' }}</td>
+                <td>{{ person.email }}</td>
+                <td>{{ person.familyRelation }}</td>
+                <td>{{ person.imageUrl }}</td>
+                <td>{{ person.lastGradeLevel }}</td>
+                <td>{{ person.supportStartedAt ? person.supportStartedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ person.supportEndedAt ? person.supportEndedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ person.tel }}</td>
+                <td>
+                    <a href="{{ path('app_person_show', {'id': person.id}) }}">show</a>
+                    <a href="{{ path('app_person_edit', {'id': person.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_person_new') }}">Create new</a>
+{% endblock %}

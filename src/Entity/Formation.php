@@ -22,11 +22,6 @@ class Formation
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $class;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $specialty;
 
     /**
@@ -40,21 +35,32 @@ class Formation
     private $suggestedDirection;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $endedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Organization::class, inversedBy="formations")
+     * @ORM\ManyToOne(targetEntity=TrainingInstitution::class, inversedBy="formations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $organization;
+    private $trainingInstitution;
 
     /**
      * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="formations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $person;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $startedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ClassName::class, inversedBy="formation")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $className;
 
     public function __construct()
     {
@@ -64,18 +70,6 @@ class Formation
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getClass(): ?string
-    {
-        return $this->class;
-    }
-
-    public function setClass(string $class): self
-    {
-        $this->class = $class;
-
-        return $this;
     }
 
     public function getSpecialty(): ?string
@@ -114,26 +108,26 @@ class Formation
         return $this;
     }
 
-    public function getEndedAt(): ?\DateTimeImmutable
+    public function getEndedAt(): ?\datetime
     {
         return $this->endedAt;
     }
 
-    public function setEndedAt(?\DateTimeImmutable $endedAt): self
+    public function setEndedAt(?\datetime $endedAt): self
     {
         $this->endedAt = $endedAt;
 
         return $this;
     }
 
-    public function getOrganization(): ?Organization
+    public function getTrainingInstitution(): ?TrainingInstitution
     {
-        return $this->organization;
+        return $this->trainingInstitution;
     }
 
-    public function setOrganization(?Organization $organization): self
+    public function setOrganization(?TrainingInstitution $trainingInstitution): self
     {
-        $this->organization = $organization;
+        $this->trainingInstitution = $trainingInstitution;
 
         return $this;
     }
@@ -146,6 +140,30 @@ class Formation
     public function setPerson(?Person $person): self
     {
         $this->person = $person;
+
+        return $this;
+    }
+
+    public function getStartedAt(): ?\datetime
+    {
+        return $this->startedAt;
+    }
+
+    public function setStartedAt(\datetime $startedAt): self
+    {
+        $this->startedAt = $startedAt;
+
+        return $this;
+    }
+
+    public function getClassName(): ?ClassName
+    {
+        return $this->className;
+    }
+
+    public function setClassName(?ClassName $className): self
+    {
+        $this->className = $className;
 
         return $this;
     }

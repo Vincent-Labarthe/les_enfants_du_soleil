@@ -49,6 +49,11 @@ class Company
      */
     private $correspondent;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Activity;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +127,18 @@ class Company
     public function setCorrespondent(Person $correspondent): self
     {
         $this->correspondent = $correspondent;
+
+        return $this;
+    }
+
+    public function getActivity(): ?string
+    {
+        return $this->Activity;
+    }
+
+    public function setActivity(string $Activity): self
+    {
+        $this->Activity = $Activity;
 
         return $this;
     }

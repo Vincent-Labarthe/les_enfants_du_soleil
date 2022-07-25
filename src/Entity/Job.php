@@ -28,9 +28,9 @@ class Job
     private $name;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $jobEndedAt;
+    private $endedAt;
 
     /**
      * @ORM\Column(type="integer")
@@ -47,6 +47,11 @@ class Job
      * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="jobs")
      */
     private $person;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $startedAt;
 
     public function getId(): ?int
     {
@@ -77,16 +82,20 @@ class Job
         return $this;
     }
 
-    public function getJobEndedAt(): ?\DateTimeImmutable
+    /**
+     * @return mixed
+     */
+    public function getEndedAt()
     {
-        return $this->jobEndedAt;
+        return $this->endedAt;
     }
 
-    public function setJobEndedAt(?\DateTimeImmutable $jobEndedAt): self
+    /**
+     * @param mixed $endedAt
+     */
+    public function setEndedAt($endedAt): void
     {
-        $this->jobEndedAt = $jobEndedAt;
-
-        return $this;
+        $this->endedAt = $endedAt;
     }
 
     public function getAnnualSalary(): ?int
@@ -121,6 +130,18 @@ class Job
     public function setPerson(?Person $person): self
     {
         $this->person = $person;
+
+        return $this;
+    }
+
+    public function getStartedAt(): ?\datetime
+    {
+        return $this->startedAt;
+    }
+
+    public function setStartedAt(\datetime $startedAt): self
+    {
+        $this->startedAt = $startedAt;
 
         return $this;
     }

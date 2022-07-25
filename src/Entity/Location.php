@@ -25,12 +25,12 @@ class Location
     private $isCurrentLocation;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $locationStartedAt;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $locationEndedAt;
 
@@ -49,6 +49,11 @@ class Location
      * @ORM\JoinColumn(nullable=false)
      */
     private $person;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=EdsEntity::class, inversedBy="locations")
+     */
+    private $eds;
 
     public function __construct()
     {
@@ -72,24 +77,24 @@ class Location
         return $this;
     }
 
-    public function getLocationStartedAt(): ?\DateTimeImmutable
+    public function getLocationStartedAt(): ?\datetime
     {
         return $this->locationStartedAt;
     }
 
-    public function setLocationStartedAt(\DateTimeImmutable $locationStartedAt): self
+    public function setLocationStartedAt(\datetime $locationStartedAt): self
     {
         $this->locationStartedAt = $locationStartedAt;
 
         return $this;
     }
 
-    public function getLocationEndedAt(): ?\DateTimeImmutable
+    public function getLocationEndedAt(): ?\datetime
     {
         return $this->locationEndedAt;
     }
 
-    public function setLocationEndedAt(?\DateTimeImmutable $locationEndedAt): self
+    public function setLocationEndedAt(?\datetime $locationEndedAt): self
     {
         $this->locationEndedAt = $locationEndedAt;
 
@@ -128,6 +133,18 @@ class Location
     public function setPerson(?Person $person): self
     {
         $this->person = $person;
+
+        return $this;
+    }
+
+    public function getEds(): ?EdsEntity
+    {
+        return $this->eds;
+    }
+
+    public function setEds(?EdsEntity $eds): self
+    {
+        $this->eds = $eds;
 
         return $this;
     }

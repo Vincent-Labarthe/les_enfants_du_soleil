@@ -10,7 +10,9 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
+        "easycorp/easyadmin-bundle": "^3.5",
         "friendsofsymfony/jsrouting-bundle": "^2.8",
+        "fzaninotto/faker": "^1.9",
         "league/fractal": "^0.20.1",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.4.*",
@@ -26,7 +28,9 @@
         "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
+        "symfony/ux-chartjs": "^2.3",
         "symfony/validator": "5.4.*",
+        "symfony/webpack-encore-bundle": "^1.15",
         "symfony/yaml": "5.4.*",
         "symfonycasts/verify-email-bundle": "^1.11"
     },
@@ -79,6 +83,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/debug-bundle": "5.4.*",
         "symfony/maker-bundle": "^1.43",
         "symfony/stopwatch": "5.4.*",

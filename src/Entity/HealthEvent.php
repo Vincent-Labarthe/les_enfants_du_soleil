@@ -18,17 +18,12 @@ class HealthEvent
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isDisease;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $reason;
 
@@ -40,7 +35,12 @@ class HealthEvent
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $imaging;
+    private $analysis;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagery;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -48,9 +48,10 @@ class HealthEvent
     private $treatment;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $comment;
+
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
@@ -73,21 +74,15 @@ class HealthEvent
      */
     private $person;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=EventMedicalType::class, inversedBy="healthEvent")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $eventMedicalType;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     public function isIsDisease(): ?bool
@@ -107,7 +102,7 @@ class HealthEvent
         return $this->reason;
     }
 
-    public function setReason(?string $reason): self
+    public function setReason(string $reason): self
     {
         $this->reason = $reason;
 
@@ -126,14 +121,26 @@ class HealthEvent
         return $this;
     }
 
-    public function getImaging(): ?string
+    public function getAnalysis(): ?string
     {
-        return $this->imaging;
+        return $this->analysis;
     }
 
-    public function setImaging(?string $imaging): self
+    public function setAnalysis(?string $analysis): self
     {
-        $this->imaging = $imaging;
+        $this->analysis = $analysis;
+
+        return $this;
+    }
+
+    public function getImagery(): ?string
+    {
+        return $this->imagery;
+    }
+
+    public function setImagery(?string $imagery): self
+    {
+        $this->imagery = $imagery;
 
         return $this;
     }
@@ -155,7 +162,7 @@ class HealthEvent
         return $this->comment;
     }
 
-    public function setComment(string $comment): self
+    public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
@@ -208,5 +215,22 @@ class HealthEvent
         $this->person = $person;
 
         return $this;
+    }
+
+    public function getEventMedicalType(): ?EventMedicalType
+    {
+        return $this->eventMedicalType;
+    }
+
+    public function setEventMedicalType(?EventMedicalType $eventMedicalType): self
+    {
+        $this->eventMedicalType = $eventMedicalType;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getEventMedicalType()->getName();
     }
 }
