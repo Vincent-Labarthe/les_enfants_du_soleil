@@ -26,7 +26,14 @@ class InterviewReport
      * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="interviewReports")
      * @ORM\JoinColumn(nullable=false)
      */
+    private $person;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="interviewReportsManager")
+     * @ORM\JoinColumn(nullable=false)
+     */
     private $manager;
+
 
     public function getId(): ?int
     {
@@ -41,6 +48,18 @@ class InterviewReport
     public function setReport(string $report): self
     {
         $this->report = $report;
+
+        return $this;
+    }
+
+    public function getPerson(): ?Person
+    {
+        return $this->person;
+    }
+
+    public function setPerson(?Person $person): self
+    {
+        $this->person = $person;
 
         return $this;
     }

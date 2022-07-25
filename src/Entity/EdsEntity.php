@@ -31,12 +31,6 @@ class EdsEntity
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="eds")
-     */
-    private $locations;
-
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $type;
@@ -62,11 +56,16 @@ class EdsEntity
      */
     private $manager;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="edsEntity")
+     */
+    private $locations;
+
     public function __construct()
     {
-        $this->locations = new ArrayCollection();
         $this->manager = new ArrayCollection();
         $this->edsChildren = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,35 +97,6 @@ class EdsEntity
         return $this;
     }
 
-    /**
-     * @return Collection<int, Location>
-     */
-    public function getLocations(): Collection
-    {
-        return $this->locations;
-    }
-
-    public function addLocation(Location $location): self
-    {
-        if (!$this->locations->contains($location)) {
-            $this->locations[] = $location;
-            $location->setEds($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLocation(Location $location): self
-    {
-        if ($this->locations->removeElement($location)) {
-            // set the owning side to null (unless already changed)
-            if ($location->getEds() === $this) {
-                $location->setEds(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getType(): ?string
     {
@@ -218,6 +188,36 @@ class EdsEntity
             // set the owning side to null (unless already changed)
             if ($manager->getEdsManage() === $this) {
                 $manager->setEdsManage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Location>
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    public function addLocation(Location $location): self
+    {
+        if (!$this->locations->contains($location)) {
+            $this->locations[] = $location;
+            $location->setEdsEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->locations->removeElement($location)) {
+            // set the owning side to null (unless already changed)
+            if ($location->getEdsEntity() === $this) {
+                $location->setEdsEntity(null);
             }
         }
 

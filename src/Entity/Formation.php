@@ -46,12 +46,6 @@ class Formation
     private $trainingInstitution;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="formations")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $person;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $startedAt;
@@ -62,10 +56,16 @@ class Formation
      */
     private $className;
 
-    public function __construct()
-    {
-        $this->person = new ArrayCollection();
-    }
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Person::class, inversedBy="formation", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $student;
 
     public function getId(): ?int
     {
@@ -125,21 +125,9 @@ class Formation
         return $this->trainingInstitution;
     }
 
-    public function setOrganization(?TrainingInstitution $trainingInstitution): self
+    public function setTrainingInstitution(?TrainingInstitution $trainingInstitution): self
     {
         $this->trainingInstitution = $trainingInstitution;
-
-        return $this;
-    }
-
-    public function getPerson(): ?Person
-    {
-        return $this->person;
-    }
-
-    public function setPerson(?Person $person): self
-    {
-        $this->person = $person;
 
         return $this;
     }
@@ -164,6 +152,36 @@ class Formation
     public function setClassName(?ClassName $className): self
     {
         $this->className = $className;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    public function getStudent(): ?Person
+    {
+        return $this->student;
+    }
+
+    public function setStudent(Person $student): self
+    {
+        $this->student = $student;
 
         return $this;
     }

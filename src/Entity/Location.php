@@ -43,9 +43,8 @@ class Location
      * @ORM\ManyToOne(targetEntity=Address::class)
      */
     private $address;
-
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="locations")
+     * @ORM\OneToOne(targetEntity=Person::class, inversedBy="location", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $person;
@@ -53,12 +52,7 @@ class Location
     /**
      * @ORM\ManyToOne(targetEntity=EdsEntity::class, inversedBy="locations")
      */
-    private $eds;
-
-    public function __construct()
-    {
-        $this->person = new ArrayCollection();
-    }
+    private $edsEntity;
 
     public function getId(): ?int
     {
@@ -130,21 +124,21 @@ class Location
         return $this->person;
     }
 
-    public function setPerson(?Person $person): self
+    public function setPerson(Person $person): self
     {
         $this->person = $person;
 
         return $this;
     }
 
-    public function getEds(): ?EdsEntity
+    public function getEdsEntity(): ?EdsEntity
     {
-        return $this->eds;
+        return $this->edsEntity;
     }
 
-    public function setEds(?EdsEntity $eds): self
+    public function setEdsEntity(?EdsEntity $edsEntity): self
     {
-        $this->eds = $eds;
+        $this->edsEntity = $edsEntity;
 
         return $this;
     }

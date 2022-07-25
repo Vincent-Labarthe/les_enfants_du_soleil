@@ -90,34 +90,14 @@ class Person
     private $healthEvent;
 
     /**
-     * @ORM\OneToOne(targetEntity=TrainingInstitution::class, mappedBy="correspondent", cascade={"persist", "remove"})
-     */
-    private $trainingInstitution;
-
-    /**
-     * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="manager")
-     */
-    private $interviewReports;
-
-    /**
      * @ORM\OneToMany(targetEntity=Aid::class, mappedBy="person")
      */
     private $aid;
 
     /**
-     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="person")
-     */
-    private $formations;
-
-    /**
      * @ORM\OneToMany(targetEntity=Job::class, mappedBy="person")
      */
     private $jobs;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="person")
-     */
-    private $locations;
 
     /**
      * @ORM\ManyToOne(targetEntity=Origin::class, inversedBy="person")
@@ -140,17 +120,46 @@ class Person
      */
     private $edsManage;
 
+    /**
+     * @ORM\OneToOne(targetEntity=TrainingInstitution::class, inversedBy="correspondant", cascade={"persist", "remove"})
+     */
+    private $correspondantTrainingInstitution;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=TrainingInstitution::class, inversedBy="people")
+     */
+    private $trainingInstitution;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Formation::class, mappedBy="student", cascade={"persist", "remove"})
+     */
+    private $formation;
+
+    /**
+     * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="person")
+     */
+    private $interviewReports;
+
+    /**
+     * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="manager")
+     */
+    private $interviewReportsManager;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Location::class, mappedBy="person", cascade={"persist", "remove"})
+     */
+    private $location;
+
     public function __construct()
     {
         $this->behaviorEvent = new ArrayCollection();
         $this->sponsorship = new ArrayCollection();
         $this->sponsorships = new ArrayCollection();
         $this->healthEvent = new ArrayCollection();
-        $this->interviewReports = new ArrayCollection();
         $this->aid = new ArrayCollection();
-        $this->formations = new ArrayCollection();
         $this->jobs = new ArrayCollection();
-        $this->locations = new ArrayCollection();
+        $this->interviewReports = new ArrayCollection();
+        $this->interviewReportsManager = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -370,53 +379,6 @@ class Person
         return $this;
     }
 
-    public function getOrganization(): ?TrainingInstitution
-    {
-        return $this->trainingInstitution;
-    }
-
-    public function setOrganization(TrainingInstitution $trainingInstitution): self
-    {
-        // set the owning side of the relation if necessary
-        if ($trainingInstitution->getCorrespondent() !== $this) {
-            $trainingInstitution->setCorrespondent($this);
-        }
-
-        $this->trainingInstitution = $trainingInstitution;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InterviewReport>
-     */
-    public function getInterviewReports(): Collection
-    {
-        return $this->interviewReports;
-    }
-
-    public function addInterviewReport(InterviewReport $interviewReport): self
-    {
-        if (!$this->interviewReports->contains($interviewReport)) {
-            $this->interviewReports[] = $interviewReport;
-            $interviewReport->setManager($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInterviewReport(InterviewReport $interviewReport): self
-    {
-        if ($this->interviewReports->removeElement($interviewReport)) {
-            // set the owning side to null (unless already changed)
-            if ($interviewReport->getManager() === $this) {
-                $interviewReport->setManager(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Aid>
      */
@@ -448,36 +410,6 @@ class Person
     }
 
     /**
-     * @return Collection<int, Formation>
-     */
-    public function getFormations(): Collection
-    {
-        return $this->formations;
-    }
-
-    public function addFormation(Formation $formation): self
-    {
-        if (!$this->formations->contains($formation)) {
-            $this->formations[] = $formation;
-            $formation->setPerson($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFormation(Formation $formation): self
-    {
-        if ($this->formations->removeElement($formation)) {
-            // set the owning side to null (unless already changed)
-            if ($formation->getPerson() === $this) {
-                $formation->setPerson(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Job>
      */
     public function getJobs(): Collection
@@ -501,36 +433,6 @@ class Person
             // set the owning side to null (unless already changed)
             if ($job->getPerson() === $this) {
                 $job->setPerson(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Location>
-     */
-    public function getLocations(): Collection
-    {
-        return $this->locations;
-    }
-
-    public function addLocation(Location $location): self
-    {
-        if (!$this->locations->contains($location)) {
-            $this->locations[] = $location;
-            $location->setPerson($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLocation(Location $location): self
-    {
-        if ($this->locations->removeElement($location)) {
-            // set the owning side to null (unless already changed)
-            if ($location->getPerson() === $this) {
-                $location->setPerson(null);
             }
         }
 
@@ -585,24 +487,126 @@ class Person
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTrainingInstitution()
+    public function __toString()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    public function getCorrespondantTrainingInstitution(): ?TrainingInstitution
+    {
+        return $this->correspondantTrainingInstitution;
+    }
+
+    public function setCorrespondantTrainingInstitution(?TrainingInstitution $correspondantTrainingInstitution): self
+    {
+        $this->correspondantTrainingInstitution = $correspondantTrainingInstitution;
+
+        return $this;
+    }
+
+    public function getTrainingInstitution(): ?TrainingInstitution
     {
         return $this->trainingInstitution;
     }
 
-    /**
-     * @param mixed $trainingInstitution
-     */
-    public function setTrainingInstitution($trainingInstitution): void
+    public function setTrainingInstitution(?TrainingInstitution $trainingInstitution): self
     {
         $this->trainingInstitution = $trainingInstitution;
+
+        return $this;
     }
 
-    public function __toString()
+    public function getFormation(): ?Formation
     {
-        return $this->firstname . ' ' . $this->lastname;
+        return $this->formation;
+    }
+
+    public function setFormation(Formation $formation): self
+    {
+        // set the owning side of the relation if necessary
+        if ($formation->getStudent() !== $this) {
+            $formation->setStudent($this);
+        }
+
+        $this->formation = $formation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InterviewReport>
+     */
+    public function getInterviewReports(): Collection
+    {
+        return $this->interviewReports;
+    }
+
+    public function addInterviewReport(InterviewReport $interviewReport): self
+    {
+        if (!$this->interviewReports->contains($interviewReport)) {
+            $this->interviewReports[] = $interviewReport;
+            $interviewReport->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInterviewReport(InterviewReport $interviewReport): self
+    {
+        if ($this->interviewReports->removeElement($interviewReport)) {
+            // set the owning side to null (unless already changed)
+            if ($interviewReport->getPerson() === $this) {
+                $interviewReport->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InterviewReport>
+     */
+    public function getInterviewReportsManager(): Collection
+    {
+        return $this->interviewReportsManager;
+    }
+
+    public function addInterviewReportsManager(InterviewReport $interviewReportsManager): self
+    {
+        if (!$this->interviewReportsManager->contains($interviewReportsManager)) {
+            $this->interviewReportsManager[] = $interviewReportsManager;
+            $interviewReportsManager->setManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInterviewReportsManager(InterviewReport $interviewReportsManager): self
+    {
+        if ($this->interviewReportsManager->removeElement($interviewReportsManager)) {
+            // set the owning side to null (unless already changed)
+            if ($interviewReportsManager->getManager() === $this) {
+                $interviewReportsManager->setManager(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(Location $location): self
+    {
+        // set the owning side of the relation if necessary
+        if ($location->getPerson() !== $this) {
+            $location->setPerson($this);
+        }
+
+        $this->location = $location;
+
+        return $this;
     }
 }

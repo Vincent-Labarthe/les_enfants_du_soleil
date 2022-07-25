@@ -22,6 +22,7 @@ use App\Entity\Origin;
 use App\Entity\Person;
 use App\Entity\SchoolLevel;
 use App\Entity\Sponsorship;
+use App\Entity\TrainingInstitution;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -61,6 +62,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Classe', 'fas fa-list', ClassName::class);
         yield MenuItem::linkToCrud('Entreprise', 'fas fa-list', Company::class);
         yield MenuItem::linkToCrud('Diplôme', 'fas fa-list', Degree::class);
+        yield MenuItem::linkToCrud('Organisme de formation', 'fas fa-list', TrainingInstitution::class);
         yield MenuItem::linkToCrud('Entité Eds', 'fas fa-list', EdsEntity::class);
         yield MenuItem::linkToCrud('Type d\'entité Eds', 'fas fa-list', EdsType::class);
         yield MenuItem::linkToCrud('Type d\'evenement de comportement', 'fas fa-list', EventBehaviorType::class);

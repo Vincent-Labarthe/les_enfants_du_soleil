@@ -20,7 +20,6 @@ class PersonCrudController extends AbstractCrudController
         return Person::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -35,7 +34,8 @@ class PersonCrudController extends AbstractCrudController
             ImageField::new('image_url')->setLabel('Image')->setUploadDir('/public/images/person'),
             DateField::new('supportStartedAt')->setLabel('Date de début du support'),
             DateField::new('supportEndedAt')->setLabel('Date de fin du support'),
-            AssociationField::new('trainingInstitution')->setLabel('Institut de formation'),
+            AssociationField::new('correspondantTrainingInstitution')->setLabel('Correspondant de formation'),
+            AssociationField::new('trainingInstitution')->setLabel('Institution de formation'),
             AssociationField::new('schoolLevel')->setLabel('Niveau scolaire'),
             AssociationField::new('degree')->setLabel('Diplôme'),
         ];

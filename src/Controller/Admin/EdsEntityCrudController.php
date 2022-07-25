@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\EdsEntity;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class EdsEntityCrudController extends AbstractCrudController
 {
@@ -12,14 +14,16 @@ class EdsEntityCrudController extends AbstractCrudController
         return EdsEntity::class;
     }
 
-    /*
+
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            TextField::new('name')->setLabel('Nom'),
+            AssociationField::new('address')->setLabel('Adresse'),
+            AssociationField::new('edsType')->setLabel('Type'),
+            AssociationField::new('edsParent')->setLabel('Eds parent'),
+            AssociationField::new('edsChildren')->setLabel('Eds enfant'),
+            AssociationField::new('manager')->setLabel('Responsable'),
         ];
     }
-    */
 }
