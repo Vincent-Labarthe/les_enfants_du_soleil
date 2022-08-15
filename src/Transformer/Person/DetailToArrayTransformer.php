@@ -5,6 +5,9 @@ namespace App\Transformer\Person;
 use App\Entity\Person;
 use League\Fractal\TransformerAbstract;
 
+/**
+ * Class DetailToArrayTransformer.
+ */
 class DetailToArrayTransformer extends TransformerAbstract
 {
     /**
@@ -20,10 +23,13 @@ class DetailToArrayTransformer extends TransformerAbstract
             'id' => $person->getId(),
             'firstname' => $person->getFirstname(),
             'lastname' => $person->getLastname(),
+            'origin' => $person->getOrigin(),
             'email' => $person->getEmail(),
             'birthdate'=> $person->getDateOfBirth()->format('Y-m-d'),
             'gender' => $person->getSexe(),
-            'support_start' => $person->getSupportStartedAt()->format('Y-m-d'),
+            'support_start' =>$person->getSupportStartedAt() ? $person->getSupportStartedAt()->format('Y-m-d') : null,
+            'image_url' => $person->getImageUrl(),
+            'school_level' => $person->getSchoolLevel(),
         ];
     }
 }

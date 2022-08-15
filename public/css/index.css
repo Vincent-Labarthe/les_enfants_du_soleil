@@ -1,0 +1,8 @@
+.hero-container{
+    margin: 50px 75px;
+    max-width: 100vw !important;
+}
+
+.hero-title{
+    font-weight: bold;
+}

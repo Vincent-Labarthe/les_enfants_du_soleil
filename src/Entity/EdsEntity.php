@@ -26,14 +26,9 @@ class EdsEntity
 
     /**
      * @ORM\ManyToOne(targetEntity=Address::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $address;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity=EdsEntity::class, inversedBy="edsChildren")
@@ -57,15 +52,15 @@ class EdsEntity
     private $manager;
 
     /**
-     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="edsEntity")
+     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="edsEntity")
      */
-    private $locations;
+    private $people;
 
     public function __construct()
     {
         $this->manager = new ArrayCollection();
         $this->edsChildren = new ArrayCollection();
-        $this->locations = new ArrayCollection();
+        $this->people = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,19 +88,6 @@ class EdsEntity
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -194,30 +176,35 @@ class EdsEntity
         return $this;
     }
 
-    /**
-     * @return Collection<int, Location>
-     */
-    public function getLocations(): Collection
+    public function __toString()
     {
-        return $this->locations;
+        return $this->name;
     }
 
-    public function addLocation(Location $location): self
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getPeople(): Collection
     {
-        if (!$this->locations->contains($location)) {
-            $this->locations[] = $location;
-            $location->setEdsEntity($this);
+        return $this->people;
+    }
+
+    public function addPerson(Person $person): self
+    {
+        if (!$this->people->contains($person)) {
+            $this->people[] = $person;
+            $person->setEdsEntity($this);
         }
 
         return $this;
     }
 
-    public function removeLocation(Location $location): self
+    public function removePerson(Person $person): self
     {
-        if ($this->locations->removeElement($location)) {
+        if ($this->people->removeElement($person)) {
             // set the owning side to null (unless already changed)
-            if ($location->getEdsEntity() === $this) {
-                $location->setEdsEntity(null);
+            if ($person->getEdsEntity() === $this) {
+                $person->setEdsEntity(null);
             }
         }
 

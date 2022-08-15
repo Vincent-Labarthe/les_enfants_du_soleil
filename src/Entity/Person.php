@@ -6,6 +6,7 @@ use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PersonRepository::class)
@@ -16,16 +17,19 @@ class Person
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"person"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"person"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"person"})
      */
     private $lastname;
 
@@ -36,6 +40,7 @@ class Person
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"person"})
      */
     private $dateOfBirth;
 
@@ -146,9 +151,9 @@ class Person
     private $interviewReportsManager;
 
     /**
-     * @ORM\OneToOne(targetEntity=Location::class, mappedBy="person", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=EdsEntity::class, inversedBy="people")
      */
-    private $location;
+    private $edsEntity;
 
     public function __construct()
     {
@@ -593,19 +598,14 @@ class Person
         return $this;
     }
 
-    public function getLocation(): ?Location
+    public function getEdsEntity(): ?EdsEntity
     {
-        return $this->location;
+        return $this->edsEntity;
     }
 
-    public function setLocation(Location $location): self
+    public function setEdsEntity(?EdsEntity $edsEntity): self
     {
-        // set the owning side of the relation if necessary
-        if ($location->getPerson() !== $this) {
-            $location->setPerson($this);
-        }
-
-        $this->location = $location;
+        $this->edsEntity = $edsEntity;
 
         return $this;
     }

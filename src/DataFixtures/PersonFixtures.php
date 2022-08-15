@@ -12,7 +12,7 @@ class PersonFixtures extends BaseFixture implements FixtureGroupInterface
 {
     protected function loadData(ObjectManager $manager)
     {
-        $this->createMany(Person::class, 10, function (Person $person) {
+        $this->createMany(Person::class, 50, function (Person $person) {
             $faker = Factory::create('fr_FR');
             $person->setFirstName($faker->firstName);
             $person->setLastName($faker->lastName);
@@ -22,7 +22,6 @@ class PersonFixtures extends BaseFixture implements FixtureGroupInterface
             $person->setSupportStartedAt($faker->dateTimeBetween('-2 years'));
             $person->setSexe($faker->randomElement(['M', 'F']));
             $person->setImageUrl($faker->imageUrl(200, 200));
-            $person->setLastGradeLevel($faker->randomElement(['CAP', 'BAC', 'BAC+2', 'BAC+3', 'BAC+4', 'BAC+5', 'BAC+6']));
             $person->setFamilyRelation($faker->randomElement(['Mère', 'Père', 'Frère', 'Soeur', 'Cousin', 'Autre']));
             $person->setOrigin(
                 $faker->randomElement(

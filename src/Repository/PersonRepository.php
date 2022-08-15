@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\EdsEntity;
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,28 +40,11 @@ class PersonRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Person[] Returns an array of Person objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Person
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getSupportedPerson()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.supportEndedAt IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }

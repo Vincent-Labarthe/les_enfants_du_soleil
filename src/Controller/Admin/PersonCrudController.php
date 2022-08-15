@@ -3,9 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Person;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
@@ -34,11 +37,10 @@ class PersonCrudController extends AbstractCrudController
             ImageField::new('image_url')->setLabel('Image')->setUploadDir('/public/images/person'),
             DateField::new('supportStartedAt')->setLabel('Date de début du support'),
             DateField::new('supportEndedAt')->setLabel('Date de fin du support'),
-            AssociationField::new('correspondantTrainingInstitution')->setLabel('Correspondant de formation'),
             AssociationField::new('trainingInstitution')->setLabel('Institution de formation'),
             AssociationField::new('schoolLevel')->setLabel('Niveau scolaire'),
             AssociationField::new('degree')->setLabel('Diplôme'),
+            AssociationField::new('edsEntity')->setLabel('Localisation'),
         ];
     }
-
 }
