@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="d-flex flex-row">
+        {% include '_include/_sidebar.html.twig' %}
+        <div class="container hero-container mt-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <h2 class="mt-5">Fiche de {{ person.data.firstname ~ ' ' ~ person.data.lastname }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <ul>
+                    <li>Photo : {{ person.data.image_url }}</li>
+                    <li>Nom, prénom : {{person.data.lastname ~ ' ' ~ person.data.firstname }}</li>
+                    <li>Genre : {{ person.data.gender }}</li>
+                    <li>Né le : {{ person.data.birthdate }}</li>
+                    <li>Prise en charge depuis : {{ person.data.support_start }}</li>
+                    <li>Entité EDS : {{ person.data.eds_entity }}</li>
+                    <li>Origine : {{ person.data.origin }}</li>
+                    <li>Niveau scolaire : {{ person.data.school_level }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

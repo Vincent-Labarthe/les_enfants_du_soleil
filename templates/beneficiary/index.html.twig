@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Bénéficiaires</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <input class="form-control w-100" type="text" placeholder="Recherche" aria-label="Search">
+                </div>
+                <div class="btn-group me-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Partager</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Exporter</button>
+                </div>
+{#                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">#}
+{#                    <span data-feather="calendar"></span>#}
+{#                    This week#}
+{#                </button>#}
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Age</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for beneficiarie in beneficiaries %}
+                    <tr>
+                        <td>{{ beneficiarie.id }}</td>
+                        <td>{{ beneficiarie.firstname }}</td>
+                        <td>{{ beneficiarie.lastname }}</td>
+                        <td>{{ beneficiarie.email }}</td>
+                        <td>{{ beneficiarie.age }}</td>
+                        <td><a href="{{ path('app_beneficiary_detail',{id: beneficiarie.id}) }}"><span class="material-symbols-rounded">search</span></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}
