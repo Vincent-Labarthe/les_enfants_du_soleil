@@ -33,7 +33,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
           - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+<<<<<<< HEAD
+=======
           - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+>>>>>>> master
           - { path: ^/*, role: IS_AUTHENTICATED_FULLY }
           - { path: ^/admin, roles: ROLE_ADMIN }
 

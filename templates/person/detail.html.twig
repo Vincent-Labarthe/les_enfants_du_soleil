@@ -11,18 +11,63 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <ul>
-                    <li>Photo : {{ person.data.image_url }}</li>
-                    <li>Nom, prénom : {{person.data.lastname ~ ' ' ~ person.data.firstname }}</li>
-                    <li>Genre : {{ person.data.gender }}</li>
-                    <li>Né le : {{ person.data.birthdate }}</li>
-                    <li>Prise en charge depuis : {{ person.data.support_start }}</li>
-                    <li>Entité EDS : {{ person.data.eds_entity }}</li>
-                    <li>Origine : {{ person.data.origin }}</li>
-                    <li>Niveau scolaire : {{ person.data.school_level }}</li>
-                </ul>
-            </div>
+            <section class="d-flex flex-row">
+                <div>
+                    <img src="{{ asset('images/person/1647357033619.jpg') }}" alt="">
+                </div>
+                <div>
+                    <ul>
+                        <li>Genre : {{ person.data.gender }}</li>
+                        <li>Né le : {{ person.data.birthdate }}</li>
+                        <li>Prise en charge depuis : {{ person.data.support_start }}</li>
+                        <li>Entité EDS : {{ person.data.localisation }}</li>
+                        <li>Origine : {{ person.data.origin }}</li>
+                        <li>Niveau scolaire : {{ person.data.school_level }}</li>
+                    </ul>
+                </div>
+            </section>
+            <section>
+                <div class="d-flex flex-row justify-content-around mt-5">
+                    <div>
+                        <div class="detail-card">
+                            <h3>Origine</h3>
+                            <hr>
+                             <p>Père : {{ person.data.origin }}</p>
+                             <p>Mère : {{ person.data.origin }}</p>
+                            <p>Frère & soeur :  {{ person.data.origin }}</p>
+
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-card">
+                            <h3>Education</h3>
+                            <hr>
+                            <p>Niveau actuel : {{ person.data.school_level }}</p>
+                            <p>Dernier diplome : {{ person.data.school_level }}</p>
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-card">
+                            <h3>Formation</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-row justify-content-around mt-5">
+                    <div>
+                        <div class="detail-card">
+                            <h3>Emploie</h3>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-card">
+                            <h3>Evènements</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
         </div>
     </div>
 {% endblock %}

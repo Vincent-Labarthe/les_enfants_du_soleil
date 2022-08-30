@@ -30,6 +30,8 @@ class DetailToArrayTransformer extends TransformerAbstract
             'support_start' =>$person->getSupportStartedAt() ? $person->getSupportStartedAt()->format('Y-m-d') : null,
             'image_url' => $person->getImageUrl(),
             'school_level' => $person->getSchoolLevel(),
+            'degree' => $person->getDegree(),
+            'localisation' => $person->getEdsEntity()->getName(),
         ];
     }
 }
