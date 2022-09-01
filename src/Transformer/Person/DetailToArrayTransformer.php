@@ -31,7 +31,7 @@ class DetailToArrayTransformer extends TransformerAbstract
             'image_url' => $person->getImageUrl(),
             'school_level' => $person->getSchoolLevel(),
             'degree' => $person->getDegree(),
-            'localisation' => $person->getEdsEntity()->getName(),
+            'localisation' => $person->getEdsEntity() ? $person->getEdsEntity()->getName() : null,
         ];
     }
 }
