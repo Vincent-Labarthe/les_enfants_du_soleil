@@ -1,6 +1,9 @@
 .hero-container{
-    margin: 50px 0 50px 75px;
+    margin: 50px 50px 50px 75px;
     max-width: 100vw !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+    background-color: #FFFFFF;
 }
 
 .hero-title{
