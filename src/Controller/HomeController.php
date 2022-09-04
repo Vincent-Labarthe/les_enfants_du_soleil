@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Beneficiary;
-use App\Service\PersonService;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Entity;
+use App\Service\BeneficiaryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,11 +12,11 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function index(EntityManagerInterface $em, PersonService $personService): Response
+    public function index(BeneficiaryService $beneficiaryService): Response
     {
 
         return $this->render('home/index.html.twig', [
-            'persons' => $personService->getSupportedPerson(),
+            'persons' => $beneficiaryService->getSupportedPerson(),
         ]);
     }
 

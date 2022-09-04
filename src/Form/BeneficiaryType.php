@@ -8,17 +8,43 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 class BeneficiaryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('firstName', TextType::class)
-            ->add('lastName', TextType::class)
-            ->add('sexe', ChoiceType::class, [
+        $builder->add('firstName', TextType::class, [
+            'label' => 'Prénom',
+        ])->add('lastName', TextType::class, [
+            'label' => 'Nom',
+        ])->add(
+            'email', RepeatedType::class, [
+                'type' => EmailType::class,
+                'invalid_message' => 'Les adresses e-mails doivent être les mêmes, merci de vérifier votre saisie.',
+                'options' => ['required' => true],
+                'first_options' => [
+                    'label' => 'Adresse e-mail ',
+                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70]
+                ],
+                'second_options' => [
+                    'label' => 'Confirmation de l\'adresse e-mail',
+                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70]
+                ],
+                'constraints' => [
+                    new Assert\NotBlank(['message' => "Le champ e-mail est obligatoire."]),
+                    new Length(['max' => 70])
+                ],
+                'attr' => ['class' => 'form-control form-control-lg']
+            ]
+        )->add('sexe', ChoiceType::class, [
                 'choices' => [
                     'Homme' => 'H',
                     'Femme' => 'F',
@@ -44,13 +70,12 @@ class BeneficiaryType extends AbstractType
                 'attr' => [
                     'class' => 'js-datepicker',
                 ],
-            ])->add('tel', TextType::class)
-        ->add('edsEntity', EntityType::class, [
-            'class' => EdsEntity::class,
-            'choice_label' => 'name',
-            'required' => true,
-            'placeholder' => 'Choisir une entité',
-        ]);
+            ])->add('tel', TextType::class)->add('edsEntity', EntityType::class, [
+                'class' => EdsEntity::class,
+                'choice_label' => 'name',
+                'required' => true,
+                'placeholder' => 'Choisir une entité',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

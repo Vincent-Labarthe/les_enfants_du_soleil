@@ -6,6 +6,7 @@ use App\Entity\Beneficiary;
 use App\Entity\EdsEntity;
 use App\Entity\GeneralIdentifier;
 use App\Form\BeneficiaryType;
+use App\Service\BeneficiaryService;
 use App\Transformer\Beneficiary\DetailToArrayTransformer;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
@@ -64,13 +65,13 @@ class BeneficiaryController extends AbstractController
      **
      * @return Response
      */
-    public function add(Request $request): Response
+    public function add(Request $request, BeneficiaryService $beneficiaryService): Response
     {
         $form = $this->createForm(BeneficiaryType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
-            dd($formData);
+            $beneficiaryService->addBeneficiary($formData);
 
         }
 
