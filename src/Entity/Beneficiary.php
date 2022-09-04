@@ -2,36 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\PersonRepository;
+use App\Repository\BeneficiaryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=PersonRepository::class)
+ * @ORM\Entity(repositoryClass=BeneficiaryRepository::class)
  */
-class Person
+class Beneficiary
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"person"})
+     * @Groups({"beneficiary"})
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"person"})
-     */
-    private $firstname;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"person"})
-     */
-    private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -40,14 +29,9 @@ class Person
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Groups({"person"})
+     * @Groups({"beneficiary"})
      */
     private $dateOfBirth;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -75,7 +59,7 @@ class Person
     private $tel;
 
     /**
-     * @ORM\OneToMany(targetEntity=BehaviorEvent::class, mappedBy="person", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=BehaviorEvent::class, mappedBy="beneficiary", orphanRemoval=true)
      */
     private $behaviorEvent;
 
@@ -90,45 +74,35 @@ class Person
     private $sponsorships;
 
     /**
-     * @ORM\OneToMany(targetEntity=HealthEvent::class, mappedBy="person")
+     * @ORM\OneToMany(targetEntity=HealthEvent::class, mappedBy="beneficiary")
      */
     private $healthEvent;
 
     /**
-     * @ORM\OneToMany(targetEntity=Aid::class, mappedBy="person")
+     * @ORM\OneToMany(targetEntity=Aid::class, mappedBy="beneficiary")
      */
     private $aid;
 
     /**
-     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="person")
+     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="beneficiary")
      */
     private $jobs;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Origin::class, inversedBy="person")
+     * @ORM\ManyToOne(targetEntity=Origin::class, inversedBy="beneficiary")
      * @ORM\JoinColumn(nullable=false)
      */
     private $origin;
 
     /**
-     * @ORM\ManyToOne(targetEntity=SchoolLevel::class, inversedBy="person")
+     * @ORM\ManyToOne(targetEntity=SchoolLevel::class, inversedBy="beneficiary")
      */
     private $schoolLevel;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Degree::class, inversedBy="person")
+     * @ORM\ManyToOne(targetEntity=Degree::class, inversedBy="beneficiary")
      */
     private $degree;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=EdsEntity::class, inversedBy="manager")
-     */
-    private $edsManage;
-
-    /**
-     * @ORM\OneToOne(targetEntity=TrainingInstitution::class, inversedBy="correspondant", cascade={"persist", "remove"})
-     */
-    private $correspondantTrainingInstitution;
 
     /**
      * @ORM\ManyToOne(targetEntity=TrainingInstitution::class, inversedBy="people")
@@ -141,7 +115,7 @@ class Person
     private $formation;
 
     /**
-     * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="person")
+     * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="beneficiary")
      */
     private $interviewReports;
 
@@ -155,6 +129,11 @@ class Person
      */
     private $edsEntity;
 
+    /**
+     * @ORM\OneToOne(targetEntity=GeneralIdentifier::class, mappedBy="beneficiary", cascade={"persist", "remove"})
+     */
+    private $generalIdentifier;
+
     public function __construct()
     {
         $this->behaviorEvent = new ArrayCollection();
@@ -164,36 +143,11 @@ class Person
         $this->aid = new ArrayCollection();
         $this->jobs = new ArrayCollection();
         $this->interviewReports = new ArrayCollection();
-        $this->interviewReportsManager = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(string $firstname): self
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
-
-        return $this;
     }
 
     public function getSexe(): ?string
@@ -216,18 +170,6 @@ class Person
     public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
     {
         $this->dateOfBirth = $dateOfBirth;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
 
         return $this;
     }
@@ -304,7 +246,7 @@ class Person
     {
         if (!$this->behaviorEvent->contains($behaviorEvent)) {
             $this->behaviorEvent[] = $behaviorEvent;
-            $behaviorEvent->setPerson($this);
+            $behaviorEvent->setBeneficiary($this);
         }
 
         return $this;
@@ -314,8 +256,8 @@ class Person
     {
         if ($this->behaviorEvent->removeElement($behaviorEvent)) {
             // set the owning side to null (unless already changed)
-            if ($behaviorEvent->getPerson() === $this) {
-                $behaviorEvent->setPerson(null);
+            if ($behaviorEvent->getBeneficiary() === $this) {
+                $behaviorEvent->setBeneficiary(null);
             }
         }
 
@@ -366,7 +308,7 @@ class Person
     {
         if (!$this->healthEvent->contains($healthEvent)) {
             $this->healthEvent[] = $healthEvent;
-            $healthEvent->setPerson($this);
+            $healthEvent->setBeneficiary($this);
         }
 
         return $this;
@@ -376,8 +318,8 @@ class Person
     {
         if ($this->healthEvent->removeElement($healthEvent)) {
             // set the owning side to null (unless already changed)
-            if ($healthEvent->getPerson() === $this) {
-                $healthEvent->setPerson(null);
+            if ($healthEvent->getBeneficiary() === $this) {
+                $healthEvent->setBeneficiary(null);
             }
         }
 
@@ -396,7 +338,7 @@ class Person
     {
         if (!$this->aid->contains($aid)) {
             $this->aid[] = $aid;
-            $aid->setPerson($this);
+            $aid->setBeneficiary($this);
         }
 
         return $this;
@@ -406,8 +348,8 @@ class Person
     {
         if ($this->aid->removeElement($aid)) {
             // set the owning side to null (unless already changed)
-            if ($aid->getPerson() === $this) {
-                $aid->setPerson(null);
+            if ($aid->getBeneficiary() === $this) {
+                $aid->setBeneficiary(null);
             }
         }
 
@@ -426,7 +368,7 @@ class Person
     {
         if (!$this->jobs->contains($job)) {
             $this->jobs[] = $job;
-            $job->setPerson($this);
+            $job->setBeneficiary($this);
         }
 
         return $this;
@@ -436,8 +378,8 @@ class Person
     {
         if ($this->jobs->removeElement($job)) {
             // set the owning side to null (unless already changed)
-            if ($job->getPerson() === $this) {
-                $job->setPerson(null);
+            if ($job->getBeneficiary() === $this) {
+                $job->setBeneficiary(null);
             }
         }
 
@@ -476,35 +418,6 @@ class Person
     public function setDegree(?Degree $degree): self
     {
         $this->degree = $degree;
-
-        return $this;
-    }
-
-    public function getEdsManage(): ?EdsEntity
-    {
-        return $this->edsManage;
-    }
-
-    public function setEdsManage(?EdsEntity $edsManage): self
-    {
-        $this->edsManage = $edsManage;
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->firstname . ' ' . $this->lastname;
-    }
-
-    public function getCorrespondantTrainingInstitution(): ?TrainingInstitution
-    {
-        return $this->correspondantTrainingInstitution;
-    }
-
-    public function setCorrespondantTrainingInstitution(?TrainingInstitution $correspondantTrainingInstitution): self
-    {
-        $this->correspondantTrainingInstitution = $correspondantTrainingInstitution;
 
         return $this;
     }
@@ -550,7 +463,7 @@ class Person
     {
         if (!$this->interviewReports->contains($interviewReport)) {
             $this->interviewReports[] = $interviewReport;
-            $interviewReport->setPerson($this);
+            $interviewReport->setBeneficiary($this);
         }
 
         return $this;
@@ -560,38 +473,8 @@ class Person
     {
         if ($this->interviewReports->removeElement($interviewReport)) {
             // set the owning side to null (unless already changed)
-            if ($interviewReport->getPerson() === $this) {
-                $interviewReport->setPerson(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InterviewReport>
-     */
-    public function getInterviewReportsManager(): Collection
-    {
-        return $this->interviewReportsManager;
-    }
-
-    public function addInterviewReportsManager(InterviewReport $interviewReportsManager): self
-    {
-        if (!$this->interviewReportsManager->contains($interviewReportsManager)) {
-            $this->interviewReportsManager[] = $interviewReportsManager;
-            $interviewReportsManager->setManager($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInterviewReportsManager(InterviewReport $interviewReportsManager): self
-    {
-        if ($this->interviewReportsManager->removeElement($interviewReportsManager)) {
-            // set the owning side to null (unless already changed)
-            if ($interviewReportsManager->getManager() === $this) {
-                $interviewReportsManager->setManager(null);
+            if ($interviewReport->getBeneficiary() === $this) {
+                $interviewReport->setBeneficiary(null);
             }
         }
 
@@ -606,6 +489,28 @@ class Person
     public function setEdsEntity(?EdsEntity $edsEntity): self
     {
         $this->edsEntity = $edsEntity;
+
+        return $this;
+    }
+
+    public function getGeneralIdentifier(): ?GeneralIdentifier
+    {
+        return $this->generalIdentifier;
+    }
+
+    public function setGeneralIdentifier(?GeneralIdentifier $generalIdentifier): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($generalIdentifier === null && $this->generalIdentifier !== null) {
+            $this->generalIdentifier->setBeneficiary(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($generalIdentifier !== null && $generalIdentifier->getBeneficiary() !== $this) {
+            $generalIdentifier->setBeneficiary($this);
+        }
+
+        $this->generalIdentifier = $generalIdentifier;
 
         return $this;
     }

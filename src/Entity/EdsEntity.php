@@ -47,20 +47,20 @@ class EdsEntity
     private $edsType;
 
     /**
-     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="edsManage")
-     */
-    private $manager;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="edsEntity")
+     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="edsEntity")
      */
     private $people;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Employee::class, mappedBy="edsEntity")
+     */
+    private $employees;
+
     public function __construct()
     {
-        $this->manager = new ArrayCollection();
         $this->edsChildren = new ArrayCollection();
         $this->people = new ArrayCollection();
+        $this->employees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,66 +146,63 @@ class EdsEntity
         return $this;
     }
 
-    /**
-     * @return Collection<int, Person>
-     */
-    public function getManager(): Collection
-    {
-        return $this->manager;
-    }
-
-    public function addManager(Person $manager): self
-    {
-        if (!$this->manager->contains($manager)) {
-            $this->manager[] = $manager;
-            $manager->setEdsManage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeManager(Person $manager): self
-    {
-        if ($this->manager->removeElement($manager)) {
-            // set the owning side to null (unless already changed)
-            if ($manager->getEdsManage() === $this) {
-                $manager->setEdsManage(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function __toString()
     {
         return $this->name;
     }
 
     /**
-     * @return Collection<int, Person>
+     * @return Collection<int, Beneficiary>
      */
     public function getPeople(): Collection
     {
         return $this->people;
     }
 
-    public function addPerson(Person $person): self
+    public function addPerson(Beneficiary $beneficiary): self
     {
-        if (!$this->people->contains($person)) {
-            $this->people[] = $person;
-            $person->setEdsEntity($this);
+        if (!$this->people->contains($beneficiary)) {
+            $this->people[] = $beneficiary;
+            $beneficiary->setEdsEntity($this);
         }
 
         return $this;
     }
 
-    public function removePerson(Person $person): self
+    public function removePerson(Beneficiary $beneficiary): self
     {
-        if ($this->people->removeElement($person)) {
+        if ($this->people->removeElement($beneficiary)) {
             // set the owning side to null (unless already changed)
-            if ($person->getEdsEntity() === $this) {
-                $person->setEdsEntity(null);
+            if ($beneficiary->getEdsEntity() === $this) {
+                $beneficiary->setEdsEntity(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employee>
+     */
+    public function getEmployees(): Collection
+    {
+        return $this->employees;
+    }
+
+    public function addEmployee(Employee $employee): self
+    {
+        if (!$this->employees->contains($employee)) {
+            $this->employees[] = $employee;
+            $employee->addEdsEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployee(Employee $employee): self
+    {
+        if ($this->employees->removeElement($employee)) {
+            $employee->removeEdsEntity($this);
         }
 
         return $this;

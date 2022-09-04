@@ -44,7 +44,7 @@ class Company
     private $address;
 
     /**
-     * @ORM\OneToOne(targetEntity=Person::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Beneficiary::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $correspondent;
@@ -119,12 +119,12 @@ class Company
         return $this;
     }
 
-    public function getCorrespondent(): ?Person
+    public function getCorrespondent(): ?Beneficiary
     {
         return $this->correspondent;
     }
 
-    public function setCorrespondent(Person $correspondent): self
+    public function setCorrespondent(Beneficiary $correspondent): self
     {
         $this->correspondent = $correspondent;
 

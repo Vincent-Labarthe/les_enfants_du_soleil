@@ -31,7 +31,7 @@ class JobCrudController extends AbstractCrudController
             TextField::new('name')->setLabel('Nom du métier'),
             NumberField::new('annualSalary')->setLabel('Salaire annuel'),
             AssociationField::new('company')->setLabel('Société'),
-            AssociationField::new('person')->setLabel('Personne'),
+            AssociationField::new('beneficiary')->setLabel('Personne'),
             DateField::new('startedAt')->setLabel('Date de début'),
             DateField::new('endedAt')->setLabel('Date de fin'),
         ];

@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Person;
-use App\Transformer\Person\ArrayTransformer;
+use App\Entity\Beneficiary;
+use App\Transformer\Beneficiary\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
@@ -21,7 +21,7 @@ class PersonService
      */
     public function getSupportedPerson(): ?array
     {
-        $personCollection = $this->em->getRepository(Person::class)->getSupportedPerson();
+        $personCollection = $this->em->getRepository(Beneficiary::class)->getSupportedPerson();
         $personsData = new Collection($personCollection, new ArrayTransformer());
         $fractal = new Manager();
 

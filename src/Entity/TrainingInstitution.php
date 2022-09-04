@@ -58,19 +58,20 @@ class TrainingInstitution
     private $formations;
 
     /**
-     * @ORM\OneToOne(targetEntity=Person::class, mappedBy="correspondantTrainingInstitution", cascade={"persist", "remove"})
-     */
-    private $correspondant;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="trainingInstitution")
+     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="trainingInstitution")
      */
     private $people;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Employee::class, inversedBy="trainingInstitutions")
+     */
+    private $employee;
 
     public function __construct()
     {
         $this->formations = new ArrayCollection();
         $this->people = new ArrayCollection();
+        $this->employee = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,54 +186,34 @@ class TrainingInstitution
         return $this->name;
     }
 
-    public function getCorrespondant(): ?Person
-    {
-        return $this->correspondant;
-    }
-
-    public function setCorrespondant(?Person $correspondant): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($correspondant === null && $this->correspondant !== null) {
-            $this->correspondant->setCorrespondantTrainingInstitution(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($correspondant !== null && $correspondant->getCorrespondantTrainingInstitution() !== $this) {
-            $correspondant->setCorrespondantTrainingInstitution($this);
-        }
-
-        $this->correspondant = $correspondant;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Person>
+     * @return Collection<int, Beneficiary>
      */
     public function getPeople(): Collection
     {
         return $this->people;
     }
 
-    public function addPerson(Person $person): self
+    /**
+     * @return Collection<int, Employee>
+     */
+    public function getEmployee(): Collection
     {
-        if (!$this->people->contains($person)) {
-            $this->people[] = $person;
-            $person->setTrainingInstitution($this);
+        return $this->employee;
+    }
+
+    public function addEmployee(Employee $employee): self
+    {
+        if (!$this->employee->contains($employee)) {
+            $this->employee[] = $employee;
         }
 
         return $this;
     }
 
-    public function removePerson(Person $person): self
+    public function removeEmployee(Employee $employee): self
     {
-        if ($this->people->removeElement($person)) {
-            // set the owning side to null (unless already changed)
-            if ($person->getTrainingInstitution() === $this) {
-                $person->setTrainingInstitution(null);
-            }
-        }
+        $this->employee->removeElement($employee);
 
         return $this;
     }

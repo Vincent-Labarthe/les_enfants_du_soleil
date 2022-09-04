@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Person;
+use App\Entity\Beneficiary;
 use App\Service\PersonService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Entity;

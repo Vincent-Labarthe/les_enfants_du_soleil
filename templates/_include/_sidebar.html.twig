@@ -4,44 +4,84 @@
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
                     <span data-feather="home"></span>
-                    Tableau de bord
+                    Accueil
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <a href="{{ path('app_beneficiary_index') }}" class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_index')%}active{% endif %}">
+                    <span data-feather="file"></span>
+                    Bénéficiaires {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_person_detail')%}active{% endif %}">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Bénéficiaire {% if app.request.attributes.get('_route') is same as ('app_person_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
+                    Employés {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
+                    {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
+                    <span data-feather="file"></span>
+                    Bénévoles {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
+                    {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
+                    <span data-feather="file"></span>
+                    Parrains {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
+                </a>
+            </li>
+            <hr>
+
+            <li class="nav-item">
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span data-feather="file"></span>
+                        Entité EDS
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="nav-link"><span data-feather="file"></span>EDS France</a>
+                        </li>
+                        <li>
+                            <a class="nav-link"><span data-feather="file"></span>DG EDS</a>
+                        </li>
+                        <li>
+                            <a class="nav-link"><span data-feather="file"></span>Site ABE</a>
+                        </li>
+                        <li>
+                            <a class="nav-link"><span data-feather="file"></span>Site ANT</a>
+                        </li>
+                        <li>
+                            <a class="nav-link"><span data-feather="file"></span>Site FIA</a>
+                        </li>
+                        <li>
+                            <a class="nav-link"><span data-feather="file"></span>Site TAM</a>
+                        </li>
+                        <li>
+                            <a class="nav-link"><span data-feather="file"></span>Site TUL</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <a class="nav-link">
+                    {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
+                    <span data-feather="file"></span>
+                    Organismes
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Entité EDS
+                    Formations
                 </a>
-            </li>
-            <li class="nav-item">
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span data-feather="file"></span>
-                        Enseignement
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Primaire</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Secondaire</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Supérieur</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Technique</a>
-                        </li>
-                    </ul>
-                </div>
             </li>
         </ul>
     </div>

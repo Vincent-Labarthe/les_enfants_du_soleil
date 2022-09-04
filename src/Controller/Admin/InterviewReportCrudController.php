@@ -19,7 +19,7 @@ class InterviewReportCrudController extends AbstractCrudController
     {
         return [
             TextEditorField::new('report')->setLabel("Rapport"),
-            AssociationField::new('person')->setLabel("Personne"),
+            AssociationField::new('beneficiary')->setLabel("Bénéficiaire"),
             AssociationField::new('manager')->setLabel("Responsable"),
         ];
     }

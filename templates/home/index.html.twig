@@ -3,11 +3,10 @@
     <div class="d-flex flex-row">
         {% include '_include/_sidebar.html.twig' %}
         <div class="container hero-container mt-5 p-5">
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col-md-12">
                     <div>
                         <h1 class="hero-title"> Bienvenue sur l'application de gestion des Enfants du Soleil.</h1>
-                        <h2 class="mt-5">Vue d'ensemble</h2>
                     </div>
                 </div>
             </div>
@@ -61,7 +60,7 @@
                                     </svg>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item action-edit" href="{{ path('app_person_detail', {'id': person.id}) }}" data-action-name="détail">Détail</a>
+                                    <a class="dropdown-item action-edit" href="{{ path('app_beneficiary_detail', {'id': person.id}) }}" data-action-name="détail">Détail</a>
                                     <a class="dropdown-item action-edit" href=""
                                        data-action-name="modifier">Modifier</a>
                                     <a class="dropdown-item action-delete text-danger" href="" data-action-name="delete"

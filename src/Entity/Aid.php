@@ -28,10 +28,10 @@ class Aid
     private $annualAmount;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="aid")
+     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="aid")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $person;
+    private $beneficiary;
 
     /**
      * @ORM\Column(type="datetime")
@@ -73,14 +73,14 @@ class Aid
         return $this;
     }
 
-    public function getPerson(): ?Person
+    public function getBeneficiary(): ?Beneficiary
     {
-        return $this->person;
+        return $this->beneficiary;
     }
 
-    public function setPerson(?Person $person): self
+    public function setBeneficiary(?Beneficiary $beneficiary): self
     {
-        $this->person = $person;
+        $this->beneficiary = $beneficiary;
 
         return $this;
     }

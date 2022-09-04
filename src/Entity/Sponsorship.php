@@ -35,15 +35,16 @@ class Sponsorship
     private $paceOfCr;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Person::class, mappedBy="sponsorship")
+     * @ORM\ManyToMany(targetEntity=Beneficiary::class, mappedBy="sponsorship")
      */
     private $beneficiary;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="sponsorships")
+     * @ORM\ManyToOne(targetEntity=Sponsors::class, inversedBy="sponsorships")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sponsor;
+
 
     public function __construct()
     {
@@ -92,14 +93,14 @@ class Sponsorship
     }
 
     /**
-     * @return Collection<int, Person>
+     * @return Collection<int, Beneficiary>
      */
     public function getBeneficiary(): Collection
     {
         return $this->beneficiary;
     }
 
-    public function addBeneficiary(Person $beneficiary): self
+    public function addBeneficiary(Beneficiary $beneficiary): self
     {
         if (!$this->beneficiary->contains($beneficiary)) {
             $this->beneficiary[] = $beneficiary;
@@ -109,7 +110,7 @@ class Sponsorship
         return $this;
     }
 
-    public function removeBeneficiary(Person $beneficiary): self
+    public function removeBeneficiary(Beneficiary $beneficiary): self
     {
         if ($this->beneficiary->removeElement($beneficiary)) {
             $beneficiary->removeSponsorship($this);
@@ -118,12 +119,12 @@ class Sponsorship
         return $this;
     }
 
-    public function getSponsor(): ?Person
+    public function getSponsor(): ?Sponsors
     {
         return $this->sponsor;
     }
 
-    public function setSponsor(?Person $sponsor): self
+    public function setSponsor(?Sponsors $sponsor): self
     {
         $this->sponsor = $sponsor;
 

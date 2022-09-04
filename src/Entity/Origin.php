@@ -25,13 +25,13 @@ class Origin
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="origin")
+     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="origin")
      */
-    private $person;
+    private $beneficiary;
 
     public function __construct()
     {
-        $this->person = new ArrayCollection();
+        $this->beneficiary = new ArrayCollection();
     }
 
     /**
@@ -59,29 +59,29 @@ class Origin
     }
 
     /**
-     * @return Collection<int, Person>
+     * @return Collection<int, Beneficiary>
      */
-    public function getPerson(): Collection
+    public function getBeneficiary(): Collection
     {
-        return $this->person;
+        return $this->beneficiary;
     }
 
-    public function addPerson(Person $person): self
+    public function addBeneficiary(Beneficiary $beneficiary): self
     {
-        if (!$this->person->contains($person)) {
-            $this->person[] = $person;
-            $person->setOrigin($this);
+        if (!$this->beneficiary->contains($beneficiary)) {
+            $this->beneficiary[] = $beneficiary;
+            $beneficiary->setOrigin($this);
         }
 
         return $this;
     }
 
-    public function removePerson(Person $person): self
+    public function removeBeneficiary(Beneficiary $beneficiary): self
     {
-        if ($this->person->removeElement($person)) {
+        if ($this->beneficiary->removeElement($beneficiary)) {
             // set the owning side to null (unless already changed)
-            if ($person->getOrigin() === $this) {
-                $person->setOrigin(null);
+            if ($beneficiary->getOrigin() === $this) {
+                $beneficiary->setOrigin(null);
             }
         }
 

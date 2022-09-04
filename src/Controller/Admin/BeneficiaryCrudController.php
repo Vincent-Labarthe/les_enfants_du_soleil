@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Person;
+use App\Entity\Beneficiary;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -16,11 +16,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class PersonCrudController extends AbstractCrudController
+class BeneficiaryCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Person::class;
+        return Beneficiary::class;
     }
 
     public function configureFields(string $pageName): iterable

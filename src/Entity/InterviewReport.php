@@ -23,17 +23,16 @@ class InterviewReport
     private $report;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="interviewReports")
+     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="interviewReports")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $person;
+    private $beneficiary;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="interviewReportsManager")
+     * @ORM\ManyToOne(targetEntity=Employee::class, inversedBy="interviewReports")
      * @ORM\JoinColumn(nullable=false)
      */
     private $manager;
-
 
     public function getId(): ?int
     {
@@ -52,24 +51,24 @@ class InterviewReport
         return $this;
     }
 
-    public function getPerson(): ?Person
+    public function getBeneficiary(): ?Beneficiary
     {
-        return $this->person;
+        return $this->beneficiary;
     }
 
-    public function setPerson(?Person $person): self
+    public function setBeneficiary(?Beneficiary $beneficiary): self
     {
-        $this->person = $person;
+        $this->beneficiary = $beneficiary;
 
         return $this;
     }
 
-    public function getManager(): ?Person
+    public function getManager(): ?Beneficiary
     {
         return $this->manager;
     }
 
-    public function setManager(?Person $manager): self
+    public function setManager(?Beneficiary $manager): self
     {
         $this->manager = $manager;
 

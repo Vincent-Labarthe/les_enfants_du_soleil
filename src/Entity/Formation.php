@@ -62,7 +62,7 @@ class Formation
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity=Person::class, inversedBy="formation", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Beneficiary::class, inversedBy="formation", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $student;
@@ -174,12 +174,12 @@ class Formation
         return $this->name;
     }
 
-    public function getStudent(): ?Person
+    public function getStudent(): ?Beneficiary
     {
         return $this->student;
     }
 
-    public function setStudent(Person $student): self
+    public function setStudent(Beneficiary $student): self
     {
         $this->student = $student;
 

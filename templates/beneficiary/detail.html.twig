@@ -1,53 +1,57 @@
-{% extends 'base.html.twig' %}
+{% extends '../base.html.twig' %}
+
 {% block body %}
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="mt-5">
-            <div class="card card-hero-header col-12">
-                <div class="m-2">
-                    <img src="{{ asset('images/enfant_1.jpg') }}" class="card-img-top" alt="...">
+    <div class="d-flex flex-row hero-background">
+        {% include '../_include/_sidebar.html.twig' %}
+        <div class="container hero-container mt-5">
+            <h2 class="mt-5">Fiche de {{ person.data.firstname ~ ' ' ~ person.data.lastname }}</h2>
+            <div class=" d-flex flex-row ps-5 pb-5 pe-5">
+                <div class=" flex-column col-4">
+                    <div class="p-2">
+                        <img src="{{ asset('images/person/1647357033619.jpg') }}" alt="">
+                    </div>
+                    <ul>
+                        <li>Genre : {{ person.data.gender }}</li>
+                        <li>Né le : {{ person.data.birthdate }}</li>
+                        <li>Prise en charge depuis : {{ person.data.support_start }}</li>
+                        <li>Entité EDS : {{ person.data.localisation }}</li>
+                        <li>Origine : {{ person.data.origin }}</li>
+                        <li>Niveau scolaire : {{ person.data.school_level }}</li>
+                    </ul>
                 </div>
-                <div class="card-body card-body-header">
-                    <h5 class="card-title">{{ beneficiarie.firstname ~ ' ' ~ beneficiarie.lastname }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Date de naissance : {{ beneficiarie.birthdate }} | {{ beneficiarie.gender }}</h6>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi dignissimos doloremque eaque id molestiae nostrum nulla qui similique soluta totam!</p>
+                <div class="col-8">
+                    <div class="detail-card">
+                        <h3>Origine</h3>
+                        <hr>
+                        <p>Père : {{ person.data.origin }}</p>
+                        <p>Mère : {{ person.data.origin }}</p>
+                        <p>Frère & soeur : {{ person.data.origin }}</p>
+                    </div>
+                    <div class="detail-card">
+                        <h3>Education</h3>
+                        <hr>
+                        <p>Niveau actuel : {{ person.data.school_level }}</p>
+                        <p>Dernier diplome : {{ person.data.school_level }}</p>
+                    </div>
+                    <div class="detail-card">
+                        <h3>Formation</h3>
+                        <hr>
+                    </div>
+                    <div class="detail-card">
+                        <h3>Emploie</h3>
+                        <hr>
+                    </div>
+                    <div class="detail-card">
+                        <h3>Evènements</h3>
+                        <hr>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="mt-5">
-            <nav class="navbar navbar-expand-lg menu-bg">
-                <div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <a id="resume" class="nav-link menu-link" aria-current="page" href="#">Résumé</a>
-                            <a class="nav-link menu-link" href="#">Localisation</a>
-                            <a class="nav-link menu-link" href="#">Formation</a>
-                            <a class="nav-link menu-link" href="#">Emploi</a>
-                            <a class="nav-link menu-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Evènements
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="#">Santé</a></li>
-                                <li><a class="dropdown-item" href="#">Comportement</a></li>
-                            </ul>
-                            <a class="nav-link" href="#">Entretiens</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-        <div id="hero-content">
-
-        </div>
-    </main>
+    </div>
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        let id = "{{ beneficiarie.id }}"
-    </script>
-    <script src="{{ asset('js/detail.js') }}"></script>
+{% block title %}
+
 {% endblock %}
+

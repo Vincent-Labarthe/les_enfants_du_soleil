@@ -69,10 +69,10 @@ class HealthEvent
     private $otherCost;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="healthEvent")
+     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="healthEvent")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $person;
+    private $beneficiary;
 
     /**
      * @ORM\ManyToOne(targetEntity=EventMedicalType::class, inversedBy="healthEvent")
@@ -205,14 +205,14 @@ class HealthEvent
         return $this;
     }
 
-    public function getPerson(): ?Person
+    public function getBeneficiary(): ?Beneficiary
     {
-        return $this->person;
+        return $this->beneficiary;
     }
 
-    public function setPerson(?Person $person): self
+    public function setBeneficiary(?Beneficiary $beneficiary): self
     {
-        $this->person = $person;
+        $this->beneficiary = $beneficiary;
 
         return $this;
     }

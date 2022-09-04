@@ -25,13 +25,13 @@ class Degree
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="degree")
+     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="degree")
      */
-    private $person;
+    private $beneficiary;
 
     public function __construct()
     {
-        $this->person = new ArrayCollection();
+        $this->beneficiary = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,29 +52,29 @@ class Degree
     }
 
     /**
-     * @return Collection<int, Person>
+     * @return Collection<int, Beneficiary>
      */
-    public function getPerson(): Collection
+    public function getBeneficiary(): Collection
     {
-        return $this->person;
+        return $this->beneficiary;
     }
 
-    public function addPerson(Person $person): self
+    public function addPerson(Beneficiary $beneficiary): self
     {
-        if (!$this->person->contains($person)) {
-            $this->person[] = $person;
-            $person->setDegree($this);
+        if (!$this->beneficiary->contains($beneficiary)) {
+            $this->beneficiary[] = $beneficiary;
+            $beneficiary->setDegree($this);
         }
 
         return $this;
     }
 
-    public function removePerson(Person $person): self
+    public function removePerson(Beneficiary $beneficiary): self
     {
-        if ($this->person->removeElement($person)) {
+        if ($this->beneficiary->removeElement($beneficiary)) {
             // set the owning side to null (unless already changed)
-            if ($person->getDegree() === $this) {
-                $person->setDegree(null);
+            if ($beneficiary->getDegree() === $this) {
+                $beneficiary->setDegree(null);
             }
         }
 

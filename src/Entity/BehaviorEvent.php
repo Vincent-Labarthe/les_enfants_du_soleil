@@ -22,10 +22,10 @@ class BehaviorEvent
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="behaviorEvent")
+     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="behaviorEvent")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $person;
+    private $beneficiary;
 
     /**
      * @ORM\ManyToOne(targetEntity=EventBehaviorType::class, inversedBy="behaviorEvent")
@@ -50,14 +50,14 @@ class BehaviorEvent
         return $this;
     }
 
-    public function getPerson(): ?Person
+    public function getBeneficiary(): ?Beneficiary
     {
-        return $this->person;
+        return $this->beneficiary;
     }
 
-    public function setPerson(?Person $person): self
+    public function setBeneficiary(?Beneficiary $beneficiary): self
     {
-        $this->person = $person;
+        $this->beneficiary = $beneficiary;
 
         return $this;
     }

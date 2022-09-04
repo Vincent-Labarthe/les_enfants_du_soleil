@@ -44,9 +44,9 @@ class Job
     private $company;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="jobs")
+     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="jobs")
      */
-    private $person;
+    private $beneficiary;
 
     /**
      * @ORM\Column(type="datetime")
@@ -122,14 +122,14 @@ class Job
         return $this;
     }
 
-    public function getPerson(): ?Person
+    public function getBeneficiary(): ?Beneficiary
     {
-        return $this->person;
+        return $this->beneficiary;
     }
 
-    public function setPerson(?Person $person): self
+    public function setBeneficiary(?Beneficiary $beneficiary): self
     {
-        $this->person = $person;
+        $this->beneficiary = $beneficiary;
 
         return $this;
     }

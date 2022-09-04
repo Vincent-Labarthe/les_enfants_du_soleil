@@ -18,7 +18,7 @@ use App\Entity\HealthEvent;
 use App\Entity\InterviewReport;
 use App\Entity\Job;
 use App\Entity\Origin;
-use App\Entity\Person;
+use App\Entity\Beneficiary;
 use App\Entity\SchoolLevel;
 use App\Entity\Sponsorship;
 use App\Entity\TrainingInstitution;
@@ -42,7 +42,7 @@ class DashboardController extends AbstractDashboardController
     {
         $routeBuilder = $this->get(AdminUrlGenerator::class);
 
-        return $this->redirect($routeBuilder->setController(PersonCrudController::class)->generateUrl());
+        return $this->redirect($routeBuilder->setController(BeneficiaryCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -55,7 +55,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Personne');
-        yield MenuItem::linkToCrud('Personne', 'fas fa-list', Person::class);
+        yield MenuItem::linkToCrud('Personne', 'fas fa-list', Beneficiary::class);
         yield MenuItem::linkToCrud('Origine', 'fas fa-list', Origin::class);
         yield MenuItem::linkToCrud('Rapport d\'entretien', 'fas fa-list', InterviewReport::class);
         yield MenuItem::linkToCrud('Métier', 'fas fa-list', Job::class);
