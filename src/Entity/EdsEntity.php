@@ -56,6 +56,11 @@ class EdsEntity
      */
     private $employees;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->edsChildren = new ArrayCollection();
@@ -204,6 +209,18 @@ class EdsEntity
         if ($this->employees->removeElement($employee)) {
             $employee->removeEdsEntity($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

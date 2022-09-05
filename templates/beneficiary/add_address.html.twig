@@ -6,7 +6,7 @@
             <div class="row mb-5">
                 <div class="col-md-6">
                     <div>
-                        <h1 class="hero-title">Ajouter un bénéficaire</h1>
+                        <h1 class="hero-title">Ajouter une adresse pour {{ generalIdentifier.firstname }}</h1>
                     </div>
                 </div>
             </div>
@@ -17,7 +17,6 @@
                             <div class="card-body">
                                 {{ form_start(form) }}
                                 {{ form_widget(form) }}
-                                <p>* si le bénéficiaire n'est pas logé dans un site EDS merci de préciser son adresse au prochain écran</p>
                                 <button type="submit" class="btn btn-primary">Suivant</button>
                                 {{ form_end(form) }}
                             </div>

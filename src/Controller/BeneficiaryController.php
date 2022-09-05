@@ -5,10 +5,14 @@ namespace App\Controller;
 use App\Entity\Beneficiary;
 use App\Entity\EdsEntity;
 use App\Entity\GeneralIdentifier;
+use App\Form\AddressType;
 use App\Form\BeneficiaryType;
 use App\Service\BeneficiaryService;
+use App\Transformer\Beneficiary\ArrayTransformer;
 use App\Transformer\Beneficiary\DetailToArrayTransformer;
+use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,10 +31,12 @@ class BeneficiaryController extends AbstractController
      *
      * @return Response
      */
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
+        $data = new Collection($em->getRepository(Beneficiary::class)->findAll(), new ArrayTransformer());
+        $fractal = new Manager();
         return $this->render('beneficiary/index.html.twig', [
-            'controller_name' => 'BeneficiaryController',
+            'beneficiaries' => $fractal->createData($data)->toArray()['data']
         ]);
     }
 
@@ -45,21 +51,24 @@ class BeneficiaryController extends AbstractController
      *
      * @return Response
      */
-    public function detail(Beneficiary $beneficiary): Response
+    public function detail(EntityManagerInterface $em, Beneficiary $beneficiary): Response
     {
-        if(!$personData = new Item($beneficiary, new DetailToArrayTransformer())){
+        if (!$personData = new Item($beneficiary, new DetailToArrayTransformer())) {
             throw $this->createNotFoundException('Person not found');
         }
         $fractal = new Manager();
-        $person = $fractal->createData($personData)->toArray();
+        $beneficiaryArray = $fractal->createData($personData)->toArray();
+        $generalIdentifier = $em->getRepository(GeneralIdentifier::class)->findOneBy(['beneficiary' => $beneficiary]);
 
         return $this->render('beneficiary/detail.html.twig', [
-            'person' => $person,
+            'person' => $beneficiaryArray,
+            'generalIdentifier' => $generalIdentifier,
+
         ]);
     }
 
     /**
-     * Beneficiary detail page.
+     * Beneficiary add page.
      *
      * @Route("/add", name="add")
      **
@@ -71,13 +80,41 @@ class BeneficiaryController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
-            $beneficiaryService->addBeneficiary($formData);
+            $newBeneficiary = $beneficiaryService->addBeneficiary($formData);
+            if (!$formData['edsEntity']) {
+                return $this->redirectToRoute('app_beneficiary_add_address', ['id' => $newBeneficiary->getId()]);
+            }
 
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $newBeneficiary->getId()]);
         }
 
-
-            return $this->render('beneficiary/add.html.twig', [
+        return $this->render('beneficiary/add.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Beneficiary address add page.
+     *
+     * @Route("/add/address/{id}", name="add_address")
+     **
+     * @return Response
+     */
+    public function addAddress(Request $request, EntityManagerInterface $em, Beneficiary $beneficiary, BeneficiaryService $beneficiaryService)
+    {
+        $form = $this->createForm(AddressType::class);
+        $generalIdentifier = $em->getRepository(GeneralIdentifier::class)->findOneBy(['beneficiary' => $beneficiary]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newAddress = $form->getData();
+            $beneficiaryService->addAddress($beneficiary,$newAddress);
+
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+        return $this->render('beneficiary/add_address.html.twig', [
+            'form' => $form->createView(),
+            'beneficiary' => $beneficiary,
+            'generalIdentifier' => $generalIdentifier,
         ]);
     }
 }

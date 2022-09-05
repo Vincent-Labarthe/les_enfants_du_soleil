@@ -134,6 +134,11 @@ class Beneficiary
      */
     private $generalIdentifier;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="beneficiaries")
+     */
+    private $address;
+
     public function __construct()
     {
         $this->behaviorEvent = new ArrayCollection();
@@ -511,6 +516,18 @@ class Beneficiary
         }
 
         $this->generalIdentifier = $generalIdentifier;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

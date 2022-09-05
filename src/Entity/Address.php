@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AddressRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class Address
      * @ORM\Column(type="string", length=255)
      */
     private $country;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="address")
+     */
+    private $beneficiaries;
+
+    public function __construct()
+    {
+        $this->beneficiaries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,5 +105,35 @@ class Address
     public function __toString()
     {
         return $this->street . ' ' . $this->zip . ' ' . $this->city . ' ' . $this->country;
+    }
+
+    /**
+     * @return Collection<int, Beneficiary>
+     */
+    public function getBeneficiaries(): Collection
+    {
+        return $this->beneficiaries;
+    }
+
+    public function addBeneficiary(Beneficiary $beneficiary): self
+    {
+        if (!$this->beneficiaries->contains($beneficiary)) {
+            $this->beneficiaries[] = $beneficiary;
+            $beneficiary->setAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBeneficiary(Beneficiary $beneficiary): self
+    {
+        if ($this->beneficiaries->removeElement($beneficiary)) {
+            // set the owning side to null (unless already changed)
+            if ($beneficiary->getAddress() === $this) {
+                $beneficiary->setAddress(null);
+            }
+        }
+
+        return $this;
     }
 }

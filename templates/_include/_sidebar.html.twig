@@ -11,28 +11,28 @@
             <li class="nav-item">
                 <a href="{{ path('app_beneficiary_index') }}" class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_index')%}active{% endif %}">
                     <span data-feather="file"></span>
-                    Bénéficiaires {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
+                    Bénéficiaires {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ generalIdentifier.firstname ~ ' ' ~ generalIdentifier.lastname }}{% endif %}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Employés {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
+                    Employés {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ generalIdentifier.firstname ~ ' ' ~ generalIdentifier.lastname }}{% endif %}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Bénévoles {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
+                    Bénévoles {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ generalIdentifier.firstname ~ ' ' ~ generalIdentifier.lastname }}{% endif %}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Parrains {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
+                    Parrains {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ generalIdentifier.firstname ~ ' ' ~ generalIdentifier.lastname }}{% endif %}
                 </a>
             </li>
             <hr>
@@ -45,7 +45,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="nav-link"><span data-feather="file"></span>EDS France</a>
+                            <a class="nav-link" href="{{ path('app_eds_entity_index',{slug:'eds-france' }) }}"><span data-feather="file"></span>EDS France</a>
                         </li>
                         <li>
                             <a class="nav-link"><span data-feather="file"></span>DG EDS</a>

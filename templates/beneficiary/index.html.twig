@@ -9,8 +9,16 @@
                         <h1 class="hero-title">Bénéficiaires</h1>
                     </div>
                 </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-4 text-start d-flex align-items-center">
+                    <input class="form-control" type="text" placeholder="Rechercher un bénéficiaire"> <span
+                            class="ms-2 material-symbols-rounded">search</span>
+                </div>
                 <div class="col-md-6 text-end">
-                    <a href="{{ path('app_beneficiary_add') }}"><button class="btn btn-primary">Ajouter un bénéficiaire</button></a>
+                    <a href="{{ path('app_beneficiary_add') }}">
+                        <button class="btn btn-primary">Ajouter un bénéficiaire</button>
+                    </a>
                 </div>
             </div>
             <table class="table datagrid">
@@ -33,7 +41,7 @@
                     </th>
                     <th class="sorted  header-for-field-text text-left" dir="ltr">
                         <a href="#">
-                            Origine <i class="fa fa-fw fa-sort"></i>
+                            Statut <i class="fa fa-fw fa-sort"></i>
                         </a>
                     </th>
                     <th class="sorted  header-for-field-text text-left" dir="ltr">
@@ -41,12 +49,20 @@
                             Localisation <i class="fa fa-fw fa-sort"></i>
                         </a>
                     </th>
-                    <th class="sorted  header-for-field-text text-left" >Action</th>
+                    <th class="sorted  header-for-field-text text-left">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    </tr>
+                <tr>
+                    {% for beneficiary in beneficiaries %}
+                        <th>{{ beneficiary.firstname }}</th>
+                        <th>{{ beneficiary.lastname }}</th>
+                        <th>{{ beneficiary.dateOfBirth }}</th>
+                        <th>{{ beneficiary.origin }}</th>
+                        <th>{{ beneficiary.localisation }}</th>
+                        <th>...</th>
+                    {% endfor %}
+                </tr>
                 </tbody>
             </table>
         </div>
