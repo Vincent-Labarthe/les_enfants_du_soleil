@@ -41,6 +41,11 @@ class GeneralIdentifier
      */
     private $beneficiary;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Employee::class, inversedBy="generalIdentifier", cascade={"persist", "remove"})
+     */
+    private $employee;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +95,18 @@ class GeneralIdentifier
     public function setBeneficiary(?Beneficiary $beneficiary): self
     {
         $this->beneficiary = $beneficiary;
+
+        return $this;
+    }
+
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?Employee $employee): self
+    {
+        $this->employee = $employee;
 
         return $this;
     }

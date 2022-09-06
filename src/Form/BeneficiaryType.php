@@ -64,25 +64,24 @@ class BeneficiaryType extends AbstractType
             'choice_label' => 'type',
             'required' => false,
             'placeholder' => 'Choisir un statut',
-        ])->add('imageUrl', TextType::class,[
+        ])->add('imageUrl', TextType::class, [
             'required' => false,
             'label' => 'Image URL',
         ])->add('supportStartedAt', DateType::class, [
-                'widget' => 'single_text',
-                'html5' => true,
-                'required' => false,
-                'attr' => [
-                    'class' => 'js-datepicker',
-                ],
-            ])->add('supportEndedAt', DateType::class, [
-                'widget' => 'single_text',
-                'html5' => true,
-                'required' => false,
-                'attr' => [
-                    'class' => 'js-datepicker',
-                ],
-            ])->add('tel', TextType::class)
-            ->add('edsEntity', EntityType::class, [
+            'widget' => 'single_text',
+            'html5' => true,
+            'required' => false,
+            'attr' => [
+                'class' => 'js-datepicker',
+            ],
+        ])->add('supportEndedAt', DateType::class, [
+            'widget' => 'single_text',
+            'html5' => true,
+            'required' => false,
+            'attr' => [
+                'class' => 'js-datepicker',
+            ],
+        ])->add('tel', TextType::class)->add('edsEntity', EntityType::class, [
                 'class' => EdsEntity::class,
                 'choice_label' => 'name',
                 'required' => false,

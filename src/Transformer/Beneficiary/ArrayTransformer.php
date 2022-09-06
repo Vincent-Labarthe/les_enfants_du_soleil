@@ -27,7 +27,7 @@ class ArrayTransformer extends TransformerAbstract
             'dateOfBirth' => $beneficiary->getDateOfBirth()->format('d-m-Y'),
             'age' => $this->getAge($beneficiary),
             'origin' => $beneficiary->getOrigin()->getType(),
-            'localisation' => $beneficiary->getEdsEntity() ? $beneficiary->getEdsEntity()->getName() : null,
+            'localisation' => $beneficiary->getEdsEntity() ? $beneficiary->getEdsEntity()->getName() : '-',
         ];
 
         $data = [];

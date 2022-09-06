@@ -11,14 +11,13 @@
             <li class="nav-item">
                 <a href="{{ path('app_beneficiary_index') }}" class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_index')%}active{% endif %}">
                     <span data-feather="file"></span>
-                    Bénéficiaires {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ generalIdentifier.firstname ~ ' ' ~ generalIdentifier.lastname }}{% endif %}
+                    Bénéficiaires
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
-                    {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
+                <a    class="nav-link {% if app.request.attributes.get('_route') is same as ('app_employee_index')%}active{% endif %}">
                     <span data-feather="file"></span>
-                    Employés {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ generalIdentifier.firstname ~ ' ' ~ generalIdentifier.lastname }}{% endif %}
+                    Employés
                 </a>
             </li>
             <li class="nav-item">

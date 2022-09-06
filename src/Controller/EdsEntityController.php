@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\EdsEntity;
+use App\Form\EdsEntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -11,6 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EdsEntityController extends AbstractController
 {
+    /**
+     * @Route("/creation", name="add")
+     *
+     * @return Response
+     */
+    public function add()
+    {
+        $form = $this->createForm(EdsEntityType::class);
+
+        return $this->render('eds-entity/add.html.twig',[
+            'form' => $form->createView(),
+        ]);
+    }
+
     /**
      * @Route("/{slug}", name="index")
      */
@@ -20,4 +36,6 @@ class EdsEntityController extends AbstractController
             'eds_entity' => $edsEntity,
         ]);
     }
+
+
 }

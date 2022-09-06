@@ -49,6 +49,11 @@ class Employee
      */
     private $interviewReports;
 
+    /**
+     * @ORM\OneToOne(targetEntity=GeneralIdentifier::class, mappedBy="employee", cascade={"persist", "remove"})
+     */
+    private $generalIdentifier;
+
     public function __construct()
     {
         $this->edsEntity = new ArrayCollection();
@@ -174,6 +179,28 @@ class Employee
                 $interviewReport->setManager(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGeneralIdentifier(): ?GeneralIdentifier
+    {
+        return $this->generalIdentifier;
+    }
+
+    public function setGeneralIdentifier(?GeneralIdentifier $generalIdentifier): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($generalIdentifier === null && $this->generalIdentifier !== null) {
+            $this->generalIdentifier->setEmployee(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($generalIdentifier !== null && $generalIdentifier->getEmployee() !== $this) {
+            $generalIdentifier->setEmployee($this);
+        }
+
+        $this->generalIdentifier = $generalIdentifier;
 
         return $this;
     }

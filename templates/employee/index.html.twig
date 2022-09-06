@@ -6,18 +6,18 @@
             <div class="row mb-5">
                 <div class="col-md-6">
                     <div>
-                        <h1 class="hero-title">Bénéficiaires</h1>
+                        <h1 class="hero-title">Employés</h1>
                     </div>
                 </div>
             </div>
             <div class="row mb-5">
                 <div class="col-md-4 text-start d-flex align-items-center">
-                    <input class="form-control" type="text" placeholder="Rechercher un bénéficiaire"> <span
+                    <input class="form-control" type="text" placeholder="Rechercher un employé"> <span
                             class="ms-2 material-symbols-rounded">search</span>
                 </div>
                 <div class="col-md-6 text-end">
                     <a href="{{ path('app_beneficiary_add') }}">
-                        <button class="btn btn-primary">Ajouter un bénéficiaire</button>
+                        <button class="btn btn-primary">Ajouter un employé</button>
                     </a>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     </th>
                     <th class="sorted  header-for-field-text text-left" dir="ltr">
                         <a href="#">
-                            Date de naissance <i class="fa fa-fw fa-sort"></i>
+                            Email <i class="fa fa-fw fa-sort"></i>
                         </a>
                     </th>
                     <th class="sorted  header-for-field-text text-left" dir="ltr">
@@ -54,12 +54,12 @@
                 </thead>
                 <tbody>
                 <tr>
-                    {% for beneficiary in beneficiaries %}
-                        <th>{{ beneficiary.firstname }}</th>
-                        <th>{{ beneficiary.lastname }}</th>
-                        <th>{{ beneficiary.dateOfBirth }}</th>
-                        <th>{{ beneficiary.origin }}</th>
-                        <th>{{ beneficiary.localisation }}</th>
+                    {% for employee in employees %}
+                        <th>{{ employee.firstname }}</th>
+                        <th>{{ employee.lastname }}</th>
+                        <th>{{ employee.email }}</th>
+                        <th>{{ employee.status }}</th>
+                        <th>{{ employee.localisation }}</th>
                         <td class="actions actions-as-dropdown">
                             <div class="dropdown dropdown-actions">
                                 <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -71,7 +71,7 @@
                                     </svg>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item action-edit" href="{{ path('app_beneficiary_detail', {'id': beneficiary.id}) }}" data-action-name="détail">Détail</a>
+                                    <a class="dropdown-item action-edit" href="{{ path('app_beneficiary_detail', {'id': employee.id}) }}" data-action-name="détail">Détail</a>
                                     <a class="dropdown-item action-edit" href=""
                                        data-action-name="modifier">Modifier</a>
                                     <a class="dropdown-item action-delete text-danger" href="" data-action-name="delete"
