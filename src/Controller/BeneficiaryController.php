@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Beneficiary;
-use App\Entity\EdsEntity;
 use App\Entity\GeneralIdentifier;
 use App\Form\AddressType;
 use App\Form\BeneficiaryType;
@@ -25,31 +24,24 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BeneficiaryController extends AbstractController
 {
-
     /**
      * @Route(name="index")
-     *
-     * @return Response
      */
     public function index(EntityManagerInterface $em): Response
     {
         $data = new Collection($em->getRepository(Beneficiary::class)->findAll(), new ArrayTransformer());
         $fractal = new Manager();
+
         return $this->render('beneficiary/index.html.twig', [
-            'beneficiaries' => $fractal->createData($data)->toArray()['data']
+            'beneficiaries' => $fractal->createData($data)->toArray()['data'],
         ]);
     }
-
 
     /**
      * Beneficiary detail page.
      *
      * @Route("/detail/{id}", name="detail")
      * @ParamConverter("beneficiary", class="App\Entity\Beneficiary")
-     *
-     * @param Beneficiary $beneficiary
-     *
-     * @return Response
      */
     public function detail(EntityManagerInterface $em, Beneficiary $beneficiary): Response
     {
@@ -63,7 +55,6 @@ class BeneficiaryController extends AbstractController
         return $this->render('beneficiary/detail.html.twig', [
             'person' => $beneficiaryArray,
             'generalIdentifier' => $generalIdentifier,
-
         ]);
     }
 
@@ -72,7 +63,6 @@ class BeneficiaryController extends AbstractController
      *
      * @Route("/add", name="add")
      **
-     * @return Response
      */
     public function add(Request $request, BeneficiaryService $beneficiaryService): Response
     {
@@ -107,10 +97,11 @@ class BeneficiaryController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $newAddress = $form->getData();
-            $beneficiaryService->addAddress($beneficiary,$newAddress);
+            $beneficiaryService->addAddress($beneficiary, $newAddress);
 
             return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
         }
+
         return $this->render('beneficiary/add_address.html.twig', [
             'form' => $form->createView(),
             'beneficiary' => $beneficiary,

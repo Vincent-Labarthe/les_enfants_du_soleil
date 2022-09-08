@@ -10,7 +10,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class HealthEventCrudController extends AbstractCrudController
 {
@@ -18,7 +17,6 @@ class HealthEventCrudController extends AbstractCrudController
     {
         return HealthEvent::class;
     }
-
 
     public function configureFields(string $pageName): iterable
     {
@@ -37,5 +35,4 @@ class HealthEventCrudController extends AbstractCrudController
             NumberField::new('otherCost')->setLabel('Coût autre'),
         ];
     }
-
 }

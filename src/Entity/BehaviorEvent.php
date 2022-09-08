@@ -31,7 +31,7 @@ class BehaviorEvent
      * @ORM\ManyToOne(targetEntity=EventBehaviorType::class, inversedBy="behaviorEvent")
      * @ORM\JoinColumn(nullable=false)
      */
-    private  $eventBehaviorType;
+    private $eventBehaviorType;
 
     public function getId(): ?int
     {
@@ -73,5 +73,4 @@ class BehaviorEvent
 
         return $this;
     }
-
 }

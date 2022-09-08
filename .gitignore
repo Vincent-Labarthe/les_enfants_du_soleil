@@ -16,3 +16,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 composer.phar
 vendor
+/tools/php-cs-fixer/vendor/
+/.php-cs-fixer.cache

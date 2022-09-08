@@ -14,7 +14,6 @@ class BehaviorEventCrudController extends AbstractCrudController
         return BehaviorEvent::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -23,5 +22,4 @@ class BehaviorEventCrudController extends AbstractCrudController
             AssociationField::new('person')->setLabel('Personne'),
         ];
     }
-
 }

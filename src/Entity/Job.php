@@ -90,10 +90,7 @@ class Job
         return $this->endedAt;
     }
 
-    /**
-     * @param mixed $endedAt
-     */
-    public function setEndedAt($endedAt): void
+    public function setEndedAt(mixed $endedAt): void
     {
         $this->endedAt = $endedAt;
     }
@@ -134,12 +131,12 @@ class Job
         return $this;
     }
 
-    public function getStartedAt(): ?\datetime
+    public function getStartedAt(): ?\DateTime
     {
         return $this->startedAt;
     }
 
-    public function setStartedAt(\datetime $startedAt): self
+    public function setStartedAt(\DateTime $startedAt): self
     {
         $this->startedAt = $startedAt;
 

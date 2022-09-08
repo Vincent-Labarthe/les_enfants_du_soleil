@@ -14,7 +14,6 @@ class AidTypeCrudController extends AbstractCrudController
         return AidType::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -22,5 +21,4 @@ class AidTypeCrudController extends AbstractCrudController
             TextEditorField::new('description')->setLabel('Description'),
         ];
     }
-
 }

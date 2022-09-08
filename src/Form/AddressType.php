@@ -13,23 +13,23 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('street', TextType::class, [
-            'required'=>true,
+            'required' => true,
         ])
         ->add('zip', TextType::class, [
-            'required'=>true,
+            'required' => true,
         ])
         ->add('city', TextType::class, [
-            'required'=>true,
+            'required' => true,
         ])
         ->add('country', TextType::class, [
-            'required'=>true,
+            'required' => true,
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Address::class
+            'data_class' => Address::class,
         ]);
     }
 }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=AidTypeRepository::class)
  */
-class AidType
+class AidType implements \Stringable
 {
     /**
      * @ORM\Id
@@ -98,8 +98,8 @@ class AidType
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->category . ' ' . $this->description;
+        return $this->category.' '.$this->description;
     }
 }

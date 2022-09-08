@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Beneficiary;
 use App\Entity\EdsEntity;
 use App\Entity\Origin;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,10 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Validator\Constraints\Length;
 
 class BeneficiaryType extends AbstractType
 {
@@ -33,17 +30,17 @@ class BeneficiaryType extends AbstractType
                 'options' => ['required' => true],
                 'first_options' => [
                     'label' => 'Adresse e-mail ',
-                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70]
+                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70],
                 ],
                 'second_options' => [
                     'label' => 'Confirmation de l\'adresse e-mail',
-                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70]
+                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70],
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => "Le champ e-mail est obligatoire."]),
-                    new Length(['max' => 70])
+                    new Assert\NotBlank(['message' => 'Le champ e-mail est obligatoire.']),
+                    new Length(['max' => 70]),
                 ],
-                'attr' => ['class' => 'form-control form-control-lg']
+                'attr' => ['class' => 'form-control form-control-lg'],
             ]
         )->add('sexe', ChoiceType::class, [
             'choices' => [
@@ -52,7 +49,6 @@ class BeneficiaryType extends AbstractType
             ],
             'required' => true,
             'expanded' => true,
-
         ])->add('dateOfBirth', DateType::class, [
             'widget' => 'single_text',
             'html5' => true,

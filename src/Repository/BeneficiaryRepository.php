@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\EdsEntity;
 use App\Entity\Beneficiary;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

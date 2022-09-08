@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=AddressRepository::class)
  */
-class Address
+class Address implements \Stringable
 {
     /**
      * @ORM\Id
@@ -102,9 +102,9 @@ class Address
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->street . ' ' . $this->zip . ' ' . $this->city . ' ' . $this->country;
+        return $this->street.' '.$this->zip.' '.$this->city.' '.$this->country;
     }
 
     /**

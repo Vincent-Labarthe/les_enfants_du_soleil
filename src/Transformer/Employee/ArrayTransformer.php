@@ -11,8 +11,6 @@ class ArrayTransformer extends TransformerAbstract
      * Transform an Employee entity to an array.
      *
      * @param Employee $employee The person entity
-     *
-     * @return array
      */
     public function transform(Employee $employee): array
     {
@@ -20,9 +18,9 @@ class ArrayTransformer extends TransformerAbstract
             'firstname' => $employee->getGeneralIdentifier()->getFirstname(),
             'lastname' => $employee->getGeneralIdentifier()->getLastname(),
             'email' => $employee->getGeneralIdentifier()->getEmail(),
-            'id'=> $employee->getId(),
+            'id' => $employee->getId(),
             'status' => $employee->getStatus(),
-            'localisation' => $this->getEdsEntity($employee) ,
+            'localisation' => $this->getEdsEntity($employee),
         ];
 
         $data = [];
@@ -35,9 +33,9 @@ class ArrayTransformer extends TransformerAbstract
 
     private function getEdsEntity($employee)
     {
-        $data=null;
+        $data = null;
         foreach ($employee->getEdsEntities() as $edsEntity) {
-            $data .= $edsEntity->getName() . ' ';
+            $data .= $edsEntity->getName().' ';
         }
 
         return $data;

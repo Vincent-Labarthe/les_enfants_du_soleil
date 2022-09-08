@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Beneficiary
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

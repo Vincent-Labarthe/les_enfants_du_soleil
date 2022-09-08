@@ -14,14 +14,12 @@ class InterviewReportCrudController extends AbstractCrudController
         return InterviewReport::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextEditorField::new('report')->setLabel("Rapport"),
-            AssociationField::new('beneficiary')->setLabel("Bénéficiaire"),
-            AssociationField::new('manager')->setLabel("Responsable"),
+            TextEditorField::new('report')->setLabel('Rapport'),
+            AssociationField::new('beneficiary')->setLabel('Bénéficiaire'),
+            AssociationField::new('manager')->setLabel('Responsable'),
         ];
     }
-
 }

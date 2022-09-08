@@ -45,7 +45,6 @@ class Sponsorship
      */
     private $sponsor;
 
-
     public function __construct()
     {
         $this->beneficiary = new ArrayCollection();

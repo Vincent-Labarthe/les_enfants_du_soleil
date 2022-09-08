@@ -12,16 +12,10 @@ use League\Fractal\Resource\Collection;
 
 class BeneficiaryService
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $em;
     }
 
-    /**
-     * @return array|null
-     */
     public function getSupportedPerson(): ?array
     {
         $personCollection = $this->em->getRepository(Beneficiary::class)->getSupportedPerson();
@@ -35,8 +29,6 @@ class BeneficiaryService
      * Add new beneficiary.
      *
      * @param array $formData array of form data
-     *
-     * @return Beneficiary
      */
     public function addBeneficiary(array $formData): Beneficiary
     {
@@ -59,13 +51,7 @@ class BeneficiaryService
         return $beneficiary;
     }
 
-    /**
-     * @param Beneficiary $beneficiary
-     * @param Address     $newAddress
-     *
-     * @return void
-     */
-    public function addAddress(Beneficiary $beneficiary,Address $newAddress): void
+    public function addAddress(Beneficiary $beneficiary, Address $newAddress): void
     {
         $beneficiary->setAddress($newAddress);
         $this->em->persist($newAddress);

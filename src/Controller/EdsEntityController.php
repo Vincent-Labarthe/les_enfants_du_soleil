@@ -22,7 +22,7 @@ class EdsEntityController extends AbstractController
     {
         $form = $this->createForm(EdsEntityType::class);
 
-        return $this->render('eds-entity/add.html.twig',[
+        return $this->render('eds-entity/add.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -36,6 +36,4 @@ class EdsEntityController extends AbstractController
             'eds_entity' => $edsEntity,
         ]);
     }
-
-
 }

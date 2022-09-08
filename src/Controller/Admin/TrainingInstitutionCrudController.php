@@ -17,7 +17,6 @@ class TrainingInstitutionCrudController extends AbstractCrudController
         return TrainingInstitution::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -36,5 +35,4 @@ class TrainingInstitutionCrudController extends AbstractCrudController
             TextEditorField::new('comment')->setLabel('Commentaire'),
         ];
     }
-
 }

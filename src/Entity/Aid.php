@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=AidRepository::class)
  */
-class Aid
+class Aid implements \Stringable
 {
     /**
      * @ORM\Id
@@ -49,12 +49,12 @@ class Aid
         return $this->id;
     }
 
-    public function getEndedAt(): ?\datetime
+    public function getEndedAt(): ?\DateTime
     {
         return $this->endedAt;
     }
 
-    public function setEndedAt(?\datetime $endedAt): self
+    public function setEndedAt(?\DateTime $endedAt): self
     {
         $this->endedAt = $endedAt;
 
@@ -85,12 +85,12 @@ class Aid
         return $this;
     }
 
-    public function getStartedAt(): ?\datetime
+    public function getStartedAt(): ?\DateTime
     {
         return $this->startedAt;
     }
 
-    public function setStartedAt(\datetime $startedAt): self
+    public function setStartedAt(\DateTime $startedAt): self
     {
         $this->startedAt = $startedAt;
 
@@ -109,8 +109,8 @@ class Aid
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->aidType->getCategory() . ' ' . $this->aidType->getDescription();
+        return $this->aidType->getCategory().' '.$this->aidType->getDescription();
     }
 }

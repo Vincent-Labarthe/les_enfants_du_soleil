@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=TrainingInstitutionRepository::class)
  * @ORM\Table(name="training_institution")
  */
-class TrainingInstitution
+class TrainingInstitution implements \Stringable
 {
     /**
      * @ORM\Id
@@ -50,7 +50,6 @@ class TrainingInstitution
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;
-
 
     /**
      * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="trainingInstitution")
@@ -181,9 +180,9 @@ class TrainingInstitution
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**

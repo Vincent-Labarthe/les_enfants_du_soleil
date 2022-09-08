@@ -11,20 +11,16 @@ use League\Fractal\TransformerAbstract;
 class DetailToArrayTransformer extends TransformerAbstract
 {
     /**
-     * Operation de transformation
-     *
-     * @param Beneficiary $beneficiary
-     *
-     * @return array
+     * Operation de transformation.
      */
     public function transform(Beneficiary $beneficiary): array
     {
         return [
             'id' => $beneficiary->getId(),
             'origin' => $beneficiary->getOrigin(),
-            'birthdate'=> $beneficiary->getDateOfBirth()->format('Y-m-d'),
+            'birthdate' => $beneficiary->getDateOfBirth()->format('Y-m-d'),
             'gender' => $beneficiary->getSexe(),
-            'support_start' =>$beneficiary->getSupportStartedAt() ? $beneficiary->getSupportStartedAt()->format('Y-m-d') : null,
+            'support_start' => $beneficiary->getSupportStartedAt() ? $beneficiary->getSupportStartedAt()->format('Y-m-d') : null,
             'image_url' => $beneficiary->getImageUrl(),
             'school_level' => $beneficiary->getSchoolLevel(),
             'degree' => $beneficiary->getDegree(),

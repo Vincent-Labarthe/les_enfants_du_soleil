@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=EdsEntityRepository::class)
  */
-class EdsEntity
+class EdsEntity implements \Stringable
 {
     /**
      * @ORM\Id
@@ -151,9 +151,9 @@ class EdsEntity
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**

@@ -3,14 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\FormationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
  */
-class Formation
+class Formation implements \Stringable
 {
     /**
      * @ORM\Id
@@ -108,12 +106,12 @@ class Formation
         return $this;
     }
 
-    public function getEndedAt(): ?\datetime
+    public function getEndedAt(): ?\DateTime
     {
         return $this->endedAt;
     }
 
-    public function setEndedAt(?\datetime $endedAt): self
+    public function setEndedAt(?\DateTime $endedAt): self
     {
         $this->endedAt = $endedAt;
 
@@ -132,12 +130,12 @@ class Formation
         return $this;
     }
 
-    public function getStartedAt(): ?\datetime
+    public function getStartedAt(): ?\DateTime
     {
         return $this->startedAt;
     }
 
-    public function setStartedAt(\datetime $startedAt): self
+    public function setStartedAt(\DateTime $startedAt): self
     {
         $this->startedAt = $startedAt;
 
@@ -168,10 +166,9 @@ class Formation
         return $this;
     }
 
-
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     public function getStudent(): ?Beneficiary

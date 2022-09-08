@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=EventBehaviorTypeRepository::class)
  */
-class EventBehaviorType
+class EventBehaviorType implements \Stringable
 {
     /**
      * @ORM\Id
@@ -81,8 +81,8 @@ class EventBehaviorType
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->type;
+        return (string) $this->type;
     }
 }

@@ -7,7 +7,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class AidCrudController extends AbstractCrudController
 {
@@ -15,7 +14,6 @@ class AidCrudController extends AbstractCrudController
     {
         return Aid::class;
     }
-
 
     public function configureFields(string $pageName): iterable
     {
@@ -27,5 +25,4 @@ class AidCrudController extends AbstractCrudController
             AssociationField::new('person')->setLabel('Personne'),
         ];
     }
-
 }

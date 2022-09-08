@@ -19,10 +19,6 @@ class EmployeeController extends AbstractController
 {
     /**
      * @Route(name="index")
-     *
-     * @param EntityManagerInterface $em
-     *
-     * @return Response
      */
     public function index(EntityManagerInterface $em): Response
     {
@@ -30,7 +26,7 @@ class EmployeeController extends AbstractController
         $fractal = new Manager();
 
         return $this->render('employee/index.html.twig', [
-            'employees' => $fractal->createData($data)->toArray()['data']
+            'employees' => $fractal->createData($data)->toArray()['data'],
         ]);
     }
 
@@ -44,7 +40,7 @@ class EmployeeController extends AbstractController
         $form = $this->createForm(EmployeeType::class, new Employee());
 
         return $this->render('employee/add.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

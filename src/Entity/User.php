@@ -29,18 +29,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
+     *
      * @ORM\Column(type="string")
      */
-    private $password;
+    private ?string $password = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     public function getId(): ?int
     {

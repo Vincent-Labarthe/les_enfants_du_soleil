@@ -8,9 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OriginRepository")
- *
  */
-class Origin
+class Origin implements \Stringable
 {
     /**
      * @ORM\Id
@@ -50,10 +49,7 @@ class Origin
         return $this->type;
     }
 
-    /**
-     * @param mixed $type
-     */
-    public function setType($type): void
+    public function setType(mixed $type): void
     {
         $this->type = $type;
     }
@@ -88,8 +84,8 @@ class Origin
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->type;
+        return (string) $this->type;
     }
 }

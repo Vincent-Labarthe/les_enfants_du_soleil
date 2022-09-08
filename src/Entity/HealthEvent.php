@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=HealthEventRepository::class)
  */
-class HealthEvent
+class HealthEvent implements \Stringable
 {
     /**
      * @ORM\Id
@@ -51,7 +51,6 @@ class HealthEvent
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $comment;
-
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
@@ -229,7 +228,7 @@ class HealthEvent
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getEventMedicalType()->getName();
     }

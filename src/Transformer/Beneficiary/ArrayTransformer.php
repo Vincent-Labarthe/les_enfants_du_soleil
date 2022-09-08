@@ -14,7 +14,6 @@ class ArrayTransformer extends TransformerAbstract
      *
      * @param Beneficiary $beneficiary The person entity
      *
-     * @return array
      * @throws Exception
      */
     public function transform(Beneficiary $beneficiary): array
@@ -39,11 +38,8 @@ class ArrayTransformer extends TransformerAbstract
     }
 
     /**
-     * Get age from birthdate
+     * Get age from birthdate.
      *
-     * @param Beneficiary $beneficiary
-     *
-     * @return int
      * @throws Exception
      */
     private function getAge(Beneficiary $beneficiary): int

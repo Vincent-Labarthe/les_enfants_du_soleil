@@ -14,7 +14,6 @@ class HomeController extends AbstractController
      */
     public function index(BeneficiaryService $beneficiaryService): Response
     {
-
         return $this->render('home/index.html.twig', [
             'persons' => $beneficiaryService->getSupportedPerson(),
         ]);
@@ -23,7 +22,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/logout", name="app_logout", methods={"GET"})
      */
-    public function logout(): void
+    public function logout(): never
     {
         // controller can be blank: it will never be called!
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
