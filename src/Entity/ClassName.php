@@ -7,26 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=ClassNameRepository::class)
- */
+#[ORM\Entity(repositoryClass: ClassNameRepository::class)]
 class ClassName implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="className")
-     */
+    #[ORM\OneToMany(targetEntity: Formation::class, mappedBy: 'className')]
     private $formation;
 
     public function __construct()

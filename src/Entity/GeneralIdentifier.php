@@ -7,43 +7,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=GeneralIdentifierRepository::class)
- * @UniqueEntity("email")
- */
+#[ORM\Entity(repositoryClass: GeneralIdentifierRepository::class)]
+#[UniqueEntity('email')]
 class GeneralIdentifier
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $firstname;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $lastname;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Email()
-     */
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Assert\Email]
     private $email;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Beneficiary::class, inversedBy="generalIdentifier", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: Beneficiary::class, inversedBy: 'generalIdentifier', cascade: ['persist', 'remove'])]
     private $beneficiary;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Employee::class, inversedBy="generalIdentifier", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: Employee::class, inversedBy: 'generalIdentifier', cascade: ['persist', 'remove'])]
     private $employee;
 
     public function getId(): ?int

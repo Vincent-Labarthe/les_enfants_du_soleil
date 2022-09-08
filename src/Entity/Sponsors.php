@@ -7,36 +7,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SponsorsRepository::class)
- */
+#[ORM\Entity(repositoryClass: SponsorsRepository::class)]
 class Sponsors
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $status;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image_url;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $tel;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Sponsorship::class, mappedBy="sponsor")
-     */
+    #[ORM\OneToMany(targetEntity: Sponsorship::class, mappedBy: 'sponsor')]
     private $sponsorships;
 
     public function __construct()

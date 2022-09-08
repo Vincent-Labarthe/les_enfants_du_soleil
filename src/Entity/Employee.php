@@ -7,51 +7,33 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=EmployeeRepository::class)
- */
+#[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 class Employee
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $status;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=EdsEntity::class, inversedBy="employees")
-     */
+    #[ORM\ManyToMany(targetEntity: EdsEntity::class, inversedBy: 'employees')]
     private $edsEntity;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $imageUrl;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $tel;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=TrainingInstitution::class, mappedBy="employee")
-     */
+    #[ORM\ManyToMany(targetEntity: TrainingInstitution::class, mappedBy: 'employee')]
     private $trainingInstitutions;
 
-    /**
-     * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="manager")
-     */
+    #[ORM\OneToMany(targetEntity: InterviewReport::class, mappedBy: 'manager')]
     private $interviewReports;
 
-    /**
-     * @ORM\OneToOne(targetEntity=GeneralIdentifier::class, mappedBy="employee", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: GeneralIdentifier::class, mappedBy: 'employee', cascade: ['persist', 'remove'])]
     private $generalIdentifier;
 
     public function __construct()

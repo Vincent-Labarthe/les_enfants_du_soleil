@@ -8,134 +8,84 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=BeneficiaryRepository::class)
- */
+#[ORM\Entity(repositoryClass: BeneficiaryRepository::class)]
 class Beneficiary
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @Groups({"beneficiary"})
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    #[Groups(['beneficiary'])]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $sexe;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     * @Groups({"beneficiary"})
-     */
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['beneficiary'])]
     private $dateOfBirth;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $familyRelation;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $imageUrl;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $supportStartedAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $supportEndedAt;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $tel;
 
-    /**
-     * @ORM\OneToMany(targetEntity=BehaviorEvent::class, mappedBy="beneficiary", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: BehaviorEvent::class, mappedBy: 'beneficiary', orphanRemoval: true)]
     private $behaviorEvent;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Sponsorship::class, inversedBy="beneficiary")
-     */
+    #[ORM\ManyToMany(targetEntity: Sponsorship::class, inversedBy: 'beneficiary')]
     private $sponsorship;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Sponsorship::class, mappedBy="sponsor")
-     */
+    #[ORM\OneToMany(targetEntity: Sponsorship::class, mappedBy: 'sponsor')]
     private $sponsorships;
 
-    /**
-     * @ORM\OneToMany(targetEntity=HealthEvent::class, mappedBy="beneficiary")
-     */
+    #[ORM\OneToMany(targetEntity: HealthEvent::class, mappedBy: 'beneficiary')]
     private $healthEvent;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Aid::class, mappedBy="beneficiary")
-     */
+    #[ORM\OneToMany(targetEntity: Aid::class, mappedBy: 'beneficiary')]
     private $aid;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="beneficiary")
-     */
+    #[ORM\OneToMany(targetEntity: Job::class, mappedBy: 'beneficiary')]
     private $jobs;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Origin::class, inversedBy="beneficiary")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Origin::class, inversedBy: 'beneficiary')]
+    #[ORM\JoinColumn(nullable: false)]
     private $origin;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=SchoolLevel::class, inversedBy="beneficiary")
-     */
+    #[ORM\ManyToOne(targetEntity: SchoolLevel::class, inversedBy: 'beneficiary')]
     private $schoolLevel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Degree::class, inversedBy="beneficiary")
-     */
+    #[ORM\ManyToOne(targetEntity: Degree::class, inversedBy: 'beneficiary')]
     private $degree;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=TrainingInstitution::class, inversedBy="people")
-     */
+    #[ORM\ManyToOne(targetEntity: TrainingInstitution::class, inversedBy: 'people')]
     private $trainingInstitution;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Formation::class, mappedBy="student", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: Formation::class, mappedBy: 'student', cascade: ['persist', 'remove'])]
     private $formation;
 
-    /**
-     * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="beneficiary")
-     */
+    #[ORM\OneToMany(targetEntity: InterviewReport::class, mappedBy: 'beneficiary')]
     private $interviewReports;
 
-    /**
-     * @ORM\OneToMany(targetEntity=InterviewReport::class, mappedBy="manager")
-     */
+    #[ORM\OneToMany(targetEntity: InterviewReport::class, mappedBy: 'manager')]
     private $interviewReportsManager;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=EdsEntity::class, inversedBy="people")
-     */
+    #[ORM\ManyToOne(targetEntity: EdsEntity::class, inversedBy: 'people')]
     private $edsEntity;
 
-    /**
-     * @ORM\OneToOne(targetEntity=GeneralIdentifier::class, mappedBy="beneficiary", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: GeneralIdentifier::class, mappedBy: 'beneficiary', cascade: ['persist', 'remove'])]
     private $generalIdentifier;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="beneficiaries")
-     */
+    #[ORM\ManyToOne(targetEntity: Address::class, inversedBy: 'beneficiaries')]
     private $address;
 
     public function __construct()

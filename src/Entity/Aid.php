@@ -5,43 +5,29 @@ namespace App\Entity;
 use App\Repository\AidRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=AidRepository::class)
- */
+#[ORM\Entity(repositoryClass: AidRepository::class)]
 class Aid implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $endedAt;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $annualAmount;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="aid")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Beneficiary::class, inversedBy: 'aid')]
+    #[ORM\JoinColumn(nullable: false)]
     private $beneficiary;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $startedAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=AidType::class, inversedBy="aid")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: AidType::class, inversedBy: 'aid')]
+    #[ORM\JoinColumn(nullable: false)]
     private $aidType;
 
     public function getId(): ?int

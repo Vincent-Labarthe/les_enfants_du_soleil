@@ -19,14 +19,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/beneficiary", name="app_beneficiary_")
- */
+#[Route(path: '/beneficiary', name: 'app_beneficiary_')]
 class BeneficiaryController extends AbstractController
 {
-    /**
-     * @Route(name="index")
-     */
+    #[Route(name: 'index')]
     public function index(EntityManagerInterface $em): Response
     {
         $data = new Collection($em->getRepository(Beneficiary::class)->findAll(), new ArrayTransformer());
@@ -40,9 +36,9 @@ class BeneficiaryController extends AbstractController
     /**
      * Beneficiary detail page.
      *
-     * @Route("/detail/{id}", name="detail")
      * @ParamConverter("beneficiary", class="App\Entity\Beneficiary")
      */
+    #[Route(path: '/detail/{id}', name: 'detail')]
     public function detail(EntityManagerInterface $em, Beneficiary $beneficiary): Response
     {
         if (!$personData = new Item($beneficiary, new DetailToArrayTransformer())) {
@@ -60,10 +56,8 @@ class BeneficiaryController extends AbstractController
 
     /**
      * Beneficiary add page.
-     *
-     * @Route("/add", name="add")
-     **
      */
+    #[Route(path: '/add', name: 'add')]
     public function add(Request $request, BeneficiaryService $beneficiaryService): Response
     {
         $form = $this->createForm(BeneficiaryType::class);
@@ -86,10 +80,9 @@ class BeneficiaryController extends AbstractController
     /**
      * Beneficiary address add page.
      *
-     * @Route("/add/address/{id}", name="add_address")
-     **
      * @return Response
      */
+    #[Route(path: '/add/address/{id}', name: 'add_address')]
     public function addAddress(Request $request, EntityManagerInterface $em, Beneficiary $beneficiary, BeneficiaryService $beneficiaryService)
     {
         $form = $this->createForm(AddressType::class);

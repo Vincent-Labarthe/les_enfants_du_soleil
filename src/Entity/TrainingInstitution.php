@@ -7,63 +7,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=TrainingInstitutionRepository::class)
- * @ORM\Table(name="training_institution")
- */
+#[ORM\Table(name: 'training_institution')]
+#[ORM\Entity(repositoryClass: TrainingInstitutionRepository::class)]
 class TrainingInstitution implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $type;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $speciality;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $tel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $comment;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Address::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Address::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private $address;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="trainingInstitution")
-     */
+    #[ORM\OneToMany(targetEntity: Formation::class, mappedBy: 'trainingInstitution')]
     private $formations;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="trainingInstitution")
-     */
+    #[ORM\OneToMany(targetEntity: Beneficiary::class, mappedBy: 'trainingInstitution')]
     private $people;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Employee::class, inversedBy="trainingInstitutions")
-     */
+    #[ORM\ManyToMany(targetEntity: Employee::class, inversedBy: 'trainingInstitutions')]
     private $employee;
 
     public function __construct()

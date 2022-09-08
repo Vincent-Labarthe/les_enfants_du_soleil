@@ -5,33 +5,23 @@ namespace App\Entity;
 use App\Repository\InterviewReportRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=InterviewReportRepository::class)
- */
+#[ORM\Entity(repositoryClass: InterviewReportRepository::class)]
 class InterviewReport
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $report;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="interviewReports")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Beneficiary::class, inversedBy: 'interviewReports')]
+    #[ORM\JoinColumn(nullable: false)]
     private $beneficiary;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Employee::class, inversedBy="interviewReports")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Employee::class, inversedBy: 'interviewReports')]
+    #[ORM\JoinColumn(nullable: false)]
     private $manager;
 
     public function getId(): ?int

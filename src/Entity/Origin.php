@@ -6,26 +6,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\OriginRepository")
- */
+#[ORM\Entity(repositoryClass: 'App\Repository\OriginRepository')]
 class Origin implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="origin")
-     */
+    #[ORM\OneToMany(targetEntity: Beneficiary::class, mappedBy: 'origin')]
     private $beneficiary;
 
     public function __construct()

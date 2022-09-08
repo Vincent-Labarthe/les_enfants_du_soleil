@@ -12,14 +12,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/employe", name="app_employee_")
- */
+#[Route(path: '/employe', name: 'app_employee_')]
 class EmployeeController extends AbstractController
 {
-    /**
-     * @Route(name="index")
-     */
+    #[Route(name: 'index')]
     public function index(EntityManagerInterface $em): Response
     {
         $data = new Collection($em->getRepository(Employee::class)->findAll(), new ArrayTransformer());
@@ -31,10 +27,9 @@ class EmployeeController extends AbstractController
     }
 
     /**
-     * @Route("/ajouter", name="add")
-     *
      * @return Response
      */
+    #[Route(path: '/ajouter', name: 'add')]
     public function add()
     {
         $form = $this->createForm(EmployeeType::class, new Employee());

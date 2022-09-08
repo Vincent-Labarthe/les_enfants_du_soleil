@@ -8,16 +8,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/entite-eds", name="app_eds_entity_")
- */
+#[Route(path: '/entite-eds', name: 'app_eds_entity_')]
 class EdsEntityController extends AbstractController
 {
     /**
-     * @Route("/creation", name="add")
-     *
      * @return Response
      */
+    #[Route(path: '/creation', name: 'add')]
     public function add()
     {
         $form = $this->createForm(EdsEntityType::class);
@@ -27,9 +24,7 @@ class EdsEntityController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{slug}", name="index")
-     */
+    #[Route(path: '/{slug}', name: 'index')]
     public function index(EdsEntity $edsEntity)
     {
         return $this->render('eds-entity/index.html.twig', [

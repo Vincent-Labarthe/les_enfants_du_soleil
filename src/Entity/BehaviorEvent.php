@@ -5,32 +5,22 @@ namespace App\Entity;
 use App\Repository\BehaviorEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=BehaviorEventRepository::class)
- */
+#[ORM\Entity(repositoryClass: BehaviorEventRepository::class)]
 class BehaviorEvent
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $comment;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="behaviorEvent")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Beneficiary::class, inversedBy: 'behaviorEvent')]
+    #[ORM\JoinColumn(nullable: false)]
     private $beneficiary;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=EventBehaviorType::class, inversedBy="behaviorEvent")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: EventBehaviorType::class, inversedBy: 'behaviorEvent')]
+    #[ORM\JoinColumn(nullable: false)]
     private $eventBehaviorType;
 
     public function getId(): ?int

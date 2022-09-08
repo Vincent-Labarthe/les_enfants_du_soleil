@@ -7,26 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SchoolLevelRepository::class)
- */
+#[ORM\Entity(repositoryClass: SchoolLevelRepository::class)]
 class SchoolLevel implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $level;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="schoolLevel")
-     */
+    #[ORM\OneToMany(targetEntity: Beneficiary::class, mappedBy: 'schoolLevel')]
     private $beneficiary;
 
     public function __construct()

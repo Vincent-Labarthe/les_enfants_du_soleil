@@ -5,53 +5,35 @@ namespace App\Entity;
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=CompanyRepository::class)
- */
+#[ORM\Entity(repositoryClass: CompanyRepository::class)]
 class Company implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $type;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $tel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $comment;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Address::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Address::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private $address;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Beneficiary::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\OneToOne(targetEntity: Beneficiary::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $correspondent;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $Activity;
 
     public function getId(): ?int

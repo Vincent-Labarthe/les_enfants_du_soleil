@@ -9,9 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_home")
-     */
+    #[Route(path: '/', name: 'app_home')]
     public function index(BeneficiaryService $beneficiaryService): Response
     {
         return $this->render('home/index.html.twig', [
@@ -19,9 +17,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/logout", name="app_logout", methods={"GET"})
-     */
+    #[Route(path: '/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): never
     {
         // controller can be blank: it will never be called!

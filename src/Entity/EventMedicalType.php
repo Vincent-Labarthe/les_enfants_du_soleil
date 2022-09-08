@@ -7,26 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=EventMedicalTypeRepository::class)
- */
+#[ORM\Entity(repositoryClass: EventMedicalTypeRepository::class)]
 class EventMedicalType implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=HealthEvent::class, mappedBy="eventMedicalType")
-     */
+    #[ORM\OneToMany(targetEntity: HealthEvent::class, mappedBy: 'eventMedicalType')]
     private $healthEvent;
 
     public function __construct()

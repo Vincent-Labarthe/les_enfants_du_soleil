@@ -7,58 +7,38 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=EdsEntityRepository::class)
- */
+#[ORM\Entity(repositoryClass: EdsEntityRepository::class)]
 class EdsEntity implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Address::class)
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: Address::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private $address;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=EdsEntity::class, inversedBy="edsChildren")
-     */
+    #[ORM\ManyToOne(targetEntity: EdsEntity::class, inversedBy: 'edsChildren')]
     private $edsParent;
 
-    /**
-     * @ORM\OneToMany(targetEntity=EdsEntity::class, mappedBy="edsParent")
-     */
+    #[ORM\OneToMany(targetEntity: EdsEntity::class, mappedBy: 'edsParent')]
     private $edsChildren;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=EdsType::class, inversedBy="entity")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: EdsType::class, inversedBy: 'entity')]
+    #[ORM\JoinColumn(nullable: false)]
     private $edsType;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="edsEntity")
-     */
+    #[ORM\OneToMany(targetEntity: Beneficiary::class, mappedBy: 'edsEntity')]
     private $people;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Employee::class, mappedBy="edsEntity")
-     */
+    #[ORM\ManyToMany(targetEntity: Employee::class, mappedBy: 'edsEntity')]
     private $employees;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
     public function __construct()

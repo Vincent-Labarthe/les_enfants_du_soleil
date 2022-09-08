@@ -5,64 +5,42 @@ namespace App\Entity;
 use App\Repository\FormationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=FormationRepository::class)
- */
+#[ORM\Entity(repositoryClass: FormationRepository::class)]
 class Formation implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $specialty;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $result;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $suggestedDirection;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $endedAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=TrainingInstitution::class, inversedBy="formations")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: TrainingInstitution::class, inversedBy: 'formations')]
+    #[ORM\JoinColumn(nullable: false)]
     private $trainingInstitution;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $startedAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=ClassName::class, inversedBy="formation")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: ClassName::class, inversedBy: 'formation')]
+    #[ORM\JoinColumn(nullable: false)]
     private $className;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Beneficiary::class, inversedBy="formation", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\OneToOne(targetEntity: Beneficiary::class, inversedBy: 'formation', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $student;
 
     public function getId(): ?int

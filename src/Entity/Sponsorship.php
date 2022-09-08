@@ -7,42 +7,28 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SponsorshipRepository::class)
- */
+#[ORM\Entity(repositoryClass: SponsorshipRepository::class)]
 class Sponsorship
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $endedAt;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $annualAmount;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $paceOfCr;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Beneficiary::class, mappedBy="sponsorship")
-     */
+    #[ORM\ManyToMany(targetEntity: Beneficiary::class, mappedBy: 'sponsorship')]
     private $beneficiary;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Sponsors::class, inversedBy="sponsorships")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Sponsors::class, inversedBy: 'sponsorships')]
+    #[ORM\JoinColumn(nullable: false)]
     private $sponsor;
 
     public function __construct()

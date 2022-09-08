@@ -5,78 +5,50 @@ namespace App\Entity;
 use App\Repository\HealthEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=HealthEventRepository::class)
- */
+#[ORM\Entity(repositoryClass: HealthEventRepository::class)]
 class HealthEvent implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $isDisease;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $reason;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $diagnosis;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $analysis;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $imagery;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $treatment;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $comment;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
-     */
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 0, nullable: true)]
     private $consultationCost;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
-     */
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 0, nullable: true)]
     private $drugsCost;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
-     */
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 0, nullable: true)]
     private $otherCost;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="healthEvent")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Beneficiary::class, inversedBy: 'healthEvent')]
+    #[ORM\JoinColumn(nullable: false)]
     private $beneficiary;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=EventMedicalType::class, inversedBy="healthEvent")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: EventMedicalType::class, inversedBy: 'healthEvent')]
+    #[ORM\JoinColumn(nullable: false)]
     private $eventMedicalType;
 
     public function getId(): ?int
