@@ -18,13 +18,13 @@ class DetailToArrayTransformer extends TransformerAbstract
         return [
             'id' => $beneficiary->getId(),
             'origin' => $beneficiary->getOrigin(),
-            'birthdate' => $beneficiary->getDateOfBirth()->format('Y-m-d'),
+            'birthdate' => $beneficiary->getDateOfBirth()?->format('Y-m-d'),
             'gender' => $beneficiary->getSexe(),
-            'support_start' => $beneficiary->getSupportStartedAt() ? $beneficiary->getSupportStartedAt()->format('Y-m-d') : null,
+            'support_start' => $beneficiary->getSupportStartedAt()?->format('Y-m-d'),
             'image_url' => $beneficiary->getImageUrl(),
             'school_level' => $beneficiary->getSchoolLevel(),
             'degree' => $beneficiary->getDegree(),
-            'localisation' => $beneficiary->getEdsEntity() ? $beneficiary->getEdsEntity()->getName() : null,
+            'localisation' => $beneficiary->getEdsEntity()?->getName(),
         ];
     }
 }

@@ -79,11 +79,9 @@ class BeneficiaryController extends AbstractController
 
     /**
      * Beneficiary address add page.
-     *
-     * @return Response
      */
     #[Route(path: '/add/address/{id}', name: 'add_address')]
-    public function addAddress(Request $request, EntityManagerInterface $em, Beneficiary $beneficiary, BeneficiaryService $beneficiaryService)
+    public function addAddress(Request $request, EntityManagerInterface $em, Beneficiary $beneficiary, BeneficiaryService $beneficiaryService): Response
     {
         $form = $this->createForm(AddressType::class);
         $generalIdentifier = $em->getRepository(GeneralIdentifier::class)->findOneBy(['beneficiary' => $beneficiary]);

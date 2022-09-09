@@ -19,14 +19,14 @@ class ArrayTransformer extends TransformerAbstract
     public function transform(Beneficiary $beneficiary): array
     {
         $dataTemp = [
-            'firstname' => $beneficiary->getGeneralIdentifier()->getFirstname(),
-            'lastname' => $beneficiary->getGeneralIdentifier()->getLastname(),
-            'email' => $beneficiary->getGeneralIdentifier()->getEmail(),
+            'firstname' => $beneficiary->getGeneralIdentifier()?->getFirstname(),
+            'lastname' => $beneficiary->getGeneralIdentifier()?->getLastname(),
+            'email' => $beneficiary->getGeneralIdentifier()?->getEmail(),
             'id' => $beneficiary->getId(),
-            'dateOfBirth' => $beneficiary->getDateOfBirth()->format('d-m-Y'),
+            'dateOfBirth' => $beneficiary->getDateOfBirth()?->format('d-m-Y'),
             'age' => $this->getAge($beneficiary),
-            'origin' => $beneficiary->getOrigin()->getType(),
-            'localisation' => $beneficiary->getEdsEntity() ? $beneficiary->getEdsEntity()->getName() : '-',
+            'origin' => $beneficiary->getOrigin()?->getType(),
+            'localisation' => $beneficiary->getEdsEntity()?->getName(),
         ];
 
         $data = [];
@@ -44,7 +44,7 @@ class ArrayTransformer extends TransformerAbstract
      */
     private function getAge(Beneficiary $beneficiary): int
     {
-        $date = new DateTime($beneficiary->getDateOfBirth()->format('Y-m-d'));
+        $date = new DateTime($beneficiary->getDateOfBirth()?->format('Y-m-d'));
         $now = new DateTime();
 
         return $now->diff($date)->y;
