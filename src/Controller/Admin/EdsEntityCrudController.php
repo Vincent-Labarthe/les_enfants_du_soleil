@@ -22,7 +22,7 @@ class EdsEntityCrudController extends AbstractCrudController
             AssociationField::new('edsType')->setLabel('Type'),
             AssociationField::new('edsParent')->setLabel('Eds parent'),
             AssociationField::new('edsChildren')->setLabel('Eds enfant'),
-            AssociationField::new('manager')->setLabel('Responsable'),
+            AssociationField::new('employees')->setLabel('Responsable'),
         ];
     }
 }
