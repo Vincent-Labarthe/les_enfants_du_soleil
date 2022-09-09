@@ -34,12 +34,12 @@ class BeneficiaryService
     {
         $beneficiary = new Beneficiary();
         $generalIdentifier = new GeneralIdentifier();
-        $generalIdentifier->setFirstname($formData['firstName']);
-        $generalIdentifier->setLastname($formData['lastName']);
-        $generalIdentifier->setEmail($formData['email']);
+        $beneficiary->setFirstname($formData['firstName']);
+        $beneficiary->setLastname($formData['lastName']);
+        $beneficiary->setEmail($formData['email']);
         $generalIdentifier->setBeneficiary($beneficiary);
         $beneficiary->setDateOfBirth($formData['dateOfBirth']);
-        $beneficiary->setOrigin($formData['status']);
+        $beneficiary->setOrigin($formData['origin']);
         $beneficiary->setSexe($formData['sexe']);
         if (isset($formData['edsEntity'])) {
             $beneficiary->setEdsEntity($formData['edsEntity']);
@@ -56,5 +56,9 @@ class BeneficiaryService
         $beneficiary->setAddress($newAddress);
         $this->em->persist($newAddress);
         $this->em->flush();
+    }
+
+    public function editBeneficiary(Beneficiary $beneficiary, mixed $formData)
+    {
     }
 }

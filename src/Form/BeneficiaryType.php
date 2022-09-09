@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Beneficiary;
 use App\Entity\EdsEntity;
 use App\Entity\Origin;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -9,9 +10,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -55,12 +58,12 @@ class BeneficiaryType extends AbstractType
             'attr' => [
                 'class' => 'js-datepicker',
             ],
-        ])->add('status', EntityType::class, [
+        ])->add('origin', EntityType::class, [
             'class' => Origin::class,
             'choice_label' => 'type',
             'required' => false,
             'placeholder' => 'Choisir un statut',
-        ])->add('imageUrl', TextType::class, [
+        ])->add('imageUrl', FileType::class, [
             'required' => false,
             'label' => 'Image URL',
         ])->add('supportStartedAt', DateType::class, [
@@ -83,5 +86,16 @@ class BeneficiaryType extends AbstractType
                 'required' => false,
                 'placeholder' => 'Choisir une entité',
             ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => false,
+            'data_class' => Beneficiary::class,
+        ]);
     }
 }

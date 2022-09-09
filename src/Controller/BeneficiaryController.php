@@ -81,8 +81,12 @@ class BeneficiaryController extends AbstractController
      * Beneficiary address add page.
      */
     #[Route(path: '/add/address/{id}', name: 'add_address')]
-    public function addAddress(Request $request, EntityManagerInterface $em, Beneficiary $beneficiary, BeneficiaryService $beneficiaryService): Response
-    {
+    public function addAddress(
+        Request $request,
+        EntityManagerInterface $em,
+        Beneficiary $beneficiary,
+        BeneficiaryService $beneficiaryService
+    ): Response {
         $form = $this->createForm(AddressType::class);
         $generalIdentifier = $em->getRepository(GeneralIdentifier::class)->findOneBy(['beneficiary' => $beneficiary]);
         $form->handleRequest($request);
@@ -97,6 +101,26 @@ class BeneficiaryController extends AbstractController
             'form' => $form->createView(),
             'beneficiary' => $beneficiary,
             'generalIdentifier' => $generalIdentifier,
+        ]);
+    }
+
+    /**
+     * Beneficiary edit page.
+     */
+    #[Route(path: '/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(EntityManagerInterface $em, Request $request, Beneficiary $beneficiary): Response
+    {
+        $form = $this->createForm(BeneficiaryType::class, $beneficiary);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+
+        return $this->render('beneficiary/edit.html.twig', [
+            'form' => $form->createView(),
+            'beneficiary' => $beneficiary,
         ]);
     }
 }

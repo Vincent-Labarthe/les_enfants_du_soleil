@@ -17,6 +17,9 @@ class DetailToArrayTransformer extends TransformerAbstract
     {
         return [
             'id' => $beneficiary->getId(),
+            'firstname' => $beneficiary->getFirstname(),
+            'lastname' => $beneficiary->getLastname(),
+            'email' => $beneficiary->getEmail(),
             'origin' => $beneficiary->getOrigin(),
             'birthdate' => $beneficiary->getDateOfBirth()?->format('Y-m-d'),
             'gender' => $beneficiary->getSexe(),

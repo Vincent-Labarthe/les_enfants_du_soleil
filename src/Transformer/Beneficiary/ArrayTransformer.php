@@ -19,9 +19,9 @@ class ArrayTransformer extends TransformerAbstract
     public function transform(Beneficiary $beneficiary): array
     {
         $dataTemp = [
-            'firstname' => $beneficiary->getGeneralIdentifier()?->getFirstname(),
-            'lastname' => $beneficiary->getGeneralIdentifier()?->getLastname(),
-            'email' => $beneficiary->getGeneralIdentifier()?->getEmail(),
+            'firstname' => $beneficiary->getFirstname(),
+            'lastname' => $beneficiary->getLastname(),
+            'email' => $beneficiary->getEmail(),
             'id' => $beneficiary->getId(),
             'dateOfBirth' => $beneficiary->getDateOfBirth()?->format('d-m-Y'),
             'age' => $this->getAge($beneficiary),

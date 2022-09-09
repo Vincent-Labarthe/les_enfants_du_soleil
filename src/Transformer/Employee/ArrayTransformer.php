@@ -15,9 +15,9 @@ class ArrayTransformer extends TransformerAbstract
     public function transform(Employee $employee): array
     {
         $dataTemp = [
-            'firstname' => $employee->getGeneralIdentifier()->getFirstname(),
-            'lastname' => $employee->getGeneralIdentifier()->getLastname(),
-            'email' => $employee->getGeneralIdentifier()->getEmail(),
+            'firstname' => $employee->getFirstname(),
+            'lastname' => $employee->getLastname(),
+            'email' => $employee->getEmail(),
             'id' => $employee->getId(),
             'status' => $employee->getStatus(),
             'localisation' => $this->getEdsEntity($employee),

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="d-flex flex-row">
+        {% include '_include/_sidebar.html.twig' %}
+        <div class="container hero-container mt-5 p-5">
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <div>
+                        <h1 class="hero-title">Ajouter un bénéficaire</h1>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                {{ form_start(form) }}
+                                {{ form_widget(form) }}
+                                <p>* si le bénéficiaire n'est pas logé dans un site EDS merci de préciser son adresse au prochain écran</p>
+                                <button type="submit" class="btn btn-primary">Suivant</button>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/beneficiary.js') }}"></script>
+{% endblock %}

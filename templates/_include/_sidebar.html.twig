@@ -24,14 +24,14 @@
                 <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Bénévoles {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ generalIdentifier.firstname ~ ' ' ~ generalIdentifier.lastname }}{% endif %}
+                    Bénévoles {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}active{% endif %}">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Parrains {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ generalIdentifier.firstname ~ ' ' ~ generalIdentifier.lastname }}{% endif %}
+                    Parrains {% if app.request.attributes.get('_route') is same as ('app_beneficiary_detail')%}{{ person.data.firstname ~ ' ' ~ person.data.lastname }}{% endif %}
                 </a>
             </li>
             <hr>
