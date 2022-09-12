@@ -44,7 +44,7 @@ class BeneficiaryController extends AbstractController
             $beneficiaries = $transformedFinder->find($search);
         }
 
-        if (!isset($beneficiaries) || $beneficiaries === []) {
+        if (!isset($beneficiaries)) {
             $beneficiaries = $em->getRepository(Beneficiary::class)->findAll();
         }
 
