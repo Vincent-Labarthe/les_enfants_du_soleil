@@ -25,18 +25,30 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/beneficiary', name: 'app_beneficiary_')]
 class BeneficiaryController extends AbstractController
 {
+    /**
+     * Beneficiary list & search.
+     *
+     * @param EntityManagerInterface $em
+     * @param TransformedFinder      $transformedFinder
+     * @param Request                $request
+     *
+     * @return Response
+     */
     #[Route(name: 'index')]
     public function index(EntityManagerInterface $em, TransformedFinder $transformedFinder, Request $request): Response
     {
-
-
         $form = $this->createForm(SearchType::class);
-        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
-            $search = Util::escapeTerm(implode('-',$form->getData()));
-           $resilut= $transformedFinder->find($search);
-            dd($transformedFinder->find($search));
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = Util::escapeTerm(implode('-', $form->getData()));
+            $beneficiaries = $transformedFinder->find($search);
         }
-        $data = new Collection($em->getRepository(Beneficiary::class)->findAll(), new ArrayTransformer());
+
+        if (!isset($beneficiaries) || $beneficiaries === []) {
+            $beneficiaries = $em->getRepository(Beneficiary::class)->findAll();
+        }
+
+        $data = new Collection($beneficiaries, new ArrayTransformer());
         $fractal = new Manager();
 
         return $this->render('beneficiary/index.html.twig', [
@@ -75,9 +87,9 @@ class BeneficiaryController extends AbstractController
         $form = $this->createForm(BeneficiaryType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $form->getData();
-            $newBeneficiary = $beneficiaryService->addBeneficiary($formData);
-            if (!$beneficiaryService->get) {
+            $newBeneficiary = $form->getData();
+            $beneficiaryService->addBeneficiary($newBeneficiary);
+            if (!$newBeneficiary->getEdsEntity()) {
                 return $this->redirectToRoute('app_beneficiary_add_address', ['id' => $newBeneficiary->getId()]);
             }
 
@@ -95,12 +107,10 @@ class BeneficiaryController extends AbstractController
     #[Route(path: '/add/address/{id}', name: 'add_address')]
     public function addAddress(
         Request $request,
-        EntityManagerInterface $em,
         Beneficiary $beneficiary,
         BeneficiaryService $beneficiaryService
     ): Response {
         $form = $this->createForm(AddressType::class);
-        $generalIdentifier = $em->getRepository(GeneralIdentifier::class)->findOneBy(['beneficiary' => $beneficiary]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $newAddress = $form->getData();
@@ -112,7 +122,6 @@ class BeneficiaryController extends AbstractController
         return $this->render('beneficiary/add_address.html.twig', [
             'form' => $form->createView(),
             'beneficiary' => $beneficiary,
-            'generalIdentifier' => $generalIdentifier,
         ]);
     }
 

@@ -23,7 +23,7 @@
 
                 </div>
                 <div class="col-4" >
-                    {{ form_row(form.status) }}
+                    {{ form_row(form.origin) }}
                     {{ form_row(form.edsEntity) }}
                 </div>
             </div>
@@ -63,8 +63,8 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% for beneficiary in beneficiaries %}
                 <tr>
-                    {% for beneficiary in beneficiaries %}
                         <th>{{ beneficiary.firstname }}</th>
                         <th>{{ beneficiary.lastname }}</th>
                         <th>{{ beneficiary.dateOfBirth }}</th>
@@ -88,8 +88,8 @@
                                 </div>
                             </div>
                         </td>
-                    {% endfor %}
                 </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

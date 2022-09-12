@@ -34,7 +34,7 @@ class SearchType extends AbstractType
                 'Femme' => 'F',
             ],
             'required' => false,
-        ])->add('status', EntityType::class, [
+        ])->add('origin', EntityType::class, [
             'class' => Origin::class,
             'label' => 'Type de bénéficaire',
             'choice_label' => 'type',

@@ -30,20 +30,11 @@ class BeneficiaryService
      *
      * @param array $formData array of form data
      */
-    public function addBeneficiary(array $formData): Beneficiary
+    public function addBeneficiary(Beneficiary $beneficiary): Beneficiary
     {
-        $beneficiary = new Beneficiary();
         $generalIdentifier = new GeneralIdentifier();
-        $beneficiary->setFirstname($formData['firstName']);
-        $beneficiary->setLastname($formData['lastName']);
-        $beneficiary->setEmail($formData['email']);
         $generalIdentifier->setBeneficiary($beneficiary);
-        $beneficiary->setDateOfBirth($formData['dateOfBirth']);
-        $beneficiary->setOrigin($formData['origin']);
-        $beneficiary->setSexe($formData['sexe']);
-        if (isset($formData['edsEntity'])) {
-            $beneficiary->setEdsEntity($formData['edsEntity']);
-        }
+
         $this->em->persist($beneficiary);
         $this->em->persist($generalIdentifier);
         $this->em->flush();

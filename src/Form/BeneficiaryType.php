@@ -58,7 +58,7 @@ class BeneficiaryType extends AbstractType
             'attr' => [
                 'class' => 'js-datepicker',
             ],
-        ])->add('status', EntityType::class, [
+        ])->add('origin', EntityType::class, [
             'class' => Origin::class,
             'choice_label' => 'type',
             'required' => false,
