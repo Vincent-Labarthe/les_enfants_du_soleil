@@ -33,17 +33,17 @@ class BeneficiaryType extends AbstractType
                 'options' => ['required' => true],
                 'first_options' => [
                     'label' => 'Adresse e-mail ',
-                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70],
+                    'attr' => ['class' => 'form-control ', 'maxlength' => 70],
                 ],
                 'second_options' => [
                     'label' => 'Confirmation de l\'adresse e-mail',
-                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70],
+                    'attr' => ['class' => 'form-control ', 'maxlength' => 70],
                 ],
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Le champ e-mail est obligatoire.']),
                     new Length(['max' => 70]),
                 ],
-                'attr' => ['class' => 'form-control form-control-lg'],
+                'attr' => ['class' => 'form-control '],
             ]
         )->add('sexe', ChoiceType::class, [
             'choices' => [
@@ -51,14 +51,14 @@ class BeneficiaryType extends AbstractType
                 'Femme' => 'F',
             ],
             'required' => true,
-            'expanded' => true,
+            'expanded' => false,
         ])->add('dateOfBirth', DateType::class, [
             'widget' => 'single_text',
             'html5' => true,
             'attr' => [
                 'class' => 'js-datepicker',
             ],
-        ])->add('origin', EntityType::class, [
+        ])->add('status', EntityType::class, [
             'class' => Origin::class,
             'choice_label' => 'type',
             'required' => false,

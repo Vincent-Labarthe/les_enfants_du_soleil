@@ -1,0 +1,16 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElastic  œaBundle/blob/master/doc/setup.md
+fos_elastica:
+  clients:
+    default: { url: '%env(ELASTICSEARCH_URL)%' }
+  indexes:
+    beneficiaries:
+      properties:
+        firstName: ~
+        lastName: ~
+        dateOfBirth: ~
+        origin: ~
+        edsEntity: ~
+        sexe: ~
+      persistence:
+        driver: orm
+        model: App\Entity\Beneficiary

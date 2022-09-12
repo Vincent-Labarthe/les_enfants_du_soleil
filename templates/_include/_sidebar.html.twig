@@ -9,10 +9,21 @@
             </li>
             <hr>
             <li class="nav-item">
-                <a href="{{ path('app_beneficiary_index') }}" class="nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_index')%}active{% endif %}">
-                    <span data-feather="file"></span>
-                    Bénéficiaires
-                </a>
+                <div class="dropend">
+                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_index')%}active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span data-feather="file"></span>
+                        Bénéficiaires
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ path('app_beneficiary_index') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Rechercher</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_beneficiary_add') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Ajouter un bénéficiare</a>
+                        </li>
+                    </ul>
+                </div>
+
             </li>
             <li class="nav-item">
                 <a  href="{{ path('app_employee_index') }}"  class="nav-link {% if app.request.attributes.get('_route') is same as ('app_employee_index')%}active{% endif %}">

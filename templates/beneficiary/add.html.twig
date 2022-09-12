@@ -11,19 +11,31 @@
                 </div>
             </div>
             <div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                {{ form_start(form) }}
-                                {{ form_widget(form) }}
-                                <p>* si le bénéficiaire n'est pas logé dans un site EDS merci de préciser son adresse au prochain écran</p>
-                                <button type="submit" class="btn btn-primary">Suivant</button>
-                                {{ form_end(form) }}
-                            </div>
-                        </div>
+                {{ form_start(form) }}
+                <div class="row ">
+                    <div class="col-4">
+                        {{ form_row(form.firstName) }}
+                        {{ form_row(form.lastName) }}
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="col-4" >
+                        {{ form_row(form.sexe) }}
+                        {{ form_row(form.dateOfBirth) }}
+                        {{ form_row(form.imageUrl) }}
+                        {{ form_row(form.status) }}
+                    </div>
+                    <div class="col-4" >
+                        {{ form_row(form.edsEntity) }}
+                        {{ form_row(form.supportStartedAt) }}
+                        {{ form_row(form.supportEndedAt) }}
+                        {{ form_row(form.tel) }}
+
                     </div>
                 </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary mb-5 text-end">Créer</button>
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

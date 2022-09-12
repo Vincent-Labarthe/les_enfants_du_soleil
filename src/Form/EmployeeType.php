@@ -19,7 +19,7 @@ class EmployeeType extends AbstractType
         $builder->add('firstname', TextType::class, [
             'required' => true,
         ])->add('lastname', TextType::class, [
-            'required' => true,
+            'required' => true,''
         ])->add(
             'email', RepeatedType::class, [
                 'type' => EmailType::class,

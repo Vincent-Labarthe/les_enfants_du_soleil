@@ -10,17 +10,27 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-5">
-                <div class="col-md-4 text-start d-flex align-items-center">
-                    <input class="form-control" type="text" placeholder="Rechercher un bénéficiaire"> <span
-                            class="ms-2 material-symbols-rounded">search</span>
+            {{ form_start(form) }}
+            <div class="row ">
+                <div class="col-4">
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.lastName) }}
+
                 </div>
-                <div class="col-md-6 text-end">
-                    <a href="{{ path('app_beneficiary_add') }}">
-                        <button class="btn btn-primary">Ajouter un bénéficiaire</button>
-                    </a>
+                <div class="col-4" >
+                    {{ form_row(form.sexe) }}
+                    {{ form_row(form.dateOfBirth) }}
+
+                </div>
+                <div class="col-4" >
+                    {{ form_row(form.status) }}
+                    {{ form_row(form.edsEntity) }}
                 </div>
             </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary mb-5 text-end">Rechercher</button>
+            </div>
+            {{ form_end(form) }}
             <table class="table datagrid">
                 <thead>
                 <tr>

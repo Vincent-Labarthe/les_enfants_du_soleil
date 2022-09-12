@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Beneficiary;
 use App\Entity\GeneralIdentifier;
 use App\Form\AddressType;
+use App\Form\SearchType;
 use App\Form\BeneficiaryType;
 use App\Service\BeneficiaryService;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use App\Transformer\Beneficiary\DetailToArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
+use Elastica\Util;
+use FOS\ElasticaBundle\Finder\TransformedFinder;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
@@ -23,13 +26,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class BeneficiaryController extends AbstractController
 {
     #[Route(name: 'index')]
-    public function index(EntityManagerInterface $em): Response
+    public function index(EntityManagerInterface $em, TransformedFinder $transformedFinder, Request $request): Response
     {
+
+
+        $form = $this->createForm(SearchType::class);
+        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $search = Util::escapeTerm(implode('-',$form->getData()));
+           $resilut= $transformedFinder->find($search);
+            dd($transformedFinder->find($search));
+        }
         $data = new Collection($em->getRepository(Beneficiary::class)->findAll(), new ArrayTransformer());
         $fractal = new Manager();
 
         return $this->render('beneficiary/index.html.twig', [
             'beneficiaries' => $fractal->createData($data)->toArray()['data'],
+            'form' => $form->createView()
         ]);
     }
 
@@ -65,7 +77,7 @@ class BeneficiaryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             $newBeneficiary = $beneficiaryService->addBeneficiary($formData);
-            if (!$formData['edsEntity']) {
+            if (!$beneficiaryService->get) {
                 return $this->redirectToRoute('app_beneficiary_add_address', ['id' => $newBeneficiary->getId()]);
             }
 
