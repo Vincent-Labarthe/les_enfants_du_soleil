@@ -11,8 +11,6 @@ use App\Service\BeneficiaryService;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use App\Transformer\Beneficiary\DetailToArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
-use Elastica\Util;
-use FOS\ElasticaBundle\Finder\TransformedFinder;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
@@ -29,19 +27,17 @@ class BeneficiaryController extends AbstractController
      * Beneficiary list & search.
      *
      * @param EntityManagerInterface $em
-     * @param TransformedFinder      $transformedFinder
      * @param Request                $request
      *
      * @return Response
      */
     #[Route(name: 'index')]
-    public function index(EntityManagerInterface $em, TransformedFinder $transformedFinder, Request $request): Response
+    public function index(EntityManagerInterface $em, Request $request): Response
     {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $search = Util::escapeTerm(implode('-', $form->getData()));
-            $beneficiaries = $transformedFinder->find($search);
+            $beneficiaries = $em->getRepository(Beneficiary::class)->search($form->getData());
         }
 
         if (!isset($beneficiaries)) {

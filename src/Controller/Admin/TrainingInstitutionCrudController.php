@@ -31,7 +31,7 @@ class TrainingInstitutionCrudController extends AbstractCrudController
             TextField::new('speciality')->setLabel('Spécialité'),
             AssociationField::new('address')->setLabel('Adresse'),
             TelephoneField::new('tel')->setLabel('Téléphone'),
-            AssociationField::new('correspondant')->setLabel('Correspondant'),
+            AssociationField::new('employee')->setLabel('Correspondant'),
             TextEditorField::new('comment')->setLabel('Commentaire'),
         ];
     }

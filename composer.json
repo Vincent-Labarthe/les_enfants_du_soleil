@@ -12,7 +12,6 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "easycorp/easyadmin-bundle": "^4.3",
-        "friendsofsymfony/elastica-bundle": "^6.2",
         "friendsofsymfony/jsrouting-bundle": "^3.2",
         "league/fractal": "^0.20.1",
         "phpdocumentor/reflection-docblock": "^5.3",

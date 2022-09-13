@@ -22,7 +22,7 @@ class AidCrudController extends AbstractCrudController
             DateField::new('startedAt')->setLabel('Date de début'),
             DateField::new('endedAt')->setLabel('Date de fin'),
             NumberField::new('annualAmount')->setLabel('Montant annuel'),
-            AssociationField::new('person')->setLabel('Personne'),
+            AssociationField::new('beneficiary')->setLabel('Bénéficiaire'),
         ];
     }
 }

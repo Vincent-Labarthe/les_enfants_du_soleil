@@ -53,22 +53,14 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Personne');
-        yield MenuItem::linkToCrud('Personne', 'fas fa-list', Beneficiary::class);
-        yield MenuItem::linkToCrud('Origine', 'fas fa-list', Origin::class);
+        yield MenuItem::linkToCrud('Bénéficiaire', 'fas fa-list', Beneficiary::class);
         yield MenuItem::linkToCrud('Rapport d\'entretien', 'fas fa-list', InterviewReport::class);
-        yield MenuItem::linkToCrud('Métier', 'fas fa-list', Job::class);
+        yield MenuItem::linkToCrud('Métiers', 'fas fa-list', Job::class);
+
 
         yield MenuItem::section('Evènement');
         yield MenuItem::linkToCrud('Evenement de santé', 'fas fa-list', HealthEvent::class);
         yield MenuItem::linkToCrud('Evenement de comportement', 'fas fa-list', BehaviorEvent::class);
-
-        yield MenuItem::section('Formation');
-        yield MenuItem::linkToCrud('Classe', 'fas fa-list', ClassName::class);
-        yield MenuItem::linkToCrud('Entreprise', 'fas fa-list', Company::class);
-        yield MenuItem::linkToCrud('Diplôme', 'fas fa-list', Degree::class);
-        yield MenuItem::linkToCrud('Organisme de formation', 'fas fa-list', TrainingInstitution::class);
-        yield MenuItem::linkToCrud('Formation', 'fas fa-list', Formation::class);
-        yield MenuItem::linkToCrud('Niveau scolaire', 'fas fa-list', SchoolLevel::class);
 
         yield MenuItem::section('Localisation');
         yield MenuItem::linkToCrud('Entité Eds', 'fas fa-list', EdsEntity::class);
@@ -76,6 +68,13 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Aide', 'fas fa-list', Aid::class);
 
         yield MenuItem::section('Type de données');
+        yield MenuItem::linkToCrud('Liste des classes', 'fas fa-list', ClassName::class);
+        yield MenuItem::linkToCrud('Liste des entreprises', 'fas fa-list', Company::class);
+        yield MenuItem::linkToCrud('Liste des diplômes', 'fas fa-list', Degree::class);
+        yield MenuItem::linkToCrud('Liste des organismes de formation', 'fas fa-list', TrainingInstitution::class);
+        yield MenuItem::linkToCrud('Liste des formations', 'fas fa-list', Formation::class);
+        yield MenuItem::linkToCrud('Liste des niveaux scolaire', 'fas fa-list', SchoolLevel::class);
+        yield MenuItem::linkToCrud('Liste des statuts', 'fas fa-list', Origin::class);
         yield MenuItem::linkToCrud('Type d\'aide', 'fas fa-list', AidType::class);
         yield MenuItem::linkToCrud('Type d\'entité Eds', 'fas fa-list', EdsType::class);
         yield MenuItem::linkToCrud('Type d\'evenement de comportement', 'fas fa-list', EventBehaviorType::class);

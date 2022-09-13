@@ -19,7 +19,7 @@ class BehaviorEventCrudController extends AbstractCrudController
         return [
             AssociationField::new('eventBehaviorType')->setLabel('Evènement de comportement'),
             TextEditorField::new('comment')->setLabel('Commentaire'),
-            AssociationField::new('person')->setLabel('Personne'),
+            AssociationField::new('beneficiary')->setLabel('Bénéficiaire'),
         ];
     }
 }

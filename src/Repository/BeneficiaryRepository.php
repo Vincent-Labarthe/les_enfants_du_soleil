@@ -46,4 +46,21 @@ class BeneficiaryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function search($formData)
+    {
+       return $this->createQueryBuilder('b')
+            ->where('b.firstName LIKE :firstName')
+            ->setParameter('firstName', '%'.$formData['firstName'].'%')
+            ->andWhere('b.lastName LIKE :lastName')
+            ->setParameter('lastName', '%'.$formData['lastName'].'%')
+            ->andWhere('b.sexe LIKE :sexe')
+            ->setParameter('sexe', '%'.$formData['sexe'].'%')
+            ->andWhere('b.dateOfBirth LIKE :birthDate')
+            ->setParameter('birthDate', '%'.$formData['dateOfBirth'].'%')
+           ->andWhere('b.edsEntity LIKE :edsEntity')
+           ->setParameter('edsEntity', '%'.$formData['edsEntity'].'%')
+            ->getQuery()
+            ->getResult();
+    }
 }

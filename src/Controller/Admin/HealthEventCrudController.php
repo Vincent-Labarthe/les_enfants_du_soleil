@@ -23,7 +23,7 @@ class HealthEventCrudController extends AbstractCrudController
         return [
            BooleanField::new('isDisease')->setLabel('Maladie ?'),
             AssociationField::new('eventMedicalType')->setLabel('Type de consultation'),
-            AssociationField::new('person')->setLabel('Patient'),
+            AssociationField::new('beneficiary')->setLabel('Bénéficiaire'),
             TextField::new('reason')->setLabel('Raison'),
             TextField::new('diagnosis')->setLabel('Diagnostic'),
             TextField::new('analysis')->setLabel('Analyse'),
