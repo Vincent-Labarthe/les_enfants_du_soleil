@@ -26,7 +26,7 @@ class ArrayTransformer extends TransformerAbstract
             'dateOfBirth' => $beneficiary->getDateOfBirth()?->format('d-m-Y'),
             'age' => $this->getAge($beneficiary),
             'origin' => $beneficiary->getOrigin()?->getType(),
-            'localisation' => $beneficiary->getEdsEntity()?->getName(),
+            'localisation' => $this->getCurrentLocalisation($beneficiary),
         ];
 
         $data = [];
@@ -49,4 +49,18 @@ class ArrayTransformer extends TransformerAbstract
 
         return $now->diff($date)->y;
     }
+    private function getCurrentLocalisation(Beneficiary $beneficiary)
+    {
+        $edsEntity = $beneficiary->getEdsEntity();
+        if (null === $edsEntity) {
+            return null;
+        }
+
+        foreach ($edsEntity as $eds) {
+            if (null === $eds->getEndedAt()) {
+                return $eds->getEdsEntity()?->getName();
+            }
+        }
+    }
+
 }

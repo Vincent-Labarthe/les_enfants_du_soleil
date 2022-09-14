@@ -1,0 +1,67 @@
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+    <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Accueil
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <a id="localisation_link" class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page">
+                    <span data-feather="home"></span>
+                    Localisations
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Formations
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Emplois
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Santé
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Comportements
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Entretiens
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Aides
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Parrainage
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                    <span data-feather="home"></span>
+                    Famille
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

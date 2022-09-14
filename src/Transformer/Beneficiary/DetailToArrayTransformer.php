@@ -20,14 +20,30 @@ class DetailToArrayTransformer extends TransformerAbstract
             'firstname' => $beneficiary->getFirstname(),
             'lastname' => $beneficiary->getLastname(),
             'email' => $beneficiary->getEmail(),
+            'tel' => $beneficiary->getTel(),
             'origin' => $beneficiary->getOrigin(),
             'birthdate' => $beneficiary->getDateOfBirth()?->format('Y-m-d'),
             'gender' => $beneficiary->getSexe(),
             'support_start' => $beneficiary->getSupportStartedAt()?->format('Y-m-d'),
+            'support_end' => $beneficiary->getSupportEndedAt()?->format('Y-m-d'),
             'image_url' => $beneficiary->getImageUrl(),
             'school_level' => $beneficiary->getSchoolLevel(),
             'degree' => $beneficiary->getDegree(),
-            'localisation' => $beneficiary->getEdsEntity()?->getName(),
+            'localisation' => $this->getCurrentLocalisation($beneficiary),
         ];
+    }
+
+    private function getCurrentLocalisation(Beneficiary $beneficiary)
+    {
+        $edsEntity = $beneficiary->getEdsEntity();
+        if (null === $edsEntity) {
+            return null;
+        }
+
+        foreach ($edsEntity as $eds) {
+            if (null === $eds->getEndedAt()) {
+                return $eds->getEdsEntity()?->getName();
+            }
+        }
     }
 }

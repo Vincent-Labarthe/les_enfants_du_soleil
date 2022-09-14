@@ -32,20 +32,18 @@ class EdsEntity implements \Stringable
     #[ORM\JoinColumn(nullable: false)]
     private $edsType;
 
-    #[ORM\OneToMany(targetEntity: Beneficiary::class, mappedBy: 'edsEntity')]
-    private $people;
-
     #[ORM\ManyToMany(targetEntity: Employee::class, mappedBy: 'edsEntity')]
     private $employees;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $slug;
+    #[ORM\OneToMany(mappedBy: 'edsEntity', targetEntity: BeneficiaryEdsEntity::class)]
+    private Collection $beneficiary;
 
     public function __construct()
     {
         $this->edsChildren = new ArrayCollection();
         $this->people = new ArrayCollection();
         $this->employees = new ArrayCollection();
+        $this->beneficiary = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,35 +134,7 @@ class EdsEntity implements \Stringable
         return (string) $this->name;
     }
 
-    /**
-     * @return Collection<int, Beneficiary>
-     */
-    public function getPeople(): Collection
-    {
-        return $this->people;
-    }
 
-    public function addPerson(Beneficiary $beneficiary): self
-    {
-        if (!$this->people->contains($beneficiary)) {
-            $this->people[] = $beneficiary;
-            $beneficiary->setEdsEntity($this);
-        }
-
-        return $this;
-    }
-
-    public function removePerson(Beneficiary $beneficiary): self
-    {
-        if ($this->people->removeElement($beneficiary)) {
-            // set the owning side to null (unless already changed)
-            if ($beneficiary->getEdsEntity() === $this) {
-                $beneficiary->setEdsEntity(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Employee>
@@ -193,14 +163,32 @@ class EdsEntity implements \Stringable
         return $this;
     }
 
-    public function getSlug(): ?string
+    /**
+     * @return Collection<int, BeneficiaryEdsEntity>
+     */
+    public function getBeneficiary(): Collection
     {
-        return $this->slug;
+        return $this->beneficiary;
     }
 
-    public function setSlug(string $slug): self
+    public function addBeneficiary(BeneficiaryEdsEntity $beneficiary): self
     {
-        $this->slug = $slug;
+        if (!$this->beneficiary->contains($beneficiary)) {
+            $this->beneficiary->add($beneficiary);
+            $beneficiary->setEdsEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBeneficiary(BeneficiaryEdsEntity $beneficiary): self
+    {
+        if ($this->beneficiary->removeElement($beneficiary)) {
+            // set the owning side to null (unless already changed)
+            if ($beneficiary->getEdsEntity() === $this) {
+                $beneficiary->setEdsEntity(null);
+            }
+        }
 
         return $this;
     }

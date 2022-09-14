@@ -2,6 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Beneficiary;
+use App\Entity\EdsEntity;
+use App\Entity\Employee;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -9,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -19,7 +24,7 @@ class EmployeeType extends AbstractType
         $builder->add('firstname', TextType::class, [
             'required' => true,
         ])->add('lastname', TextType::class, [
-            'required' => true,''
+            'required' => true,
         ])->add(
             'email', RepeatedType::class, [
                 'type' => EmailType::class,
@@ -40,14 +45,30 @@ class EmployeeType extends AbstractType
                 'attr' => ['class' => 'form-control form-control-lg'],
             ]
         )->add('status', ChoiceType::class, [
-                'choices' => [
-                    'Salarié' => 'Actif',
-                    'Prestataire' => 'Inactif',
-                    'Autre' => 'Autre',
-                ],
-            ])->add('imageUrl', FileType::class, [
+            'choices' => [
+                'Salarié' => 'Actif',
+                'Prestataire' => 'Inactif',
+                'Autre' => 'Autre',
+            ],
+        ])->add('imageUrl', FileType::class, [
             'required' => false,
             'label' => 'Image URL',
+        ])->add('edsEntity', EntityType::class, [
+            'class' => EdsEntity::class,
+            'choice_label' => 'name',
+            'required' => false,
+            'placeholder' => 'Choisir une entité',
+        ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => false,
+            'data_class' => Employee::class,
         ]);
     }
 }

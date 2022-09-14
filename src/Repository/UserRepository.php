@@ -56,28 +56,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function search($formData)
+    {
+        $query = $this->createQueryBuilder('e')
+            ->where('e.firstName LIKE :firstName')
+            ->setParameter('firstName', '%' . $formData['firstName'] . '%')
+            ->andWhere('e.lastName LIKE :lastName')
+            ->setParameter('lastName', '%' . $formData['lastName'] . '%');
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (isset($formData['edsEntity'])) {
+            $query->join('e.edsEntity', 'eds')
+                ->andWhere('eds.id = :edsEntity')
+                ->setParameter('edsEntity', $formData['edsEntity']->getId());
+        }
+
+        if (isset($formData['origin'])) {
+            $query->join('e.origin', 'o')
+                ->andWhere('o.id = :origin')
+                ->setParameter('origin', $formData['origin']->getId());
+
+            return $query->getQuery()->getResult();
+        }
+    }
 }

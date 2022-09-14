@@ -6,6 +6,7 @@ use App\Entity\Beneficiary;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -36,7 +37,6 @@ class BeneficiaryCrudController extends AbstractCrudController
             AssociationField::new('trainingInstitution')->setLabel('Institution de formation'),
             AssociationField::new('schoolLevel')->setLabel('Niveau scolaire'),
             AssociationField::new('degree')->setLabel('Diplôme'),
-            AssociationField::new('edsEntity')->setLabel('Localisation'),
         ];
     }
 }

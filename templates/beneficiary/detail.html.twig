@@ -2,56 +2,39 @@
 
 {% block body %}
     <div class="d-flex flex-row hero-background">
-        {% include '_include/_sidebar.html.twig' %}
+        {% include 'beneficiary/_include/_sidebar_beneficiary.html.twig' %}
         <div class="container hero-container mt-5">
-            <h2 class="mt-5">Fiche de {{ person.data.firstname ~ ' ' ~ person.data.lastname }}</h2>
-            <div class=" d-flex flex-row ps-5 pb-5 pe-5">
-                <div class=" flex-column col-4">
+            <h2 class="m-5 text-center">Fiche de {{ person.data.firstname ~ ' ' ~ person.data.lastname }}</h2>
+            <div id="general_information" class="d-flex flex-row ps-5 pb-5 pe-5">
                     <div class="p-2">
-                        <img src="{{ asset('images/person/1647357033619.jpg') }}" alt="">
+                        <img class="beneficiary-img" src="" alt="image de profil">
                     </div>
                     <ul>
-                        <li>Genre : {{ person.data.gender }}</li>
+                        <li>Identifiant : {{ generalIdentifier.id }}</li>
                         <li>Né le : {{ person.data.birthdate }}</li>
-                        <li>Prise en charge depuis : {{ person.data.support_start }}</li>
+                        <li>Genre : {{ person.data.gender }}</li>
+                        <li>Dernier statut : {{ person.data.origin }}</li>
                         <li>Entité EDS : {{ person.data.localisation }}</li>
-                        <li>Origine : {{ person.data.origin }}</li>
+                        <li>Tel : {{ person.data.tel }}</li>
+                        <li>Email : {{ person.data.email }}</li>
+                        <li>Diplomes : {{ person.data.degree }}</li>
                         <li>Niveau scolaire : {{ person.data.school_level }}</li>
+                        <li>Début support EDS : {{ person.data.support_start }}</li>
+                        <li>Fin support EDS : {{ person.data.support_end }}</li>
                     </ul>
-                </div>
-                <div class="col-8">
-                    <div class="detail-card">
-                        <h3>Origine</h3>
-                        <hr>
-                        <p>Père : {{ person.data.origin }}</p>
-                        <p>Mère : {{ person.data.origin }}</p>
-                        <p>Frère & soeur : {{ person.data.origin }}</p>
-                    </div>
-                    <div class="detail-card">
-                        <h3>Education</h3>
-                        <hr>
-                        <p>Niveau actuel : {{ person.data.school_level }}</p>
-                        <p>Dernier diplome : {{ person.data.school_level }}</p>
-                    </div>
-                    <div class="detail-card">
-                        <h3>Formation</h3>
-                        <hr>
-                    </div>
-                    <div class="detail-card">
-                        <h3>Emploie</h3>
-                        <hr>
-                    </div>
-                    <div class="detail-card">
-                        <h3>Evènements</h3>
-                        <hr>
-                    </div>
-                </div>
+            </div>
+            <div id="table">
+
             </div>
         </div>
     </div>
 {% endblock %}
-
-{% block title %}
-
+{% block javascripts %}
+    {{ parent() }}
+<script>
+    const user_id = {{ person.data.id }};
+</script>
+    <script src="{{ asset('js/beneficiary.js') }}">
+    </script>
 {% endblock %}
 

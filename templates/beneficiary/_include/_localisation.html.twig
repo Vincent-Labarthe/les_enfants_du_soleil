@@ -1,0 +1,43 @@
+<table>
+    <thead id="table_head">
+    <tr class="table100-head">
+        <th scope="col" class="cell" id="order_cell">
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                Du
+            </div>
+        </th>
+        <th scope="col" class="cell" id="date_cell">
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                Au
+            </div>
+        </th>
+        <th scope="col" class="cell" id="ttc_cell">
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                Entité EDS
+            </div>
+        </th>
+        <th scope="col" class="cell" id="shipping_cell">
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                Adresse
+            </div>
+        </th>
+        <th scope="col" class="cell" id="cancel_cell">
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                Ville
+            </div>
+        </th>
+    </tr>
+    </thead>
+    <tbody class="table_data">
+    {% for localisation in localisations %}
+        <tr>
+            <td>{{ localisation.startedAt|date }}</td>
+            <td>{{ localisation.endedAt|date  }}</td>
+            <td>{{ localisation.edsEntity.name }}</td>
+            <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% endif %}</td>
+            <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% endif %}</td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

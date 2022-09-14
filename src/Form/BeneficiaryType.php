@@ -61,7 +61,7 @@ class BeneficiaryType extends AbstractType
         ])->add('origin', EntityType::class, [
             'class' => Origin::class,
             'choice_label' => 'type',
-            'required' => false,
+            'required' => true,
             'placeholder' => 'Choisir un statut',
         ])->add('imageUrl', FileType::class, [
             'required' => false,
@@ -85,6 +85,7 @@ class BeneficiaryType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
                 'placeholder' => 'Choisir une entité',
+            'mapped' => false,
             ]);
     }
 
@@ -95,7 +96,6 @@ class BeneficiaryType extends AbstractType
     {
         $resolver->setDefaults([
             'translation_domain' => false,
-            'data_class' => Beneficiary::class,
         ]);
     }
 }

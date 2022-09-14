@@ -92,14 +92,14 @@ class Beneficiary
     #[ORM\OneToMany(targetEntity: InterviewReport::class, mappedBy: 'manager')]
     private $interviewReportsManager;
 
-    #[ORM\ManyToOne(targetEntity: EdsEntity::class, inversedBy: 'people')]
-    private $edsEntity;
-
     #[ORM\OneToOne(targetEntity: GeneralIdentifier::class, mappedBy: 'beneficiary', cascade: ['persist', 'remove'])]
     private $generalIdentifier;
 
     #[ORM\ManyToOne(targetEntity: Address::class, inversedBy: 'beneficiaries')]
     private $address;
+
+    #[ORM\OneToMany(mappedBy: 'beneficiary', targetEntity: BeneficiaryEdsEntity::class)]
+    private Collection $edsEntity;
 
     public function __construct()
     {
@@ -110,6 +110,7 @@ class Beneficiary
         $this->aid = new ArrayCollection();
         $this->jobs = new ArrayCollection();
         $this->interviewReports = new ArrayCollection();
+        $this->edsEntity = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -496,18 +497,6 @@ class Beneficiary
         return $this;
     }
 
-    public function getEdsEntity(): ?EdsEntity
-    {
-        return $this->edsEntity;
-    }
-
-    public function setEdsEntity(?EdsEntity $edsEntity): self
-    {
-        $this->edsEntity = $edsEntity;
-
-        return $this;
-    }
-
     public function getGeneralIdentifier(): ?GeneralIdentifier
     {
         return $this->generalIdentifier;
@@ -545,5 +534,35 @@ class Beneficiary
     public function __toString()
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
+    /**
+     * @return Collection<int, BeneficiaryEdsEntity>
+     */
+    public function getEdsEntity(): Collection
+    {
+        return $this->edsEntity;
+    }
+
+    public function addEdsEntity(BeneficiaryEdsEntity $edsEntity): self
+    {
+        if (!$this->edsEntity->contains($edsEntity)) {
+            $this->edsEntity->add($edsEntity);
+            $edsEntity->setBeneficiary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEdsEntity(BeneficiaryEdsEntity $edsEntity): self
+    {
+        if ($this->edsEntity->removeElement($edsEntity)) {
+            // set the owning side to null (unless already changed)
+            if ($edsEntity->getBeneficiary() === $this) {
+                $edsEntity->setBeneficiary(null);
+            }
+        }
+
+        return $this;
     }
 }

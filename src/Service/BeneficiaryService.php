@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Address;
 use App\Entity\Beneficiary;
+use App\Entity\BeneficiaryEdsEntity;
 use App\Entity\GeneralIdentifier;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,11 +31,23 @@ class BeneficiaryService
      *
      * @param array $formData array of form data
      */
-    public function addBeneficiary(Beneficiary $beneficiary): Beneficiary
+    public function addBeneficiary(array $formData): Beneficiary
     {
         $generalIdentifier = new GeneralIdentifier();
+        $beneficiary = new Beneficiary();
         $generalIdentifier->setBeneficiary($beneficiary);
+        $beneficiary->setFirstName($formData['firstName']);
+        $beneficiary->setLastName($formData['lastName']);
+        $beneficiary->setEmail($formData['email']);
+        $beneficiary->setDateOfBirth($formData['dateOfBirth']);
+        $beneficiary->setOrigin($formData['origin']);
+        $beneficiary->setSexe($formData['sexe']);
+        $beneficiaryEdsEntity = new BeneficiaryEdsEntity();
+        $beneficiaryEdsEntity->setBeneficiary($beneficiary);
+        $beneficiaryEdsEntity->setEdsEntity($formData['edsEntity']);
+        $beneficiaryEdsEntity->setStartedAt($formData['supportStartedAt']);
 
+        $this->em->persist($beneficiaryEdsEntity);
         $this->em->persist($beneficiary);
         $this->em->persist($generalIdentifier);
         $this->em->flush();

@@ -49,18 +49,25 @@ class BeneficiaryRepository extends ServiceEntityRepository
 
     public function search($formData)
     {
-       return $this->createQueryBuilder('b')
-            ->where('b.firstName LIKE :firstName')
-            ->setParameter('firstName', '%'.$formData['firstName'].'%')
-            ->andWhere('b.lastName LIKE :lastName')
-            ->setParameter('lastName', '%'.$formData['lastName'].'%')
-            ->andWhere('b.sexe LIKE :sexe')
-            ->setParameter('sexe', '%'.$formData['sexe'].'%')
-            ->andWhere('b.dateOfBirth LIKE :birthDate')
-            ->setParameter('birthDate', '%'.$formData['dateOfBirth'].'%')
-           ->andWhere('b.edsEntity LIKE :edsEntity')
-           ->setParameter('edsEntity', '%'.$formData['edsEntity'].'%')
-            ->getQuery()
-            ->getResult();
+        $query = $this->createQueryBuilder('b')->where('b.firstName LIKE :firstName')->setParameter(
+                'firstName',
+                '%' . $formData['firstName'] . '%'
+            )->andWhere('b.lastName LIKE :lastName')->setParameter('lastName', '%' . $formData['lastName'] . '%')->andWhere(
+                'b.sexe LIKE :sexe'
+            )->setParameter('sexe', '%' . $formData['sexe'] . '%');
+
+        if (isset($formData['dateOfBirth'])) {
+            $query->andWhere('b.dateOfBirth LIKE :birthDate')->setParameter('birthDate', '%' . $formData['dateOfBirth']->format('Y-m-d') . '%');
+        }
+
+        if (isset($formData['edsEntity'])) {
+            $query->join('b.edsEntity', 'e')->andWhere('e.id = :edsEntity')->setParameter('edsEntity', $formData['edsEntity']->getId());
+        }
+
+        if (isset($formData['origin'])) {
+            $query->join('b.origin', 'o')->andWhere('o.id = :origin')->setParameter('origin', $formData['origin']->getId());
+
+            return $query->getQuery()->getResult();
+        }
     }
 }

@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Beneficiary;
+use App\Entity\BeneficiaryEdsEntity;
+use App\Entity\Employee;
 use App\Entity\GeneralIdentifier;
 use App\Form\AddressType;
-use App\Form\SearchType;
+use App\Form\BeneficiarySearchType;
 use App\Form\BeneficiaryType;
 use App\Service\BeneficiaryService;
 use App\Transformer\Beneficiary\ArrayTransformer;
@@ -16,6 +18,7 @@ use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +37,7 @@ class BeneficiaryController extends AbstractController
     #[Route(name: 'index')]
     public function index(EntityManagerInterface $em, Request $request): Response
     {
-        $form = $this->createForm(SearchType::class);
+        $form = $this->createForm(BeneficiarySearchType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $beneficiaries = $em->getRepository(Beneficiary::class)->search($form->getData());
@@ -83,8 +86,7 @@ class BeneficiaryController extends AbstractController
         $form = $this->createForm(BeneficiaryType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $newBeneficiary = $form->getData();
-            $beneficiaryService->addBeneficiary($newBeneficiary);
+            $newBeneficiary = $beneficiaryService->addBeneficiary($form->getData());
             if (!$newBeneficiary->getEdsEntity()) {
                 return $this->redirectToRoute('app_beneficiary_add_address', ['id' => $newBeneficiary->getId()]);
             }
@@ -130,6 +132,21 @@ class BeneficiaryController extends AbstractController
         $form = $this->createForm(BeneficiaryType::class, $beneficiary);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $localisationHistory = $form->getData()->getEdsEntity()->toArray();
+            foreach ($localisationHistory as $localisation) {
+                if ($localisation->getEndedAt() === null){
+                    if ($localisation->getEdsEntity() !== $form->get('edsEntity')->getData()) {
+                        $localisation->setEndedAt(new \DateTime());
+                        $newLocalisation = new BeneficiaryEdsEntity();
+                        $newLocalisation->setBeneficiary($beneficiary);
+                        $newLocalisation->setEdsEntity($form->get('edsEntity')->getData());
+                        $newLocalisation->setStartedAt(new \DateTime());
+                        $em->persist($newLocalisation);
+                        break;
+                    }
+                }
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
@@ -139,5 +156,18 @@ class BeneficiaryController extends AbstractController
             'form' => $form->createView(),
             'beneficiary' => $beneficiary,
         ]);
+    }
+
+    #[Route(path: '/localisation/ajax', name: 'localisation_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function localisationAjax(Request $request, EntityManagerInterface $em)
+    {
+        $beneficiary = $em->getRepository(Beneficiary::class)->find($request->request->get('id'));
+        $localisation = $beneficiary?->getEdsEntity()->toArray();
+
+        $html = $this->render('beneficiary/_include/_localisation.html.twig', [
+            'localisations' => $localisation,
+        ]);
+
+        return new JsonResponse($html->getContent());
     }
 }

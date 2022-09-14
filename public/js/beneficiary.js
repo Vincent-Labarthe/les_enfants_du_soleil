@@ -6,5 +6,23 @@ $(document).change(function () {
         $('#user_payment_alert').remove()
         $('.btn').prop('disabled', false)
     }
-
 })
+
+$(document).ready(function () {
+    $("#localisation_link").on('click', function () {
+        ajaxCall('app_beneficiary_localisation_ajax', {'id': user_id})
+    });
+})
+
+function ajaxCall(url, data) {
+    $.ajax({
+        url: Routing.generate(url, data),
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        async: true,
+        success: function (response) {
+            $('#table').html(response)
+        },
+    })
+}

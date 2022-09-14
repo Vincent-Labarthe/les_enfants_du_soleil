@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class SearchType extends AbstractType
+class BeneficiarySearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -36,14 +36,14 @@ class SearchType extends AbstractType
             'required' => false,
         ])->add('origin', EntityType::class, [
             'class' => Origin::class,
-            'label' => 'Type de bénéficaire',
+            'label' => 'Type',
             'choice_label' => 'type',
             'required' => false,
         ])->add('edsEntity', EntityType::class, [
             'class' => EdsEntity::class,
             'choice_label' => 'name',
             'required' => false,
-            'placeholder' => 'Choisir une entité EDS',
+            'label' => 'Choisir une entité EDS',
         ]);
     }
 }
