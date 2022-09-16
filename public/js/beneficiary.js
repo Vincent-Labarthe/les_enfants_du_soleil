@@ -12,6 +12,8 @@ $(document).ready(function () {
     $("#localisation_link").on('click', function () {
         ajaxCall('app_beneficiary_localisation_ajax', {'id': user_id})
     });
+
+    closeTable()
 })
 
 function ajaxCall(url, data) {
@@ -25,4 +27,11 @@ function ajaxCall(url, data) {
             $('#table').html(response)
         },
     })
+}
+
+function closeTable() {
+    $(document).on('click', '#close_btn_localisation', function () {
+        $("#localisation_table").remove()
+
+    });
 }

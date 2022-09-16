@@ -1,4 +1,7 @@
-<div class="table-design">
+<div class="table-design" id="localisation_table">
+    <div class="close-table">
+        <button id="close_btn_localisation" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
     <h4>Historique des localisations</h4>
     <table class="table datagrid">
         <thead id="table_head">
@@ -36,11 +39,10 @@
                 <td>{{ localisation.startedAt|date("d/m/Y") }}</td>
                 <td>{{ localisation.endedAt|date("d/m/Y") }}</td>
                 <td>{{ localisation.edsEntity.name }}</td>
-                <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% endif %}</td>
-                <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% endif %}</td>
+                <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% else %} - {% endif %}</td>
+                <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% else %} - {% endif %}</td>
             </tr>
         {% endfor %}
-
         </tbody>
     </table>
 </div>

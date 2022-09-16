@@ -1,7 +1,7 @@
 
 .beneficiary-img{
-    width: 350px;
-    height: auto;
+    width: 200px;
+    height:  200px;
     border-radius: 5px;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
 }
@@ -9,11 +9,20 @@
     width: 50vw;
     border-radius: 5px;
     border: 1px solid #e6e6e6;
-    padding: 50px;
+    padding: 50px 0 40px 50px;
 }
 
 .table-design{
+    position: relative;
     border-radius: 5px;
     border: 1px solid #e6e6e6;
     padding: 50px;
+    margin-bottom: 3rem;
+}
+
+.close-table{
+    position: absolute;
+    text-align: end;
+    top:10px;
+    right: 15px;
 }
