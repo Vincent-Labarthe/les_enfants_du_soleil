@@ -1,39 +1,19 @@
-.card-hero-header{
-    display: flex;
-    flex-direction:row;
-    justify-content: space-between;
-    align-items: center;
-}
-.card-body-header{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.card-img-top{
-    width: 200px;
-    height: auto;
-}
-
-#hero-content{
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.detail-card{
-    padding: 50px;
-    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
-    border-radius: 5px;
-    margin-bottom: 1.5rem;
-}
 
 .beneficiary-img{
     width: 350px;
     height: auto;
     border-radius: 5px;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
+#general_information{
+    width: 50vw;
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    padding: 50px;
+}
+
+.table-design{
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    padding: 50px;
 }

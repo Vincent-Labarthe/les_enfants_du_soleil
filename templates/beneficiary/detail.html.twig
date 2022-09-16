@@ -4,36 +4,46 @@
     <div class="d-flex flex-row hero-background">
         {% include 'beneficiary/_include/_sidebar_beneficiary.html.twig' %}
         <div class="container hero-container mt-5">
-            <h2 class="m-5 text-center">Fiche de {{ person.data.firstname ~ ' ' ~ person.data.lastname }}</h2>
-            <div id="general_information" class="d-flex flex-row ps-5 pb-5 pe-5">
-                    <div class="p-2">
-                        <img class="beneficiary-img" src="" alt="image de profil">
-                    </div>
-                    <ul>
-                        <li>Identifiant : {{ generalIdentifier.id }}</li>
-                        <li>Né le : {{ person.data.birthdate }}</li>
-                        <li>Genre : {{ person.data.gender }}</li>
-                        <li>Dernier statut : {{ person.data.origin }}</li>
-                        <li>Entité EDS : {{ person.data.localisation }}</li>
-                        <li>Tel : {{ person.data.tel }}</li>
-                        <li>Email : {{ person.data.email }}</li>
-                        <li>Diplomes : {{ person.data.degree }}</li>
-                        <li>Niveau scolaire : {{ person.data.school_level }}</li>
-                        <li>Début support EDS : {{ person.data.support_start }}</li>
-                        <li>Fin support EDS : {{ person.data.support_end }}</li>
-                    </ul>
-            </div>
-            <div id="table">
 
+            <h2 class="ms-5 mt-5">{{ person.data.firstname ~ ' ' ~ person.data.lastname }} -
+                <button type="button" class="btn btn-lg"
+                        style="{% if person.data.gender is same as ('H')%}background-color:#0dcaf0
+                        {% else %}background-color:#ffa5f5{% endif %}">{{ person.data.gender }}
+                </button>
+            </h2>
+            <p class="ms-5">Identifiant général n° {{ generalIdentifier.id }} </p>
+            <div id="general_information" class="mt-5">
+                <div class="p-2 d-flex flex-row ">
+                    <img class="beneficiary-img" src="{{ asset(person.data.image_url) }}" alt="image de profil">
+                    <div class="ms-5 d-flex flex-row">
+                        <div>
+                            <p type="text" class="form-control">Né le : {{ person.data.birthdate|date('d-m-Y') }}</p>
+                            <p type="text" class="form-control">Dernier statut : {{ person.data.origin }}</p>
+                            <p type="text" class="form-control">Entité EDS : {{ person.data.localisation }}</p>
+                            <p type="text" class="form-control">Tel : {{ person.data.tel }}</p>
+                            <p type="text" class="form-control">Email : {{ person.data.email }}</p>
+                        </div>
+                        <div class="ms-5">
+                            <p type="text" class="form-control">Diplomes : {{ person.data.degree }}</p>
+                            <p type="text" class="form-control">Niveau scolaire : {{ person.data.school_level }}</p>
+                            <p type="text" class="form-control">Début support EDS : {{ person.data.support_start }}</p>
+                            <p type="text" class="form-control">Fin support EDS : {{ person.data.support_end }}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div id="table" class="mt-5">
             </div>
         </div>
     </div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-<script>
-    const user_id = {{ person.data.id }};
-</script>
+    <script>
+        const user_id = {{ person.data.id }};
+    </script>
     <script src="{{ asset('js/beneficiary.js') }}">
     </script>
 {% endblock %}
