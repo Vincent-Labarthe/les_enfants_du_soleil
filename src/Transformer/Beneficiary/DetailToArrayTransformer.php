@@ -26,7 +26,7 @@ class DetailToArrayTransformer extends TransformerAbstract
             'gender' => $beneficiary->getSexe(),
             'support_start' => $beneficiary->getSupportStartedAt()?->format('Y-m-d'),
             'support_end' => $beneficiary->getSupportEndedAt()?->format('Y-m-d'),
-            'image_url' => $beneficiary->getImageUrl(),
+            'image_url' => $beneficiary->getImageUrl() ?? '-',
             'school_level' => $beneficiary->getSchoolLevel(),
             'degree' => $beneficiary->getDegree(),
             'localisation' => $this->getCurrentLocalisation($beneficiary),
