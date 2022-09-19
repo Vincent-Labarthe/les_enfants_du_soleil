@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FormationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FormationRepository::class)]
@@ -13,7 +15,7 @@ class Formation implements \Stringable
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $specialty;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -26,7 +28,7 @@ class Formation implements \Stringable
     private $endedAt;
 
     #[ORM\ManyToOne(targetEntity: TrainingInstitution::class, inversedBy: 'formations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $trainingInstitution;
 
     #[ORM\Column(type: 'datetime')]
@@ -36,12 +38,16 @@ class Formation implements \Stringable
     #[ORM\JoinColumn(nullable: false)]
     private $className;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $name;
 
-    #[ORM\OneToOne(targetEntity: Beneficiary::class, inversedBy: 'formation', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $student;
+    #[ORM\ManyToMany(targetEntity: Beneficiary::class, inversedBy: 'formations')]
+    private Collection $student;
+
+    public function __construct()
+    {
+        $this->student = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -149,14 +155,26 @@ class Formation implements \Stringable
         return (string) $this->name;
     }
 
-    public function getStudent(): ?Beneficiary
+    /**
+     * @return Collection<int, Beneficiary>
+     */
+    public function getStudent(): Collection
     {
         return $this->student;
     }
 
-    public function setStudent(Beneficiary $student): self
+    public function addStudent(Beneficiary $student): self
     {
-        $this->student = $student;
+        if (!$this->student->contains($student)) {
+            $this->student->add($student);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Beneficiary $student): self
+    {
+        $this->student->removeElement($student);
 
         return $this;
     }

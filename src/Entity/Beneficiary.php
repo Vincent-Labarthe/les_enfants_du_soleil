@@ -83,9 +83,6 @@ class Beneficiary
     #[ORM\ManyToOne(targetEntity: TrainingInstitution::class, inversedBy: 'people')]
     private $trainingInstitution;
 
-    #[ORM\OneToOne(targetEntity: Formation::class, mappedBy: 'student', cascade: ['persist', 'remove'])]
-    private $formation;
-
     #[ORM\OneToMany(targetEntity: InterviewReport::class, mappedBy: 'beneficiary')]
     private $interviewReports;
 
@@ -99,7 +96,12 @@ class Beneficiary
     private $address;
 
     #[ORM\OneToMany(mappedBy: 'beneficiary', targetEntity: BeneficiaryEdsEntity::class)]
+    #[ORM\OrderBy(['id' => 'DESC'])]
     private Collection $edsEntity;
+
+    #[ORM\ManyToMany(targetEntity: Formation::class, mappedBy: 'student')]
+    #[ORM\OrderBy(['id' => 'DESC'])]
+    private Collection $formations;
 
     public function __construct()
     {
@@ -111,6 +113,7 @@ class Beneficiary
         $this->jobs = new ArrayCollection();
         $this->interviewReports = new ArrayCollection();
         $this->edsEntity = new ArrayCollection();
+        $this->formations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -450,23 +453,6 @@ class Beneficiary
         return $this;
     }
 
-    public function getFormation(): ?Formation
-    {
-        return $this->formation;
-    }
-
-    public function setFormation(Formation $formation): self
-    {
-        // set the owning side of the relation if necessary
-        if ($formation->getStudent() !== $this) {
-            $formation->setStudent($this);
-        }
-
-        $this->formation = $formation;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, InterviewReport>
      */
@@ -533,7 +519,7 @@ class Beneficiary
 
     public function __toString()
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     /**
@@ -561,6 +547,33 @@ class Beneficiary
             if ($edsEntity->getBeneficiary() === $this) {
                 $edsEntity->setBeneficiary(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Formation>
+     */
+    public function getFormations(): Collection
+    {
+        return $this->formations;
+    }
+
+    public function addFormation(Formation $formation): self
+    {
+        if (!$this->formations->contains($formation)) {
+            $this->formations->add($formation);
+            $formation->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormation(Formation $formation): self
+    {
+        if ($this->formations->removeElement($formation)) {
+            $formation->removeStudent($this);
         }
 
         return $this;

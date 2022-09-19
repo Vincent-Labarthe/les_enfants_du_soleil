@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Beneficiary;
 use App\Entity\EdsEntity;
 use App\Entity\Origin;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -47,8 +46,8 @@ class BeneficiaryType extends AbstractType
             ]
         )->add('sexe', ChoiceType::class, [
             'choices' => [
-                'Homme' => 'H',
-                'Femme' => 'F',
+                'Masculin' => 'H',
+                'Féminin' => 'F',
             ],
             'required' => true,
             'expanded' => false,

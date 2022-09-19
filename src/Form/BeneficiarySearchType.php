@@ -30,8 +30,8 @@ class BeneficiarySearchType extends AbstractType
         ])->add('sexe', ChoiceType::class, [
             'label' => 'Genre',
             'choices' => [
-                'Homme' => 'H',
-                'Femme' => 'F',
+                'Masculin' => 'H',
+                'Féminin' => 'F',
             ],
             'required' => false,
         ])->add('origin', EntityType::class, [

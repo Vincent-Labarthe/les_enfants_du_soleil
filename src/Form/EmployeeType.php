@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Beneficiary;
 use App\Entity\EdsEntity;
 use App\Entity\Employee;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

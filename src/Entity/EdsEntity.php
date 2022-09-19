@@ -134,8 +134,6 @@ class EdsEntity implements \Stringable
         return (string) $this->name;
     }
 
-
-
     /**
      * @return Collection<int, Employee>
      */

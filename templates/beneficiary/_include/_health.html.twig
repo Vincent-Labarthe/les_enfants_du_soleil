@@ -1,0 +1,55 @@
+<div class="table-design" id="localisation_table">
+    <div class="close-table">
+        <button id="close_btn_localisation" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
+
+    {% if healthEvents is null %}
+        <p>Aucun évènement de santé n'a été trouvée.</p>
+        <a href="{{ path('app_beneficiary_health_add', {id: beneficiary.id}) }}"><button class="btn btn-outline-primary">Ajouter un évènement de santé</button></a>
+    {% else %}
+        <h4 class="mb-4">Historique des localisations</h4>
+        <a href="{{ path('app_beneficiary_health_add', {id: beneficiary.id}) }}"><button class="btn btn-outline-primary mb-4">Ajouter un évènement de santé</button></a>
+        <table class="table datagrid">
+            <thead id="table_head">
+            <tr class="table100-head">
+                <th class="header-for-field-text text-left" dir="ltr">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Du
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="date_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Au
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="ttc_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Entité EDS
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="shipping_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Adresse
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="cancel_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Ville
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody class="table_data">
+            {% for healthEvent in healthEvents %}
+                <tr class="text-center">
+                    <td>{{ healthEvent.startedAt|date("d/m/Y") }}</td>
+                    <td>{{ healthEvent.endedAt|date("d/m/Y") }}</td>
+                    <td>{{ healthEvent.eventMedicalType.name }}</td>
+                    <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% else %} - {% endif %}</td>
+                    <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% else %} - {% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

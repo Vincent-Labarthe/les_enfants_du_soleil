@@ -12,6 +12,18 @@ $(document).ready(function () {
     $("#localisation_link").on('click', function () {
         ajaxCall('app_beneficiary_localisation_ajax', {'id': user_id})
     });
+    $("#formation_link").on('click', function () {
+        ajaxCall('app_beneficiary_formation_ajax', {'id': user_id})
+    });
+
+    $("#general_link").on('click', function () {
+        ajaxCall('app_beneficiary_detail', {'id': user_id})
+    });
+
+    $("#health_link").on('click', function () {
+        ajaxCall('app_beneficiary_health_ajax', {'id': user_id})
+    })
+
 
     closeTable()
 })
@@ -24,7 +36,7 @@ function ajaxCall(url, data) {
         dataType: 'json',
         async: true,
         success: function (response) {
-            $('#table').html(response)
+            $('#general_information').html(response)
         },
     })
 }

@@ -1,0 +1,67 @@
+<div class="table-design" id="localisation_table">
+    <div class="close-table">
+        <button id="close_btn_localisation" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
+
+    {% if formations is null %}
+        <p>Aucune formation n'a été trouvée.</p>
+        <button class="btn btn-outline-primary mb-4" onclick ="ajaxCall('app_beneficiary_formation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une formation</button></a>
+    {% else %}
+        <h4 class="mb-4">Historique des formations</h4>
+        <button class="btn btn-outline-primary mb-4" onclick ="ajaxCall('app_beneficiary_formation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une formation</button></a>
+        <table class="table datagrid">
+            <thead id="table_head">
+            <tr class="table100-head">
+                <th class="header-for-field-text text-left" dir="ltr">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Du
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="date_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Au
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="ttc_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Org. Formation
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="shipping_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Classe
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="shipping_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Spécialité
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="shipping_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Résultat
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="shipping_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Orientation
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody class="table_data">
+            {% for formation in formations %}
+                <tr class="text-center">
+                    <td>{{ formation.startedAt|date("d/m/Y") }}</td>
+                    <td>{{ formation.endedAt|date("d/m/Y") }}</td>
+                    <td>{% if formation.trainingInstitution is not null %}{{ formation.trainingInstitution.name }}{% endif %}</td>
+                    <td>{{ formation.className }}</td>
+                    <td>{{ formation.specialty }}</td>
+                    <td>{{ formation.result }}</td>
+                    <td>{{ formation.suggestedDirection }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

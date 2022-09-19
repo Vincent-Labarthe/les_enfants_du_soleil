@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Address;
 use App\Entity\Beneficiary;
 use App\Entity\BeneficiaryEdsEntity;
+use App\Entity\Formation;
 use App\Entity\GeneralIdentifier;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -64,5 +65,36 @@ class BeneficiaryService
 
     public function editBeneficiary(Beneficiary $beneficiary, mixed $formData)
     {
+    }
+
+    public function addFormation(Beneficiary $beneficiary, mixed $formData)
+    {
+        $newFormation = new Formation();
+        $newFormation->addStudent($beneficiary);
+        $newFormation->setName($formData['name']);
+        $newFormation->setSpecialty($formData['specialty']);
+        $newFormation->setResult($formData['result']);
+        $newFormation->setSuggestedDirection($formData['suggestedDirection']);
+        $newFormation->setClassName($formData['className']);
+        $newFormation->setStartedAt($formData['startedAt']);
+        $this->em->persist($newFormation);
+        $this->em->flush();
+    }
+
+    public function addLocalisation(Beneficiary $beneficiary, mixed $formData)
+    {
+        if ($edsEntities = $beneficiary->getEdsEntity()) {
+            foreach ($edsEntities as $edsEntity) {
+                if ($edsEntity->getEndedAt() === null) {
+                    $edsEntity->setEndedAt($formData['supportEndedAt'] ?? null);
+                }
+            }
+        }
+        $beneficiaryEdsEntity = new BeneficiaryEdsEntity();
+        $beneficiaryEdsEntity->setBeneficiary($beneficiary);
+        $beneficiaryEdsEntity->setEdsEntity($formData['edsEntity']);
+        $beneficiaryEdsEntity->setStartedAt($formData['supportStartedAt']);
+        $this->em->persist($beneficiaryEdsEntity);
+        $this->em->flush();
     }
 }

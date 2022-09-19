@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Beneficiary;
 use App\Entity\BeneficiaryEdsEntity;
-use App\Entity\Employee;
 use App\Entity\GeneralIdentifier;
 use App\Form\AddressType;
+use App\Form\BeneficiaryFormationType;
+use App\Form\BeneficiaryLocalisationType;
 use App\Form\BeneficiarySearchType;
 use App\Form\BeneficiaryType;
+use App\Form\HealthEventType;
 use App\Service\BeneficiaryService;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use App\Transformer\Beneficiary\DetailToArrayTransformer;
@@ -19,6 +21,7 @@ use League\Fractal\Resource\Item;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +47,7 @@ class BeneficiaryController extends AbstractController
         }
 
         if (!isset($beneficiaries)) {
-            $beneficiaries = $em->getRepository(Beneficiary::class)->findAll();
+            $beneficiaries = $em->getRepository(Beneficiary::class)->findBy([], ['id' => 'DESC']);
         }
 
         $data = new Collection($beneficiaries, new ArrayTransformer());
@@ -61,15 +64,23 @@ class BeneficiaryController extends AbstractController
      *
      * @ParamConverter("beneficiary", class="App\Entity\Beneficiary")
      */
-    #[Route(path: '/detail/{id}', name: 'detail')]
-    public function detail(EntityManagerInterface $em, Beneficiary $beneficiary): Response
+    #[Route(path: '/detail/{id}', name: 'detail', options: ['expose' => true])]
+    public function detail(EntityManagerInterface $em,Request $request, Beneficiary $beneficiary): Response
     {
+
         if (!$personData = new Item($beneficiary, new DetailToArrayTransformer())) {
             throw $this->createNotFoundException('Person not found');
         }
         $fractal = new Manager();
         $beneficiaryArray = $fractal->createData($personData)->toArray();
         $generalIdentifier = $em->getRepository(GeneralIdentifier::class)->findOneBy(['beneficiary' => $beneficiary]);
+
+
+        if ($request->isXmlHttpRequest()){
+            $html = $this->render('beneficiary/_include/_detail.html.twig', ['person' => $beneficiaryArray,]);
+
+            return new JsonResponse($html->getContent());
+        }
 
         return $this->render('beneficiary/detail.html.twig', [
             'person' => $beneficiaryArray,
@@ -165,9 +176,119 @@ class BeneficiaryController extends AbstractController
         $localisation = $beneficiary?->getEdsEntity()->toArray();
 
         $html = $this->render('beneficiary/_include/_localisation.html.twig', [
-            'localisations' => $localisation,
+            'localisations' => $localisation !== []  ? $localisation : null,
+            'beneficiary' => $beneficiary,
         ]);
 
         return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     * @param BeneficiaryService     $beneficiaryService
+     *
+     * @return RedirectResponse|Response
+     */
+    #[Route(path: '/localisation/add', name: 'localisation_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function localisationAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService): RedirectResponse|Response
+    {
+        if(!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))){
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(BeneficiaryLocalisationType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $beneficiaryService->addLocalisation($beneficiary, $form->getData());
+
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+
+
+        $html = $this->render('beneficiary/_include/_add_localisation.html.twig', [
+            'form' => $form->createView(),
+            'person' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    #[Route(path: '/formation/ajax', name: 'formation_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function formationAjax(Request $request, EntityManagerInterface $em)
+    {
+        $beneficiary = $em->getRepository(Beneficiary::class)->find($request->request->get('id'));
+        $formation = $beneficiary?->getFormations()->toArray();
+        $html = $this->render('beneficiary/_include/_formation.html.twig', [
+            'formations' => $formation !== []  ? $formation : null,
+            'beneficiary' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     * @param BeneficiaryService     $beneficiaryService
+     *
+     * @return RedirectResponse|Response
+     */
+    #[Route(path: '/formation/add', name: 'formation_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function formationAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService): RedirectResponse|Response
+    {
+
+        if(!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))){
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(BeneficiaryFormationType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $beneficiaryService->addFormation($beneficiary, $form->getData());
+
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+
+
+        $html = $this->render('beneficiary/_include/_add_formation.html.twig', [
+            'form' => $form->createView(),
+            'person' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    #[Route(path: '/health/ajax', name: 'health_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function healthAjax(Request $request, EntityManagerInterface $em)
+    {
+        if(!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))){
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $healthEvents = $beneficiary?->getHealthEvent()->toArray();
+        $html = $this->render('beneficiary/_include/_health.html.twig', [
+            'healthEvents' => $healthEvents !== []  ? $healthEvents : null,
+            'beneficiary' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    #[Route(path: '/health/add', name: 'health_add', methods: ['GET','POST'])]
+    public function healthAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService)
+    {
+        if(!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))){
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(HealthEventType::class);
+
+        return $this->render('beneficiary/add_heath_event.html.twig', [
+            'form' => $form->createView(),
+            'person' => $beneficiary,
+        ]);
     }
 }

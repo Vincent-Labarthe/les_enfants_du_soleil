@@ -3,10 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Employee;
-use App\Entity\User;
 use App\Form\EmployeeSearchType;
 use App\Form\EmployeeType;
-use App\Form\BeneficiarySearchType;
 use App\Transformer\Employee\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
@@ -35,7 +33,7 @@ class EmployeeController extends AbstractController
 
         return $this->render('employee/index.html.twig', [
             'employees' => $fractal->createData($data)->toArray()['data'],
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -45,7 +43,6 @@ class EmployeeController extends AbstractController
     #[Route(path: '/ajouter', name: 'add')]
     public function add()
     {
-
         $form = $this->createForm(EmployeeType::class);
 
         return $this->render('employee/add.html.twig', [

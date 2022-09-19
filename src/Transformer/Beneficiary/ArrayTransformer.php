@@ -49,6 +49,7 @@ class ArrayTransformer extends TransformerAbstract
 
         return $now->diff($date)->y;
     }
+
     private function getCurrentLocalisation(Beneficiary $beneficiary)
     {
         $edsEntity = $beneficiary->getEdsEntity();
@@ -62,5 +63,4 @@ class ArrayTransformer extends TransformerAbstract
             }
         }
     }
-
 }

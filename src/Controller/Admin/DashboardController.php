@@ -57,7 +57,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Rapport d\'entretien', 'fas fa-list', InterviewReport::class);
         yield MenuItem::linkToCrud('Métiers', 'fas fa-list', Job::class);
 
-
         yield MenuItem::section('Evènement');
         yield MenuItem::linkToCrud('Evenement de santé', 'fas fa-list', HealthEvent::class);
         yield MenuItem::linkToCrud('Evenement de comportement', 'fas fa-list', BehaviorEvent::class);

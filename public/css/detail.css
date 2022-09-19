@@ -6,7 +6,6 @@
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
 }
 #general_information{
-    width: 50vw;
     border-radius: 5px;
     border: 1px solid #e6e6e6;
     padding: 50px 0 40px 50px;
@@ -14,10 +13,7 @@
 
 .table-design{
     position: relative;
-    border-radius: 5px;
-    border: 1px solid #e6e6e6;
     padding: 50px;
-    margin-bottom: 3rem;
 }
 
 .close-table{
