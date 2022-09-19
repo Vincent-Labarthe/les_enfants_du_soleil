@@ -160,11 +160,17 @@ class BeneficiaryController extends AbstractController
      * @return Response
      */
     #[Route(path: '/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(EntityManagerInterface $em, Request $request, Beneficiary $beneficiary): Response
+    public function edit(EntityManagerInterface $em, Request $request, Beneficiary $beneficiary, BeneficiaryService $beneficiaryService): Response
     {
         $form = $this->createForm(BeneficiaryType::class, $beneficiary);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($imageFile=$form->get('imageUrl')->getData()) {
+                $beneficiaryService->saveProfilImage($imageFile,$beneficiary);
+            }
+            if ($birthCertificatFile=$form->get('birthCertificate')->getData()) {
+                $beneficiaryService->saveBirthCertificate($birthCertificatFile,$beneficiary);
+            }
             $localisationHistory = $form->getData()->getEdsEntity()->toArray();
             foreach ($localisationHistory as $localisation) {
                 if ($localisation->getEndedAt() === null) {

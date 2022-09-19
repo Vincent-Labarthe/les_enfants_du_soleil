@@ -41,6 +41,7 @@ class Beneficiary
     private $familyRelation;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\File(mimeTypes: ['image/jpeg', 'image/png'])]
     private $imageUrl;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -107,6 +108,8 @@ class Beneficiary
     private ?string $refOrdonnance = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\File(mimeTypes: ['application/pdf', 'application/x-pdf','image/jpeg', 'image/png'])]
+
     private ?string $birthCertificate = null;
 
     #[ORM\Column(length: 255, nullable: true)]

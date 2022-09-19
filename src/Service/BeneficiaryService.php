@@ -13,11 +13,18 @@ use App\Transformer\Beneficiary\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class BeneficiaryService
 {
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly SluggerInterface $slugger,
+        private readonly ParameterBagInterface $parameterBag
+    ) {
     }
 
     public function getSupportedPerson(): ?array
@@ -45,17 +52,27 @@ class BeneficiaryService
         $beneficiary->setDateOfBirth($formData['dateOfBirth']);
         $beneficiary->setOrigin($formData['origin']);
         $beneficiary->setSexe($formData['sexe']);
-        $beneficiary->setImageUrl($formData['imageUrl']);
-        $beneficiary->setBirthCertificate($formData['birthCertificate']);
+
+        if ($imageFile = $formData['imageUrl']) {
+            $this->saveProfilImage($imageFile, $beneficiary);
+        }
+
+        if ($birthCertificateFile = $formData['birthCertificate']) {
+            $this->saveBirthCertificate($birthCertificateFile, $beneficiary);
+        }
+
         $beneficiary->setRefOrdonnance($formData['refOrdonnance']);
         $beneficiary->setLifeProject($formData['lifeProject']);
         $beneficiary->setPlannedCareer($formData['plannedCareer']);
-        $beneficiaryEdsEntity = new BeneficiaryEdsEntity();
-        $beneficiaryEdsEntity->setBeneficiary($beneficiary);
-        $beneficiaryEdsEntity->setEdsEntity($formData['edsEntity']);
-        $beneficiaryEdsEntity->setStartedAt($formData['supportStartedAt']);
 
-        $this->em->persist($beneficiaryEdsEntity);
+        if (isset($formData['edsEntity'])) {
+            $beneficiaryEdsEntity = new BeneficiaryEdsEntity();
+            $beneficiaryEdsEntity->setBeneficiary($beneficiary);
+            $beneficiaryEdsEntity->setEdsEntity($formData['edsEntity']);
+            $beneficiaryEdsEntity->setStartedAt($formData['supportStartedAt']);
+            $this->em->persist($beneficiaryEdsEntity);
+        }
+
         $this->em->persist($beneficiary);
         $this->em->persist($generalIdentifier);
         $this->em->flush();
@@ -67,7 +84,7 @@ class BeneficiaryService
      * Add address to beneficiary if not in Eds Entity.
      *
      * @param Beneficiary $beneficiary Current beneficiary
-     * @param Address     $newAddress New address
+     * @param Address     $newAddress  New address
      *
      * @return void
      */
@@ -82,7 +99,7 @@ class BeneficiaryService
      * Add formation to beneficiary.
      *
      * @param Beneficiary $beneficiary Current beneficiary
-     * @param mixed       $formData   Form data
+     * @param mixed       $formData    Form data
      *
      * @return void
      */
@@ -104,7 +121,7 @@ class BeneficiaryService
      * Add localisation to beneficiary.
      *
      * @param Beneficiary $beneficiary Current beneficiary
-     * @param mixed       $formData  Form data
+     * @param mixed       $formData    Form data
      *
      * @return void
      */
@@ -129,7 +146,7 @@ class BeneficiaryService
      * Add health event to beneficiary.
      *
      * @param Beneficiary $beneficiary Current beneficiary
-     * @param mixed       $formData  Form data
+     * @param mixed       $formData    Form data
      *
      * @return void
      */
@@ -151,6 +168,52 @@ class BeneficiaryService
         $healthEvent->setTreatment($formData['treatment']);
 
         $this->em->persist($healthEvent);
+        $this->em->flush();
+    }
+
+    /**
+     * @param             $birthCertificate
+     * @param Beneficiary $beneficiary
+     *
+     * @return void
+     */
+    public function saveBirthCertificate($birthCertificateFile, Beneficiary $beneficiary): void
+    {
+        $originalFilename = pathinfo($birthCertificateFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = $this->slugger->slug($originalFilename);
+        $newFilename = $safeFilename . '-' . uniqid() . '.' . $birthCertificateFile->guessExtension();
+        try {
+            $birthCertificateFile->move(
+                $this->parameterBag->get('birth_certificate_directory'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+        $beneficiary->setBirthCertificate($newFilename);
+        $this->em->flush();
+    }
+
+    /**
+     * @param mixed       $imageFile
+     * @param Beneficiary $beneficiary
+     *
+     * @return void
+     */
+    public function saveProfilImage(mixed $imageFile, Beneficiary $beneficiary): void
+    {
+        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = $this->slugger->slug($originalFilename);
+        $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+        try {
+            $imageFile->move(
+                $this->parameterBag->get('images_directory'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+        $beneficiary->setImageUrl($newFilename);
         $this->em->flush();
     }
 }
