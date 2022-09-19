@@ -45,6 +45,11 @@ class BeneficiaryService
         $beneficiary->setDateOfBirth($formData['dateOfBirth']);
         $beneficiary->setOrigin($formData['origin']);
         $beneficiary->setSexe($formData['sexe']);
+        $beneficiary->setImageUrl($formData['imageUrl']);
+        $beneficiary->setBirthCertificate($formData['birthCertificate']);
+        $beneficiary->setRefOrdonnance($formData['refOrdonnance']);
+        $beneficiary->setLifeProject($formData['lifeProject']);
+        $beneficiary->setPlannedCareer($formData['plannedCareer']);
         $beneficiaryEdsEntity = new BeneficiaryEdsEntity();
         $beneficiaryEdsEntity->setBeneficiary($beneficiary);
         $beneficiaryEdsEntity->setEdsEntity($formData['edsEntity']);

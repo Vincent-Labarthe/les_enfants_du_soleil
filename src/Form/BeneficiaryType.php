@@ -6,6 +6,7 @@ use App\Entity\EdsEntity;
 use App\Entity\Origin;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -65,6 +66,14 @@ class BeneficiaryType extends AbstractType
         ])->add('imageUrl', FileType::class, [
             'required' => false,
             'label' => 'Image URL',
+            'data_class' => null,
+        ])->add('birthCertificate', FileType::class, [
+            'required' => false,
+            'label' => 'Certificat de naissance',
+            'data_class' => null,
+        ])->add('refOrdonnance', TextType::class, [
+            'required' => true,
+            'label' => 'Référence de l\'ordonnance de placement',
         ])->add('supportStartedAt', DateType::class, [
             'widget' => 'single_text',
             'html5' => true,
@@ -79,13 +88,19 @@ class BeneficiaryType extends AbstractType
             'attr' => [
                 'class' => 'js-datepicker',
             ],
+        ])->add('lifeProject', CheckboxType::class, [
+            'required' => false,
+            'label' => 'Projet de vie',
+        ])->add('plannedCareer', TextType::class, [
+            'required' => false,
+            'label' => 'Plan de carrière',
         ])->add('tel', TextType::class)->add('edsEntity', EntityType::class, [
-                'class' => EdsEntity::class,
-                'choice_label' => 'name',
-                'required' => false,
-                'placeholder' => 'Choisir une entité',
+            'class' => EdsEntity::class,
+            'choice_label' => 'name',
+            'required' => false,
+            'placeholder' => 'Choisir une entité',
             'mapped' => false,
-            ]);
+        ]);
     }
 
     /**

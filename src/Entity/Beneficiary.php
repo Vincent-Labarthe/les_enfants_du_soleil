@@ -103,6 +103,18 @@ class Beneficiary
     #[ORM\OrderBy(['id' => 'DESC'])]
     private Collection $formations;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $refOrdonnance = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $birthCertificate = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $plannedCareer = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $lifeProject = null;
+
     public function __construct()
     {
         $this->behaviorEvent = new ArrayCollection();
@@ -575,6 +587,54 @@ class Beneficiary
         if ($this->formations->removeElement($formation)) {
             $formation->removeStudent($this);
         }
+
+        return $this;
+    }
+
+    public function getRefOrdonnance(): ?string
+    {
+        return $this->refOrdonnance;
+    }
+
+    public function setRefOrdonnance(?string $refOrdonnance): self
+    {
+        $this->refOrdonnance = $refOrdonnance;
+
+        return $this;
+    }
+
+    public function getBirthCertificate(): ?string
+    {
+        return $this->birthCertificate;
+    }
+
+    public function setBirthCertificate(?string $birthCertificate): self
+    {
+        $this->birthCertificate = $birthCertificate;
+
+        return $this;
+    }
+
+    public function getPlannedCareer(): ?string
+    {
+        return $this->plannedCareer;
+    }
+
+    public function setPlannedCareer(?string $plannedCareer): self
+    {
+        $this->plannedCareer = $plannedCareer;
+
+        return $this;
+    }
+
+    public function isLifeProject(): ?bool
+    {
+        return $this->lifeProject;
+    }
+
+    public function setLifeProject(?bool $lifeProject): self
+    {
+        $this->lifeProject = $lifeProject;
 
         return $this;
     }
