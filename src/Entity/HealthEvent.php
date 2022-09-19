@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\HealthEventRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HealthEventRepository::class)]
@@ -51,6 +52,9 @@ class HealthEvent implements \Stringable
     #[ORM\JoinColumn(nullable: false)]
     private $eventMedicalType;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $eventDate = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,7 +65,7 @@ class HealthEvent implements \Stringable
         return $this->isDisease;
     }
 
-    public function setIsDisease(bool $isDisease): self
+    public function setIsDisease(?bool $isDisease): ?self
     {
         $this->isDisease = $isDisease;
 
@@ -73,7 +77,7 @@ class HealthEvent implements \Stringable
         return $this->reason;
     }
 
-    public function setReason(string $reason): self
+    public function setReason(?string $reason): ?self
     {
         $this->reason = $reason;
 
@@ -145,7 +149,7 @@ class HealthEvent implements \Stringable
         return $this->consultationCost;
     }
 
-    public function setConsultationCost(?string $consultationCost): self
+    public function setConsultationCost(?string $consultationCost): ?self
     {
         $this->consultationCost = $consultationCost;
 
@@ -157,7 +161,7 @@ class HealthEvent implements \Stringable
         return $this->drugsCost;
     }
 
-    public function setDrugsCost(string $drugsCost): self
+    public function setDrugsCost(?string $drugsCost): ?self
     {
         $this->drugsCost = $drugsCost;
 
@@ -203,5 +207,17 @@ class HealthEvent implements \Stringable
     public function __toString(): string
     {
         return $this->getEventMedicalType()->getName();
+    }
+
+    public function getEventDate(): ?\DateTimeInterface
+    {
+        return $this->eventDate;
+    }
+
+    public function setEventDate(\DateTimeInterface $eventDate): self
+    {
+        $this->eventDate = $eventDate;
+
+        return $this;
     }
 }

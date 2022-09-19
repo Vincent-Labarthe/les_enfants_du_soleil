@@ -335,7 +335,7 @@ class BeneficiaryController extends AbstractController
      *
      * @return RedirectResponse|Response
      */
-    #[Route(path: '/health/add', name: 'health_add', methods: ['GET', 'POST'])]
+    #[Route(path: '/health/add', name: 'health_add_ajax',options: ['expose' => true], methods: ['POST'])]
     public function healthAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService)
     {
         if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
@@ -343,10 +343,19 @@ class BeneficiaryController extends AbstractController
         }
 
         $form = $this->createForm(HealthEventType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $beneficiaryService->addHealthEvent($beneficiary, $form->getData());
 
-        return $this->render('beneficiary/add_heath_event.html.twig', [
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+
+        $html = $this->render('beneficiary/_include/_add_heath_event.html.twig', [
             'form' => $form->createView(),
             'person' => $beneficiary,
         ]);
+
+        return new JsonResponse($html->getContent());
+
     }
 }

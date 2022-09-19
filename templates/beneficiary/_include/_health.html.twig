@@ -5,36 +5,42 @@
 
     {% if healthEvents is null %}
         <p>Aucun évènement de santé n'a été trouvée.</p>
-        <a href="{{ path('app_beneficiary_health_add', {id: beneficiary.id}) }}"><button class="btn btn-outline-primary">Ajouter un évènement de santé</button></a>
+        <button class="btn btn-outline-primary"
+                onclick="ajaxCall('app_beneficiary_health_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un évènement
+            de santé
+        </button>
     {% else %}
         <h4 class="mb-4">Historique des localisations</h4>
-        <a href="{{ path('app_beneficiary_health_add', {id: beneficiary.id}) }}"><button class="btn btn-outline-primary mb-4">Ajouter un évènement de santé</button></a>
+        <button class="btn btn-outline-primary mb-4"
+                onclick="ajaxCall('app_beneficiary_health_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un évènement
+            de santé
+        </button>
         <table class="table datagrid">
             <thead id="table_head">
             <tr class="table100-head">
                 <th class="header-for-field-text text-left" dir="ltr">
                     <div class="d-flex flex-row justify-content-center align-items-center">
-                        Du
+                        Le
                     </div>
                 </th>
                 <th scope="col" class="cell" id="date_cell">
                     <div class="d-flex flex-row justify-content-center align-items-center">
-                        Au
+                        Maladie
                     </div>
                 </th>
                 <th scope="col" class="cell" id="ttc_cell">
                     <div class="d-flex flex-row justify-content-center align-items-center">
-                        Entité EDS
+                        Type d'évènement
                     </div>
                 </th>
                 <th scope="col" class="cell" id="shipping_cell">
                     <div class="d-flex flex-row justify-content-center align-items-center">
-                        Adresse
+                        Cout
                     </div>
                 </th>
                 <th scope="col" class="cell" id="cancel_cell">
                     <div class="d-flex flex-row justify-content-center align-items-center">
-                        Ville
+                        Compte rendu
                     </div>
                 </th>
             </tr>
@@ -42,11 +48,11 @@
             <tbody class="table_data">
             {% for healthEvent in healthEvents %}
                 <tr class="text-center">
-                    <td>{{ healthEvent.startedAt|date("d/m/Y") }}</td>
-                    <td>{{ healthEvent.endedAt|date("d/m/Y") }}</td>
+                    <td>{{ healthEvent.eventDate|date("d/m/Y") }}</td>
+                    <td>{% if healthEvent.isDisease %}OUI {% else %}NON{% endif %}</td>
                     <td>{{ healthEvent.eventMedicalType.name }}</td>
-                    <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% else %} - {% endif %}</td>
-                    <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% else %} - {% endif %}</td>
+                    <td>{{ healthEvent.consultationCost + healthEvent.drugsCost + healthEvent.otherCost }} €</td>
+                    <td>{{ healthEvent.comment }}</td>
                 </tr>
             {% endfor %}
             </tbody>

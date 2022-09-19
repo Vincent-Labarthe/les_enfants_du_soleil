@@ -5,8 +5,10 @@ namespace App\Service;
 use App\Entity\Address;
 use App\Entity\Beneficiary;
 use App\Entity\BeneficiaryEdsEntity;
+use App\Entity\EventMedicalType;
 use App\Entity\Formation;
 use App\Entity\GeneralIdentifier;
+use App\Entity\HealthEvent;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
@@ -56,6 +58,14 @@ class BeneficiaryService
         return $beneficiary;
     }
 
+    /**
+     * Add address to beneficiary if not in Eds Entity.
+     *
+     * @param Beneficiary $beneficiary Current beneficiary
+     * @param Address     $newAddress New address
+     *
+     * @return void
+     */
     public function addAddress(Beneficiary $beneficiary, Address $newAddress): void
     {
         $beneficiary->setAddress($newAddress);
@@ -63,11 +73,15 @@ class BeneficiaryService
         $this->em->flush();
     }
 
-    public function editBeneficiary(Beneficiary $beneficiary, mixed $formData)
-    {
-    }
-
-    public function addFormation(Beneficiary $beneficiary, mixed $formData)
+    /**
+     * Add formation to beneficiary.
+     *
+     * @param Beneficiary $beneficiary Current beneficiary
+     * @param mixed       $formData   Form data
+     *
+     * @return void
+     */
+    public function addFormation(Beneficiary $beneficiary, mixed $formData): void
     {
         $newFormation = new Formation();
         $newFormation->addStudent($beneficiary);
@@ -81,7 +95,15 @@ class BeneficiaryService
         $this->em->flush();
     }
 
-    public function addLocalisation(Beneficiary $beneficiary, mixed $formData)
+    /**
+     * Add localisation to beneficiary.
+     *
+     * @param Beneficiary $beneficiary Current beneficiary
+     * @param mixed       $formData  Form data
+     *
+     * @return void
+     */
+    public function addLocalisation(Beneficiary $beneficiary, mixed $formData): void
     {
         if ($edsEntities = $beneficiary->getEdsEntity()) {
             foreach ($edsEntities as $edsEntity) {
@@ -95,6 +117,35 @@ class BeneficiaryService
         $beneficiaryEdsEntity->setEdsEntity($formData['edsEntity']);
         $beneficiaryEdsEntity->setStartedAt($formData['supportStartedAt']);
         $this->em->persist($beneficiaryEdsEntity);
+        $this->em->flush();
+    }
+
+    /**
+     * Add health event to beneficiary.
+     *
+     * @param Beneficiary $beneficiary Current beneficiary
+     * @param mixed       $formData  Form data
+     *
+     * @return void
+     */
+    public function addHealthEvent(Beneficiary $beneficiary, mixed $formData): void
+    {
+        $healthEvent = new HealthEvent();
+        $healthEvent->setEventDate($formData['date']);
+        $healthEvent->setBeneficiary($beneficiary);
+        $healthEvent->setIsDisease($formData['isDisease'] ?? false);
+        $healthEvent->setReason($formData['reason'] ?? 'RAS');
+        $healthEvent->setDiagnosis($formData['diagnosis']);
+        $healthEvent->setAnalysis($formData['analysis']);
+        $healthEvent->setComment($formData['comment']);
+        $healthEvent->setConsultationCost($formData['consultationCost']);
+        $healthEvent->setDrugsCost($formData['drugsCost']);
+        $healthEvent->setEventMedicalType($this->em->getRepository(EventMedicalType::class)->find($formData['eventMedicalType']));
+        $healthEvent->setImagery($formData['imagery']);
+        $healthEvent->setOtherCost($formData['otherCost']);
+        $healthEvent->setTreatment($formData['treatment']);
+
+        $this->em->persist($healthEvent);
         $this->em->flush();
     }
 }
