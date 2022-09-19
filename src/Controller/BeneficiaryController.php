@@ -32,8 +32,8 @@ class BeneficiaryController extends AbstractController
     /**
      * Beneficiary list & search.
      *
-     * @param EntityManagerInterface $em
-     * @param Request                $request
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
      *
      * @return Response
      */
@@ -63,11 +63,16 @@ class BeneficiaryController extends AbstractController
      * Beneficiary detail page.
      *
      * @ParamConverter("beneficiary", class="App\Entity\Beneficiary")
+     *
+     * @param EntityManagerInterface $em          The entity manager
+     * @param Request                $request     Current request
+     * @param Beneficiary            $beneficiary Current beneficiary
+     *
+     * @return Response
      */
     #[Route(path: '/detail/{id}', name: 'detail', options: ['expose' => true])]
-    public function detail(EntityManagerInterface $em,Request $request, Beneficiary $beneficiary): Response
+    public function detail(EntityManagerInterface $em, Request $request, Beneficiary $beneficiary): Response
     {
-
         if (!$personData = new Item($beneficiary, new DetailToArrayTransformer())) {
             throw $this->createNotFoundException('Person not found');
         }
@@ -76,7 +81,7 @@ class BeneficiaryController extends AbstractController
         $generalIdentifier = $em->getRepository(GeneralIdentifier::class)->findOneBy(['beneficiary' => $beneficiary]);
 
 
-        if ($request->isXmlHttpRequest()){
+        if ($request->isXmlHttpRequest()) {
             $html = $this->render('beneficiary/_include/_detail.html.twig', ['person' => $beneficiaryArray,]);
 
             return new JsonResponse($html->getContent());
@@ -90,6 +95,11 @@ class BeneficiaryController extends AbstractController
 
     /**
      * Beneficiary add page.
+     *
+     * @param Request            $request            Current request
+     * @param BeneficiaryService $beneficiaryService The beneficiary service
+     *
+     * @return Response
      */
     #[Route(path: '/add', name: 'add')]
     public function add(Request $request, BeneficiaryService $beneficiaryService): Response
@@ -112,6 +122,12 @@ class BeneficiaryController extends AbstractController
 
     /**
      * Beneficiary address add page.
+     *
+     * @param Request            $request            Current request
+     * @param Beneficiary        $beneficiary        Current beneficiary
+     * @param BeneficiaryService $beneficiaryService The beneficiary service
+     *
+     * @return Response
      */
     #[Route(path: '/add/address/{id}', name: 'add_address')]
     public function addAddress(
@@ -136,6 +152,12 @@ class BeneficiaryController extends AbstractController
 
     /**
      * Beneficiary edit page.
+     *
+     * @param EntityManagerInterface $em          The entity manager
+     * @param Request                $request     Current request
+     * @param Beneficiary            $beneficiary Current beneficiary
+     *
+     * @return Response
      */
     #[Route(path: '/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(EntityManagerInterface $em, Request $request, Beneficiary $beneficiary): Response
@@ -145,7 +167,7 @@ class BeneficiaryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $localisationHistory = $form->getData()->getEdsEntity()->toArray();
             foreach ($localisationHistory as $localisation) {
-                if ($localisation->getEndedAt() === null){
+                if ($localisation->getEndedAt() === null) {
                     if ($localisation->getEdsEntity() !== $form->get('edsEntity')->getData()) {
                         $localisation->setEndedAt(new \DateTime());
                         $newLocalisation = new BeneficiaryEdsEntity();
@@ -169,14 +191,22 @@ class BeneficiaryController extends AbstractController
         ]);
     }
 
+    /**
+     * Ajax call to display beneficiary localisation history.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return JsonResponse
+     */
     #[Route(path: '/localisation/ajax', name: 'localisation_ajax', options: ['expose' => true], methods: ['POST'])]
-    public function localisationAjax(Request $request, EntityManagerInterface $em)
+    public function localisationAjax(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $beneficiary = $em->getRepository(Beneficiary::class)->find($request->request->get('id'));
         $localisation = $beneficiary?->getEdsEntity()->toArray();
 
         $html = $this->render('beneficiary/_include/_localisation.html.twig', [
-            'localisations' => $localisation !== []  ? $localisation : null,
+            'localisations' => $localisation !== [] ? $localisation : null,
             'beneficiary' => $beneficiary,
         ]);
 
@@ -184,16 +214,18 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     * @param BeneficiaryService     $beneficiaryService
+     * Localisation add page.
+     *
+     * @param Request                $request            Current request
+     * @param EntityManagerInterface $em                 The entity manager
+     * @param BeneficiaryService     $beneficiaryService The beneficiary service
      *
      * @return RedirectResponse|Response
      */
     #[Route(path: '/localisation/add', name: 'localisation_add_ajax', options: ['expose' => true], methods: ['POST'])]
     public function localisationAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService): RedirectResponse|Response
     {
-        if(!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))){
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
             return $this->redirectToRoute('app_beneficiary_index');
         }
 
@@ -215,13 +247,21 @@ class BeneficiaryController extends AbstractController
         return new JsonResponse($html->getContent());
     }
 
+    /**
+     * Ajax call to display beneficiary formation history.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return JsonResponse
+     */
     #[Route(path: '/formation/ajax', name: 'formation_ajax', options: ['expose' => true], methods: ['POST'])]
-    public function formationAjax(Request $request, EntityManagerInterface $em)
+    public function formationAjax(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $beneficiary = $em->getRepository(Beneficiary::class)->find($request->request->get('id'));
         $formation = $beneficiary?->getFormations()->toArray();
         $html = $this->render('beneficiary/_include/_formation.html.twig', [
-            'formations' => $formation !== []  ? $formation : null,
+            'formations' => $formation !== [] ? $formation : null,
             'beneficiary' => $beneficiary,
         ]);
 
@@ -229,17 +269,18 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     * @param BeneficiaryService     $beneficiaryService
+     * Formation add page.
+     *
+     * @param Request                $request            Current request
+     * @param EntityManagerInterface $em                 The entity manager
+     * @param BeneficiaryService     $beneficiaryService The beneficiary service
      *
      * @return RedirectResponse|Response
      */
     #[Route(path: '/formation/add', name: 'formation_add_ajax', options: ['expose' => true], methods: ['POST'])]
     public function formationAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService): RedirectResponse|Response
     {
-
-        if(!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))){
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
             return $this->redirectToRoute('app_beneficiary_index');
         }
 
@@ -261,26 +302,43 @@ class BeneficiaryController extends AbstractController
         return new JsonResponse($html->getContent());
     }
 
+    /**
+     * Ajax call to display beneficiary health history.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return JsonResponse|RedirectResponse
+     */
     #[Route(path: '/health/ajax', name: 'health_ajax', options: ['expose' => true], methods: ['POST'])]
-    public function healthAjax(Request $request, EntityManagerInterface $em)
+    public function healthAjax(Request $request, EntityManagerInterface $em): RedirectResponse|JsonResponse
     {
-        if(!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))){
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
             return $this->redirectToRoute('app_beneficiary_index');
         }
 
         $healthEvents = $beneficiary?->getHealthEvent()->toArray();
         $html = $this->render('beneficiary/_include/_health.html.twig', [
-            'healthEvents' => $healthEvents !== []  ? $healthEvents : null,
+            'healthEvents' => $healthEvents !== [] ? $healthEvents : null,
             'beneficiary' => $beneficiary,
         ]);
 
         return new JsonResponse($html->getContent());
     }
 
-    #[Route(path: '/health/add', name: 'health_add', methods: ['GET','POST'])]
+    /**
+     * Health add page.
+     *
+     * @param Request                $request            Current request
+     * @param EntityManagerInterface $em                 The entity manager
+     * @param BeneficiaryService     $beneficiaryService The beneficiary service
+     *
+     * @return RedirectResponse|Response
+     */
+    #[Route(path: '/health/add', name: 'health_add', methods: ['GET', 'POST'])]
     public function healthAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService)
     {
-        if(!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))){
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
             return $this->redirectToRoute('app_beneficiary_index');
         }
 
