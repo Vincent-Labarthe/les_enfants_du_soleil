@@ -19,7 +19,7 @@
             </div>
             <div class="ms-5">
                 <p type="text" class="form-control">N°Ord. Placement : {{ person.data.refOrdonnance }}</p>
-                {% if person.data.birth_certificate is defined%}
+                {% if person.data.birth_certificate is not same as('-')%}
                 <p> Certificat de naissance</p>
                 <iframe src="{{ asset('uploads/birth_certificate/' ~ person.data.birth_certificate) }}" width="100%" height="500px" title="Certificat de naissance"></iframe>
                 <a href="{{ asset('uploads/birth_certificate/' ~ person.data.birth_certificate) }}">Télécharger le document ici</a>
