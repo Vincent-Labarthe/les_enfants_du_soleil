@@ -3,12 +3,16 @@
 namespace App\Service;
 
 use App\Entity\Address;
+use App\Entity\BehaviorEvent;
 use App\Entity\Beneficiary;
 use App\Entity\BeneficiaryEdsEntity;
+use App\Entity\Employee;
+use App\Entity\EventBehaviorType;
 use App\Entity\EventMedicalType;
 use App\Entity\Formation;
 use App\Entity\GeneralIdentifier;
 use App\Entity\HealthEvent;
+use App\Entity\InterviewReport;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
@@ -172,7 +176,7 @@ class BeneficiaryService
     }
 
     /**
-     * @param             $birthCertificate
+     * @param             $birthCertificateFile
      * @param Beneficiary $beneficiary
      *
      * @return void
@@ -214,6 +218,44 @@ class BeneficiaryService
             // ... handle exception if something happens during file upload
         }
         $beneficiary->setImageUrl($newFilename);
+        $this->em->flush();
+    }
+
+    /**
+     * Add behaviour event to beneficiary.
+     *
+     * @param Beneficiary $beneficiary Current beneficiary
+     * @param mixed       $formData    Form data
+     *
+     * @return void
+     */
+    public function addBehaviourEvent(Beneficiary $beneficiary, mixed $formData): void
+    {
+        $behaviourEvent = new BehaviorEvent();
+        $behaviourEvent->setEventDate($formData['date']);
+        $behaviourEvent->setBeneficiary($beneficiary);
+        $behaviourEvent->setEventBehaviorType($this->em->getRepository(EventBehaviorType::class)->find($formData['eventBehaviourType']));
+        $behaviourEvent->setComment($formData['comment']);
+        $this->em->persist($behaviourEvent);
+        $this->em->flush();
+    }
+
+    /**
+     * Add interview report to beneficiary.
+     *
+     * @param Beneficiary $beneficiary Current beneficiary
+     * @param mixed       $formData    Form data
+     *
+     * @return void
+     */
+    public function addInterview(Beneficiary $beneficiary, mixed $formData): void
+    {
+        $interview = new InterviewReport();
+        $interview->setBeneficiary($beneficiary);
+        $interview->setEventDate($formData['interviewDate']);
+        $interview->setReport($formData['comment']);
+        $interview->setManager($this->em->getRepository(Employee::class)->find($formData['manager']));
+        $this->em->persist($interview);
         $this->em->flush();
     }
 }

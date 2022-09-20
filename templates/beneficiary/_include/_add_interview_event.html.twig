@@ -1,6 +1,6 @@
 <div class="table-design" id="localisation_table">
-    <h4 class="mb-4">Ajouter un évènement de santé</h4>
-    {{ form_start(form, {'action': path('app_beneficiary_health_add_ajax', {'id': person.id} )}) }}
+    <h4 class="mb-4">Ajouter un entretien</h4>
+    {{ form_start(form, {'action': path('app_beneficiary_interview_add_ajax', {'id': person.id} )}) }}
     {{ form_widget(form) }}
     <button onclick="" class="btn btn-primary mb-5 text-end">Créer</button>
     {{ form_end(form) }}

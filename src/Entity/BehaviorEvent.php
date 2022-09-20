@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BehaviorEventRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BehaviorEventRepository::class)]
@@ -12,6 +13,7 @@ class BehaviorEvent
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+
     #[ORM\Column(type: 'string', length: 255)]
     private $comment;
 
@@ -22,6 +24,9 @@ class BehaviorEvent
     #[ORM\ManyToOne(targetEntity: EventBehaviorType::class, inversedBy: 'behaviorEvent')]
     #[ORM\JoinColumn(nullable: false)]
     private $eventBehaviorType;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $eventDate = null;
 
     public function getId(): ?int
     {
@@ -60,6 +65,18 @@ class BehaviorEvent
     public function setEventBehaviorType(?EventBehaviorType $eventBehaviorType): self
     {
         $this->eventBehaviorType = $eventBehaviorType;
+
+        return $this;
+    }
+
+    public function getEventDate(): ?\DateTimeInterface
+    {
+        return $this->eventDate;
+    }
+
+    public function setEventDate(\DateTimeInterface $eventDate): self
+    {
+        $this->eventDate = $eventDate;
 
         return $this;
     }

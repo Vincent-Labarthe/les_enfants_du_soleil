@@ -1,7 +1,4 @@
 <div class="table-design" id="localisation_table">
-    <div class="close-table">
-        <button id="close_btn_localisation" type="button" class="btn-close" aria-label="Close"></button>
-    </div>
         <h4 class="mb-4">Ajouter une formation</h4>
         {{ form_start(form, {'action': path('app_beneficiary_formation_add_ajax', {'id': person.id} )}) }}
         {{ form_widget(form) }}

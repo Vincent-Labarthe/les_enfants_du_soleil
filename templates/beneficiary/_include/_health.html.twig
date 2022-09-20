@@ -1,16 +1,12 @@
 <div class="table-design" id="localisation_table">
-    <div class="close-table">
-        <button id="close_btn_localisation" type="button" class="btn-close" aria-label="Close"></button>
-    </div>
-
     {% if healthEvents is null %}
-        <p>Aucun évènement de santé n'a été trouvée.</p>
+        <p>Aucun évènement de santé n'a été trouvé.</p>
         <button class="btn btn-outline-primary"
                 onclick="ajaxCall('app_beneficiary_health_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un évènement
             de santé
         </button>
     {% else %}
-        <h4 class="mb-4">Historique des localisations</h4>
+        <h4 class="mb-4">Historique des évènements de santé</h4>
         <button class="btn btn-outline-primary mb-4"
                 onclick="ajaxCall('app_beneficiary_health_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un évènement
             de santé

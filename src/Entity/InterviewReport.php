@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\InterviewReportRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InterviewReportRepository::class)]
@@ -23,6 +24,9 @@ class InterviewReport
     #[ORM\ManyToOne(targetEntity: Employee::class, inversedBy: 'interviewReports')]
     #[ORM\JoinColumn(nullable: false)]
     private $manager;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $eventDate = null;
 
     public function getId(): ?int
     {
@@ -61,6 +65,18 @@ class InterviewReport
     public function setManager(?Beneficiary $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getEventDate(): ?\DateTimeInterface
+    {
+        return $this->eventDate;
+    }
+
+    public function setEventDate(\DateTimeInterface $eventDate): self
+    {
+        $this->eventDate = $eventDate;
 
         return $this;
     }

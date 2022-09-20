@@ -1,0 +1,43 @@
+<div class="table-design" id="localisation_table">
+    {% if interviews is null %}
+        <p>Aucun entretien n'a été trouvé.</p>
+        <button class="btn btn-outline-primary"
+                onclick="ajaxCall('app_beneficiary_interview_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un entretien
+        </button>
+    {% else %}
+        <h4 class="mb-4">Historique des entretiens</h4>
+        <button class="btn btn-outline-primary mb-4"
+                onclick="ajaxCall('app_beneficiary_interview_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un entretien
+        </button>
+        <table class="table datagrid">
+            <thead id="table_head">
+            <tr class="table100-head">
+                <th class="header-for-field-text text-left" dir="ltr">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Le
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="date_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Qui
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="cancel_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Compte rendu
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody class="table_data">
+            {% for interview in interviews %}
+                <tr class="text-center">
+                    <td>{{ interview.eventDate|date("d/m/Y") }}</td>
+                    <td>{{ interview.manager.firstName ~ ' ' ~  interview.manager.lastName}}</td>
+                    <td>{{ interview.report }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

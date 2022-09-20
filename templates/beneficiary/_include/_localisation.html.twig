@@ -1,9 +1,5 @@
 <div class="table-design" id="localisation_table">
-    <div class="close-table">
-        <button id="close_btn_localisation" type="button" class="btn-close" aria-label="Close"></button>
-    </div>
-
-    {% if localisations is null %}
+{% if localisations is null %}
     <p>Aucune localisation n'a été trouvée.</p>
         <button class="btn btn-outline-primary mb-4" onclick ="ajaxCall('app_beneficiary_localisation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une localisation</button></a>
     {% else %}

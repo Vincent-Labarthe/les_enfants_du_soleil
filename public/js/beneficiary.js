@@ -24,8 +24,14 @@ $(document).ready(function () {
         ajaxCall('app_beneficiary_health_ajax', {'id': user_id})
     })
 
+    $("#behaviour_link").on('click', function () {
+        ajaxCall('app_beneficiary_behaviour_ajax', {'id': user_id})
+    })
 
-    closeTable()
+    $("#interview_link").on('click', function () {
+        ajaxCall('app_beneficiary_interview_ajax', {'id': user_id})
+    })
+
 })
 
 function ajaxCall(url, data) {
@@ -39,11 +45,4 @@ function ajaxCall(url, data) {
             $('#general_information').html(response)
         },
     })
-}
-
-function closeTable() {
-    $(document).on('click', '#close_btn_localisation', function () {
-        $("#localisation_table").remove()
-
-    });
 }

@@ -6,11 +6,13 @@ use App\Entity\Beneficiary;
 use App\Entity\BeneficiaryEdsEntity;
 use App\Entity\GeneralIdentifier;
 use App\Form\AddressType;
+use App\Form\BehaviourEventType;
 use App\Form\BeneficiaryFormationType;
 use App\Form\BeneficiaryLocalisationType;
 use App\Form\BeneficiarySearchType;
 use App\Form\BeneficiaryType;
 use App\Form\HealthEventType;
+use App\Form\InterviewType;
 use App\Service\BeneficiaryService;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use App\Transformer\Beneficiary\DetailToArrayTransformer;
@@ -82,7 +84,7 @@ class BeneficiaryController extends AbstractController
 
 
         if ($request->isXmlHttpRequest()) {
-            $html = $this->render('beneficiary/_include/_detail.html.twig', ['person' => $beneficiaryArray,]);
+            $html = $this->render('beneficiary/_include/_general_information.html.twig', ['person' => $beneficiaryArray,]);
 
             return new JsonResponse($html->getContent());
         }
@@ -165,11 +167,11 @@ class BeneficiaryController extends AbstractController
         $form = $this->createForm(BeneficiaryType::class, $beneficiary);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($imageFile=$form->get('imageUrl')->getData()) {
-                $beneficiaryService->saveProfilImage($imageFile,$beneficiary);
+            if ($imageFile = $form->get('imageUrl')->getData()) {
+                $beneficiaryService->saveProfilImage($imageFile, $beneficiary);
             }
-            if ($birthCertificatFile=$form->get('birthCertificate')->getData()) {
-                $beneficiaryService->saveBirthCertificate($birthCertificatFile,$beneficiary);
+            if ($birthCertificatFile = $form->get('birthCertificate')->getData()) {
+                $beneficiaryService->saveBirthCertificate($birthCertificatFile, $beneficiary);
             }
             $localisationHistory = $form->getData()->getEdsEntity()->toArray();
             foreach ($localisationHistory as $localisation) {
@@ -339,10 +341,10 @@ class BeneficiaryController extends AbstractController
      * @param EntityManagerInterface $em                 The entity manager
      * @param BeneficiaryService     $beneficiaryService The beneficiary service
      *
-     * @return RedirectResponse|Response
+     * @return RedirectResponse|JsonResponse|Response
      */
-    #[Route(path: '/health/add', name: 'health_add_ajax',options: ['expose' => true], methods: ['POST'])]
-    public function healthAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService)
+    #[Route(path: '/health/add', name: 'health_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function healthAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService): RedirectResponse|JsonResponse|Response
     {
         if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
             return $this->redirectToRoute('app_beneficiary_index');
@@ -362,6 +364,123 @@ class BeneficiaryController extends AbstractController
         ]);
 
         return new JsonResponse($html->getContent());
+    }
 
+    /**
+     * Ajax call to display beneficiary behaviour history.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return JsonResponse|RedirectResponse
+     */
+    #[Route(path: '/behaviour/ajax', name: 'behaviour_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function behaviourAjax(Request $request, EntityManagerInterface $em): RedirectResponse|JsonResponse
+    {
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $behaviourEvents = $beneficiary?->getBehaviorEvent()->toArray();
+        $html = $this->render('beneficiary/_include/_behaviour.html.twig', [
+            'behaviourEvents' => $behaviourEvents !== [] ? $behaviourEvents : null,
+            'beneficiary' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * Behaviour add page.
+     *
+     * @param Request                $request            Current request
+     * @param EntityManagerInterface $em                 The entity manager
+     * @param BeneficiaryService     $beneficiaryService The beneficiary service
+     *
+     * @return RedirectResponse|JsonResponse|Response
+     */
+    #[Route(path: '/behaviour/add', name: 'behaviour_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function behaviourAdd(
+        Request $request,
+        EntityManagerInterface $em,
+        BeneficiaryService $beneficiaryService
+    ): RedirectResponse|JsonResponse|Response {
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(BehaviourEventType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $beneficiaryService->addBehaviourEvent($beneficiary, $form->getData());
+
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+
+        $html = $this->render('beneficiary/_include/_add_behaviour_event.html.twig', [
+            'form' => $form->createView(),
+            'person' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * Ajax call to display beneficiary interview history.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return JsonResponse|RedirectResponse
+     */
+    #[Route(path: '/interview/ajax', name: 'interview_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function interviewAjax(Request $request, EntityManagerInterface $em): RedirectResponse|JsonResponse
+    {
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $interviews = $beneficiary?->getInterviewReports()->toArray();
+        $html = $this->render('beneficiary/_include/_interview.html.twig', [
+            'interviews' => $interviews !== [] ? $interviews : null,
+            'beneficiary' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * Interview add page.
+     *
+     * @param Request                $request            Current request
+     * @param EntityManagerInterface $em                 The entity manager
+     * @param BeneficiaryService     $beneficiaryService The beneficiary service
+     *
+     * @return RedirectResponse|JsonResponse|Response
+     */
+    #[Route(path: '/interview/add', name: 'interview_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function interviewAdd(
+        Request $request,
+        EntityManagerInterface $em,
+        BeneficiaryService $beneficiaryService
+    ): RedirectResponse|JsonResponse|Response {
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(InterviewType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $beneficiaryService->addInterview($beneficiary, $form->getData());
+
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+
+        $html = $this->render('beneficiary/_include/_add_interview_event.html.twig', [
+            'form' => $form->createView(),
+            'person' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
     }
 }

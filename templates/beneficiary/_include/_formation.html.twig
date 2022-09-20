@@ -1,8 +1,4 @@
 <div class="table-design" id="localisation_table">
-    <div class="close-table">
-        <button id="close_btn_localisation" type="button" class="btn-close" aria-label="Close"></button>
-    </div>
-
     {% if formations is null %}
         <p>Aucune formation n'a été trouvée.</p>
         <button class="btn btn-outline-primary mb-4" onclick ="ajaxCall('app_beneficiary_formation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une formation</button></a>

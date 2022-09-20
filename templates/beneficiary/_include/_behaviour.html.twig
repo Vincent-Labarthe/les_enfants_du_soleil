@@ -1,0 +1,45 @@
+<div class="table-design" id="localisation_table">
+    {% if behaviourEvents is null %}
+        <p>Aucun évènement de comportement n'a été trouvé.</p>
+        <button class="btn btn-outline-primary"
+                onclick="ajaxCall('app_beneficiary_behaviour_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un évènement
+            de comportement
+        </button>
+    {% else %}
+        <h4 class="mb-4">Historique des évènement de comportement</h4>
+        <button class="btn btn-outline-primary mb-4"
+                onclick="ajaxCall('app_beneficiary_behaviour_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un évènement
+            de comportement
+        </button>
+        <table class="table datagrid">
+            <thead id="table_head">
+            <tr class="table100-head">
+                <th class="header-for-field-text text-left" dir="ltr">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Le
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="date_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Type
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="cancel_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Compte rendu
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody class="table_data">
+            {% for behaviourEvent in behaviourEvents %}
+                <tr class="text-center">
+                    <td>{{ behaviourEvent.eventDate|date("d/m/Y") }}</td>
+                    <td>{{ behaviourEvent.eventBehaviorType }}</td>
+                    <td>{{ behaviourEvent.comment }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
