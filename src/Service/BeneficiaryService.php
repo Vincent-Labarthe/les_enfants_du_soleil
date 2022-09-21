@@ -17,7 +17,6 @@ use App\Transformer\Beneficiary\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;

@@ -39,28 +39,16 @@ class EdsEntityRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return EdsEntity[] Returns an array of EdsEntity objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?EdsEntity
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * Get parent EdsEntity.
+     *
+     * @return float|int|mixed|string
+     */
+    public function getParentEdsEntity(): mixed
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.edsParent IS NULL or e.edsType = 2')
+            ->getQuery()
+            ->getResult();
+    }
 }

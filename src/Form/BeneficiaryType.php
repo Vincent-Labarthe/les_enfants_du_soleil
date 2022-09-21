@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
@@ -101,6 +103,18 @@ class BeneficiaryType extends AbstractType
             'placeholder' => 'Choisir une entité',
             'mapped' => false,
         ]);
+
+        $builder->get('imageUrl')->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            if (null === $event->getData()) {
+                $event->setData($event->getForm()->getData());
+            }
+        });
+
+        $builder->get('birthCertificate')->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            if (null === $event->getData()) {
+                $event->setData($event->getForm()->getData());
+            }
+        });
     }
 
     /**

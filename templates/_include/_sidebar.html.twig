@@ -2,7 +2,8 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home')%} active {% endif %}" aria-current="page" href="{{ path('app_home') }}">
+                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home') %} active {% endif %}"
+                   aria-current="page" href="{{ path('app_home') }}">
                     <span data-feather="home"></span>
                     Accueil
                 </a>
@@ -10,64 +11,76 @@
             <hr>
             <li class="nav-item">
                 <div class="dropend">
-                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_index')%}active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_beneficiary_index') %}active{% endif %}"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <span data-feather="file"></span>
                         Bénéficiaires
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="{{ path('app_beneficiary_index') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Rechercher</a>
+                            <a href="{{ path('app_beneficiary_index') }}" class="nav-link dropdown-item"><span
+                                        data-feather="file"></span>Rechercher</a>
                         </li>
                         <li>
-                            <a href="{{ path('app_beneficiary_add') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Ajouter un bénéficiare</a>
+                            <a href="{{ path('app_beneficiary_add') }}" class="nav-link dropdown-item"><span
+                                        data-feather="file"></span>Ajouter un bénéficiare</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
                 <div class="dropend">
-                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_employee_index')%}active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_employee_index') %}active{% endif %}"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <span data-feather="file"></span>
                         Employés
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="{{ path('app_employee_index') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Rechercher</a>
+                            <a href="{{ path('app_employee_index') }}" class="nav-link dropdown-item"><span
+                                        data-feather="file"></span>Rechercher</a>
                         </li>
                         <li>
-                            <a href="{{ path('app_employee_add') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Ajouter un employé</a>
+                            <a href="{{ path('app_employee_add') }}" class="nav-link dropdown-item"><span
+                                        data-feather="file"></span>Ajouter un employé</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
                 <div class="dropend">
-                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_volunteer_index')%}active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_volunteer_index') %}active{% endif %}"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <span data-feather="file"></span>
                         Bénévoles
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="{{ path('app_employee_index') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Rechercher</a>
+                            <a href="{{ path('app_employee_index') }}" class="nav-link dropdown-item"><span
+                                        data-feather="file"></span>Rechercher</a>
                         </li>
                         <li>
-                            <a href="{{ path('app_employee_add') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Ajouter un employé</a>
+                            <a href="{{ path('app_employee_add') }}" class="nav-link dropdown-item"><span
+                                        data-feather="file"></span>Ajouter un employé</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
                 <div class="dropend">
-                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_sponsor_index')%}active{% endif %}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class=" dropdown-toggle nav-link {% if app.request.attributes.get('_route') is same as ('app_sponsor_index') %}active{% endif %}"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <span data-feather="file"></span>
                         Parrains
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="{{ path('app_employee_index') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Rechercher</a>
+                            <a href="{{ path('app_employee_index') }}" class="nav-link dropdown-item"><span
+                                        data-feather="file"></span>Rechercher</a>
                         </li>
                         <li>
-                            <a href="{{ path('app_employee_add') }}" class="nav-link dropdown-item"><span data-feather="file"></span>Ajouter un employé</a>
+                            <a href="{{ path('app_employee_add') }}" class="nav-link dropdown-item"><span
+                                        data-feather="file"></span>Ajouter un employé</a>
                         </li>
                     </ul>
                 </div>
@@ -81,27 +94,13 @@
                         Entité EDS
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a class="nav-link" href="{{ path('app_eds_entity_index',{slug:'eds-france' }) }}"><span data-feather="file"></span>EDS France</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>DG EDS</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Site ABE</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Site ANT</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Site FIA</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Site TAM</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"><span data-feather="file"></span>Site TUL</a>
-                        </li>
+                        {% for parentEdsEntity in parentEdsEntities %}
+                            <li>
+                                <a class="nav-link"
+                                   href="{{ path('app_eds_entity_index',{id:parentEdsEntity.id }) }}"><span
+                                            data-feather="file"></span>{{ parentEdsEntity.name }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </li>
@@ -110,14 +109,14 @@
                 <a class="nav-link">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Organismes
+                    Org. Formation
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link">
                     {#                <a class="nav-link" href="{{ path('app_beneficiary_index') }}"> #}
                     <span data-feather="file"></span>
-                    Formations
+                    Entreprise
                 </a>
             </li>
         </ul>

@@ -24,7 +24,7 @@ class EdsEntityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/{slug}', name: 'index')]
+    #[Route(path: '/{id}', name: 'index')]
     public function index(EdsEntity $edsEntity)
     {
         return $this->render('eds-entity/index.html.twig', [

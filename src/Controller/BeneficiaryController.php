@@ -14,6 +14,7 @@ use App\Form\BeneficiaryType;
 use App\Form\HealthEventType;
 use App\Form\InterviewType;
 use App\Service\BeneficiaryService;
+use App\Service\EdsEntityService;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use App\Transformer\Beneficiary\DetailToArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,7 +41,7 @@ class BeneficiaryController extends AbstractController
      * @return Response
      */
     #[Route(name: 'index')]
-    public function index(EntityManagerInterface $em, Request $request): Response
+    public function index(EntityManagerInterface $em, Request $request, EdsEntityService $edsEntityService): Response
     {
         $form = $this->createForm(BeneficiarySearchType::class);
         $form->handleRequest($request);
@@ -57,7 +58,8 @@ class BeneficiaryController extends AbstractController
 
         return $this->render('beneficiary/index.html.twig', [
             'beneficiaries' => $fractal->createData($data)->toArray()['data'],
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'parentEdsEntities' => $edsEntityService->getParentEdsEntity(),
         ]);
     }
 
