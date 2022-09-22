@@ -22,18 +22,21 @@
                         {{ form_row(form.sexe) }}
                         {{ form_row(form.dateOfBirth) }}
                         {{ form_row(form.imageUrl) }}
+                        {{ form_row(form.birthCertificate) }}
                         {{ form_row(form.origin) }}
+                        {{ form_row(form.lifeProject) }}
                     </div>
                     <div class="col-4" >
+                        {{ form_row(form.refOrdonnance) }}
+                        {{ form_row(form.plannedCareer) }}
                         {{ form_row(form.edsEntity) }}
                         {{ form_row(form.supportStartedAt) }}
                         {{ form_row(form.supportEndedAt) }}
                         {{ form_row(form.tel) }}
-
                     </div>
                 </div>
                 <div class="text-end">
-                    <button type="submit" class="btn btn-primary mb-5 text-end">Créer</button>
+                    <button type="submit" class="btn btn-primary mt-5 text-end">Créer</button>
                 </div>
                 {{ form_end(form) }}
             </div>

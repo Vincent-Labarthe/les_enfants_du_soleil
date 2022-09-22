@@ -107,7 +107,7 @@ class BeneficiaryController extends AbstractController
      * @return Response
      */
     #[Route(path: '/add', name: 'add')]
-    public function add(Request $request, BeneficiaryService $beneficiaryService): Response
+    public function add(Request $request, BeneficiaryService $beneficiaryService, EdsEntityService $edsEntityService): Response
     {
         $form = $this->createForm(BeneficiaryType::class);
         $form->handleRequest($request);
@@ -122,6 +122,8 @@ class BeneficiaryController extends AbstractController
 
         return $this->render('beneficiary/add.html.twig', [
             'form' => $form->createView(),
+            'parentEdsEntities' => $edsEntityService->getParentEdsEntity(),
+
         ]);
     }
 
