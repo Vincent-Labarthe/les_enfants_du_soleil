@@ -62,7 +62,7 @@ class InterviewReport
         return $this->manager;
     }
 
-    public function setManager(?Beneficiary $manager): self
+    public function setManager(?Employee $manager): self
     {
         $this->manager = $manager;
 

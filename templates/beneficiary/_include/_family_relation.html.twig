@@ -1,0 +1,49 @@
+<div class="table-design" id="localisation_table">
+    {% if familyRelations is null %}
+        <p>Aucune relation familiale trouvé.</p>
+        <button class="btn btn-outline-primary"
+                onclick="ajaxCall('app_beneficiary_family_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une relation familiale
+        </button>
+    {% else %}
+        <h4 class="mb-4">Relations familiales</h4>
+        <button class="btn btn-outline-primary mb-4"
+                onclick="ajaxCall('app_beneficiary_family_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une relation familiale
+        </button>
+        <table class="table datagrid">
+            <thead id="table_head">
+            <tr class="table100-head">
+                <th class="header-for-field-text text-left" dir="ltr">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Relation
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="date_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Nom
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="cancel_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Niveau scolaire
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="cancel_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Profession
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody class="table_data">
+            {% for familyRelation in familyRelations %}
+                <tr class="text-center">
+                    <td>{{ familyRelation.relation }}</td>
+                    <td>{{familyRelation.firstName ~ ' ' ~  familyRelation.lastName}}</td>
+                    <td>{{ familyRelation.schoolLevel }}</td>
+                    <td>{{ familyRelation.job }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

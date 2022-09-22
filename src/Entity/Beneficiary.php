@@ -38,9 +38,6 @@ class Beneficiary
     private $dateOfBirth;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $familyRelation;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\File(mimeTypes: ['image/jpeg', 'image/png'])]
     private $imageUrl;
 
@@ -118,6 +115,9 @@ class Beneficiary
     #[ORM\Column(nullable: true)]
     private ?bool $lifeProject = null;
 
+    #[ORM\ManyToMany(targetEntity: FamilyRelation::class, inversedBy: 'beneficiaries')]
+    private Collection $familyRelation;
+
     public function __construct()
     {
         $this->behaviorEvent = new ArrayCollection();
@@ -129,6 +129,7 @@ class Beneficiary
         $this->interviewReports = new ArrayCollection();
         $this->edsEntity = new ArrayCollection();
         $this->formations = new ArrayCollection();
+        $this->familyRelation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -204,18 +205,6 @@ class Beneficiary
     public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
     {
         $this->dateOfBirth = $dateOfBirth;
-
-        return $this;
-    }
-
-    public function getFamilyRelation(): ?string
-    {
-        return $this->familyRelation;
-    }
-
-    public function setFamilyRelation(?string $familyRelation): self
-    {
-        $this->familyRelation = $familyRelation;
 
         return $this;
     }
@@ -638,6 +627,30 @@ class Beneficiary
     public function setLifeProject(?bool $lifeProject): self
     {
         $this->lifeProject = $lifeProject;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FamilyRelation>
+     */
+    public function getFamilyRelation(): Collection
+    {
+        return $this->familyRelation;
+    }
+
+    public function addFamilyRelation(FamilyRelation $familyRelation): self
+    {
+        if (!$this->familyRelation->contains($familyRelation)) {
+            $this->familyRelation->add($familyRelation);
+        }
+
+        return $this;
+    }
+
+    public function removeFamilyRelation(FamilyRelation $familyRelation): self
+    {
+        $this->familyRelation->removeElement($familyRelation);
 
         return $this;
     }

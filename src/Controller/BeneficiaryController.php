@@ -11,6 +11,7 @@ use App\Form\BeneficiaryFormationType;
 use App\Form\BeneficiaryLocalisationType;
 use App\Form\BeneficiarySearchType;
 use App\Form\BeneficiaryType;
+use App\Form\FamilyType;
 use App\Form\HealthEventType;
 use App\Form\InterviewType;
 use App\Service\BeneficiaryService;
@@ -479,6 +480,65 @@ class BeneficiaryController extends AbstractController
         }
 
         $html = $this->render('beneficiary/_include/_add_interview_event.html.twig', [
+            'form' => $form->createView(),
+            'person' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * Ajax call to display beneficiary family history.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return JsonResponse|RedirectResponse
+     */
+    #[Route(path: '/family/ajax', name: 'family_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function familyAjax(Request $request, EntityManagerInterface $em): RedirectResponse|JsonResponse
+    {
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $familyRelations = $beneficiary?->getFamilyRelation()->toArray();
+        $html = $this->render('beneficiary/_include/_family_relation.html.twig', [
+            'familyRelations' => $familyRelations !== [] ? $familyRelations : null,
+            'beneficiary' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * Family relation add page.
+     *
+     * @param Request                $request            Current request
+     * @param EntityManagerInterface $em                 The entity manager
+     * @param BeneficiaryService     $beneficiaryService The beneficiary service
+     *
+     * @return RedirectResponse|JsonResponse|Response
+     */
+    #[Route(path: '/family/add', name: 'family_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function familyAdd(
+        Request $request,
+        EntityManagerInterface $em,
+        BeneficiaryService $beneficiaryService
+    ): RedirectResponse|JsonResponse|Response {
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(FamilyType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $beneficiaryService->addFamily($beneficiary, $form->getData());
+
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+
+        $html = $this->render('beneficiary/_include/_add_family_relation.html.twig', [
             'form' => $form->createView(),
             'person' => $beneficiary,
         ]);

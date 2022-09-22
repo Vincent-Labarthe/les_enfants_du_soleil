@@ -9,10 +9,12 @@ use App\Entity\BeneficiaryEdsEntity;
 use App\Entity\Employee;
 use App\Entity\EventBehaviorType;
 use App\Entity\EventMedicalType;
+use App\Entity\FamilyRelation;
 use App\Entity\Formation;
 use App\Entity\GeneralIdentifier;
 use App\Entity\HealthEvent;
 use App\Entity\InterviewReport;
+use App\Entity\SchoolLevel;
 use App\Transformer\Beneficiary\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
@@ -255,6 +257,29 @@ class BeneficiaryService
         $interview->setReport($formData['comment']);
         $interview->setManager($this->em->getRepository(Employee::class)->find($formData['manager']));
         $this->em->persist($interview);
+        $this->em->flush();
+    }
+
+    /**
+     * Add family relation to beneficiary.
+     *
+     * @param Beneficiary $beneficiary Current beneficiary
+     * @param mixed       $formData    Form data
+     *
+     * @return void
+     */
+    public function addFamily(Beneficiary $beneficiary, mixed $formData): void
+    {
+        $familyRelation = new FamilyRelation();
+        $familyRelation->addBeneficiary($beneficiary);
+        $familyRelation->setFirstname($formData['firstname']);
+        $familyRelation->setLastname($formData['lastname']);
+        $familyRelation->setRelation($formData['relation']);
+        if ($formData['schoolLevel'] !== null) {
+            $familyRelation->setSchoolLevel($this->em->getRepository(SchoolLevel::class)->find($formData['schoolLevel']));
+        }
+        $familyRelation->setJob($formData['job']);
+        $this->em->persist($familyRelation);
         $this->em->flush();
     }
 }

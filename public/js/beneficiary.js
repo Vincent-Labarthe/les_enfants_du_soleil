@@ -32,6 +32,9 @@ $(document).ready(function () {
         ajaxCall('app_beneficiary_interview_ajax', {'id': user_id})
     })
 
+    $("#family_link").on('click', function () {
+        ajaxCall('app_beneficiary_family_ajax', {'id': user_id})
+    })
 })
 
 function ajaxCall(url, data) {

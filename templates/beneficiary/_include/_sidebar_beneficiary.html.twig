@@ -77,8 +77,8 @@
             {#            @TODO in V2 : ajouter les liens vers les autres pages #}
 
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home') %} active {% endif %}"
-                   aria-current="page" href="{{ path('app_home') }}">
+                <a id="family_link" class="nav-link {% if app.request.attributes.get('_route') is same as ('app_home') %} active {% endif %}"
+                   aria-current="page" >
                     <span data-feather="home"></span>
                     Famille
                 </a>
