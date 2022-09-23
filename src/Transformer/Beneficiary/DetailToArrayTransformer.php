@@ -29,10 +29,11 @@ class DetailToArrayTransformer extends TransformerAbstract
             'image_url' => $beneficiary->getImageUrl() ?? '-',
             'birth_certificate' => $beneficiary->getBirthCertificate() ?? '-',
             'refOrdonnance' => $beneficiary->getRefOrdonnance() ?? '-',
-            'plannedCareer'=> $beneficiary->getPlannedCareer() ?? '-',
+            'plannedCareer' => $beneficiary->getPlannedCareer() ?? '-',
             'school_level' => $beneficiary->getSchoolLevel(),
             'degree' => $beneficiary->getDegree(),
             'localisation' => $this->getCurrentLocalisation($beneficiary),
+            'internRef' => $beneficiary->getInternRef() ?? '-',
         ];
     }
 

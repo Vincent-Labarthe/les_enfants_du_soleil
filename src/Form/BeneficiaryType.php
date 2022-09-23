@@ -11,14 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Length;
 
 class BeneficiaryType extends AbstractType
 {
@@ -28,6 +25,8 @@ class BeneficiaryType extends AbstractType
             'label' => 'Prénom',
         ])->add('lastName', TextType::class, [
             'label' => 'Nom',
+        ])->add('internRef', TextType::class, [
+            'label' => 'Référence interne'
         ])->add('email', EmailType::class, [
             'label' => 'Email',
             'required' => false,

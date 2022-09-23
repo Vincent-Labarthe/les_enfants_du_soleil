@@ -118,6 +118,9 @@ class Beneficiary
     #[ORM\ManyToMany(targetEntity: FamilyRelation::class, inversedBy: 'beneficiaries')]
     private Collection $familyRelation;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $internRef = null;
+
     public function __construct()
     {
         $this->behaviorEvent = new ArrayCollection();
@@ -651,6 +654,18 @@ class Beneficiary
     public function removeFamilyRelation(FamilyRelation $familyRelation): self
     {
         $this->familyRelation->removeElement($familyRelation);
+
+        return $this;
+    }
+
+    public function getInternRef(): ?string
+    {
+        return $this->internRef;
+    }
+
+    public function setInternRef(?string $internRef): self
+    {
+        $this->internRef = $internRef;
 
         return $this;
     }

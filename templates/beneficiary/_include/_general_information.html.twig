@@ -2,6 +2,7 @@
         <img class="beneficiary-img" src="{{ asset('uploads/images/' ~ person.data.image_url) }}" alt="image de profil">
         <div class="ms-5 d-flex flex-row">
             <div>
+                    <p type="text" class="form-control">Référence interne : {{ person.data.internRef }}</p>
                 <p type="text" class="form-control">Né le : {{ person.data.birthdate|date('d-m-Y') }}</p>
                 <p type="text" class="form-control">Dernier statut : {{ person.data.origin }}</p>
                 <p type="text" class="form-control">Entité EDS : {{ person.data.localisation }}</p>
