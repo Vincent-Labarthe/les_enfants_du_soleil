@@ -93,7 +93,7 @@ class Beneficiary
     #[ORM\ManyToOne(targetEntity: Address::class, inversedBy: 'beneficiaries')]
     private $address;
 
-    #[ORM\OneToMany(mappedBy: 'beneficiary', targetEntity: BeneficiaryEdsEntity::class)]
+    #[ORM\OneToMany(mappedBy: 'beneficiary', targetEntity: BeneficiaryEdsEntity::class, cascade: ['persist', 'remove'])]
     #[ORM\OrderBy(['id' => 'DESC'])]
     private Collection $edsEntity;
 

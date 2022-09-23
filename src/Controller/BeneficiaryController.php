@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\BehaviorEvent;
 use App\Entity\Beneficiary;
 use App\Entity\BeneficiaryEdsEntity;
+use App\Entity\EdsEntity;
+use App\Entity\FamilyRelation;
 use App\Entity\GeneralIdentifier;
+use App\Entity\HealthEvent;
+use App\Entity\InterviewReport;
 use App\Form\AddressType;
 use App\Form\BehaviourEventType;
 use App\Form\BeneficiaryFormationType;
@@ -24,6 +29,7 @@ use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -261,6 +267,23 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
+     * Removing a localisation.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/localisation/delete', name: 'localisation_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function localisationDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $em->remove($em->getRepository(BeneficiaryEdsEntity::class)->find($request->request->get('localisationId')));
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * Ajax call to display beneficiary formation history.
      *
      * @param Request                $request Current request
@@ -316,6 +339,24 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
+     * Removing a formation.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/formation/delete', name: 'formation_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function formationDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'));
+        $beneficiary?->removeFormation($em->getRepository(Form::class)->find($request->request->get('formationId')));
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * Ajax call to display beneficiary health history.
      *
      * @param Request                $request Current request
@@ -349,8 +390,11 @@ class BeneficiaryController extends AbstractController
      * @return RedirectResponse|JsonResponse|Response
      */
     #[Route(path: '/health/add', name: 'health_add_ajax', options: ['expose' => true], methods: ['POST'])]
-    public function healthAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService): RedirectResponse|JsonResponse|Response
-    {
+    public function healthAdd(
+        Request $request,
+        EntityManagerInterface $em,
+        BeneficiaryService $beneficiaryService
+    ): RedirectResponse|JsonResponse|Response {
         if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
             return $this->redirectToRoute('app_beneficiary_index');
         }
@@ -369,6 +413,24 @@ class BeneficiaryController extends AbstractController
         ]);
 
         return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * Removing a health event.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/health/delete', name: 'health_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function healthDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'));
+        $beneficiary?->removeHealthEvent($em->getRepository(HealthEvent::class)->find($request->request->get('healthEventId')));
+        $em->flush();
+
+        return new JsonResponse();
     }
 
     /**
@@ -431,6 +493,24 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
+     * Removing a behaviour event.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/behaviour/delete', name: 'behaviour_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function behaviourDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'));
+        $beneficiary?->removeBehaviorEvent($em->getRepository(BehaviorEvent::class)->find($request->request->get('behaviourEventId')));
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * Ajax call to display beneficiary interview history.
      *
      * @param Request                $request Current request
@@ -490,6 +570,24 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
+     * Removing an interview report.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/interview/delete', name: 'interview_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function interviewDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'));
+        $beneficiary?->removeInterviewReport($em->getRepository(InterviewReport::class)->find($request->request->get('interviewReportId')));
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * Ajax call to display beneficiary family history.
      *
      * @param Request                $request Current request
@@ -546,5 +644,24 @@ class BeneficiaryController extends AbstractController
         ]);
 
         return new JsonResponse($html->getContent());
+    }
+
+
+    /**
+     * Removing a family relation.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/family/delete', name: 'family_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function familyDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'));
+        $beneficiary?->removeFamilyRelation($em->getRepository(FamilyRelation::class)->find($request->request->get('familyRelationId')));
+        $em->flush();
+
+        return new JsonResponse();
     }
 }

@@ -12,6 +12,7 @@ $(document).ready(function () {
     $("#localisation_link").on('click', function () {
         ajaxCall('app_beneficiary_localisation_ajax', {'id': user_id})
     });
+
     $("#formation_link").on('click', function () {
         ajaxCall('app_beneficiary_formation_ajax', {'id': user_id})
     });
@@ -35,6 +36,9 @@ $(document).ready(function () {
     $("#family_link").on('click', function () {
         ajaxCall('app_beneficiary_family_ajax', {'id': user_id})
     })
+
+
+
 })
 
 function ajaxCall(url, data) {
@@ -47,5 +51,21 @@ function ajaxCall(url, data) {
         success: function (response) {
             $('#general_information').html(response)
         },
+    })
+}
+
+function ajaxCallDelete(url, data) {
+    $.ajax({
+        url: Routing.generate(url, data),
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        async: true,
+        success: function () {
+           $('#'+ data.localisationId).remove()
+        },
+        error: function (response) {
+            console.log(response)
+        }
     })
 }

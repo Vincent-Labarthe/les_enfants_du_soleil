@@ -1,51 +1,81 @@
 <div class="table-design" id="localisation_table">
-{% if localisations is null %}
-    <p>Aucune localisation n'a été trouvée.</p>
-        <button class="btn btn-outline-primary mb-4" onclick ="ajaxCall('app_beneficiary_localisation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une localisation</button></a>
+    {% if localisations is null %}
+        <p>Aucune localisation n'a été trouvée.</p>
+        <button class="btn btn-outline-primary mb-4"
+                onclick="ajaxCall('app_beneficiary_localisation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une
+            localisation
+        </button></a>
     {% else %}
-    <h4 class="mb-4">Historique des localisations</h4>
-        <button class="btn btn-outline-primary mb-4" onclick ="ajaxCall('app_beneficiary_localisation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une localisation</button></a>
-    <table class="table datagrid">
-        <thead id="table_head">
-        <tr class="table100-head">
-            <th class="header-for-field-text text-left" dir="ltr">
-                <div class="d-flex flex-row justify-content-center align-items-center">
-                    Du
-                </div>
-            </th>
-            <th scope="col" class="cell" id="date_cell">
-                <div class="d-flex flex-row justify-content-center align-items-center">
-                    Au
-                </div>
-            </th>
-            <th scope="col" class="cell" id="ttc_cell">
-                <div class="d-flex flex-row justify-content-center align-items-center">
-                    Entité EDS
-                </div>
-            </th>
-            <th scope="col" class="cell" id="shipping_cell">
-                <div class="d-flex flex-row justify-content-center align-items-center">
-                    Adresse
-                </div>
-            </th>
-            <th scope="col" class="cell" id="cancel_cell">
-                <div class="d-flex flex-row justify-content-center align-items-center">
-                    Ville
-                </div>
-            </th>
-        </tr>
-        </thead>
-        <tbody class="table_data">
-        {% for localisation in localisations %}
-            <tr class="text-center">
-                <td>{{ localisation.startedAt|date("d/m/Y") }}</td>
-                <td>{% if localisation.endedAt is not null %}{{ localisation.endedAt|date("d/m/Y") }}{% else %} - {% endif %}</td>
-                <td>{{ localisation.edsEntity.name }}</td>
-                <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% else %} - {% endif %}</td>
-                <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% else %} - {% endif %}</td>
+        <h4 class="mb-4">Historique des localisations</h4>
+        <button class="btn btn-outline-primary mb-4"
+                onclick="ajaxCall('app_beneficiary_localisation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une
+            localisation
+        </button></a>
+        <table class="table datagrid">
+            <thead id="table_head">
+            <tr class="table100-head">
+                <th class="header-for-field-text text-left" dir="ltr">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Du
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="date_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Au
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="ttc_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Entité EDS
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="shipping_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Adresse
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="cancel_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Ville
+                    </div>
+                </th>
+                <th scope="col" class="cell" id="cancel_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Action
+                    </div>
+                </th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="table_data">
+            {% for localisation in localisations %}
+                <tr class="text-center" id="{{ localisation.id }}">
+                    <td>{{ localisation.startedAt|date("d/m/Y") }}</td>
+                    <td>{% if localisation.endedAt is not null %}{{ localisation.endedAt|date("d/m/Y") }}{% else %} - {% endif %}</td>
+                    <td>{{ localisation.edsEntity.name }}</td>
+                    <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% else %} - {% endif %}</td>
+                    <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% else %} - {% endif %}</td>
+                    <td class="actions actions-as-dropdown">
+                        <div class="dropdown dropdown-actions">
+                            <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="21" width="21" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                                </svg>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item action-edit" data-id="{{ localisation.id }}"
+                                   id="localisation_edit_link">Modifier</a>
+                                <a class="dropdown-item action-delete text-danger" data-id="{{ localisation.id }}"
+                                   id="localisation_delete_link"
+                                   onclick="ajaxCallDelete('app_beneficiary_localisation_delete_ajax', {'id': {{ beneficiary.id }}, 'localisationId': {{ localisation.id }}})">Supprimer</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 </div>

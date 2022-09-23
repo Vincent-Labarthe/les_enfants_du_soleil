@@ -2,12 +2,14 @@
     {% if interviews is null %}
         <p>Aucun entretien n'a été trouvé.</p>
         <button class="btn btn-outline-primary"
-                onclick="ajaxCall('app_beneficiary_interview_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un entretien
+                onclick="ajaxCall('app_beneficiary_interview_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un
+            entretien
         </button>
     {% else %}
         <h4 class="mb-4">Historique des entretiens</h4>
         <button class="btn btn-outline-primary mb-4"
-                onclick="ajaxCall('app_beneficiary_interview_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un entretien
+                onclick="ajaxCall('app_beneficiary_interview_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter un
+            entretien
         </button>
         <table class="table datagrid">
             <thead id="table_head">
@@ -27,14 +29,37 @@
                         Compte rendu
                     </div>
                 </th>
+                <th scope="col" class="cell" id="cancel_cell">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        Action
+                    </div>
+                </th>
             </tr>
             </thead>
             <tbody class="table_data">
             {% for interview in interviews %}
-                <tr class="text-center">
+                <tr class="text-center" id="{{ interview.id }}">
                     <td>{{ interview.eventDate|date("d/m/Y") }}</td>
-                    <td>{{ interview.manager.firstName ~ ' ' ~  interview.manager.lastName}}</td>
+                    <td>{{ interview.manager.firstName ~ ' ' ~  interview.manager.lastName }}</td>
                     <td>{{ interview.report }}</td>
+                    <td class="actions actions-as-dropdown">
+                        <div class="dropdown dropdown-actions">
+                            <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="21" width="21" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                                </svg>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item action-edit" data-id="{{ interview.id }}"
+                                   id="interview_edit_link">Modifier</a>
+                                <a class="dropdown-item action-delete text-danger"
+                                   onclick="ajaxCallDelete('app_beneficiary_interview_delete_ajax', {'id': {{ beneficiary.id }}, 'interviewReportId': {{ interview.id }}})">Supprimer</a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
