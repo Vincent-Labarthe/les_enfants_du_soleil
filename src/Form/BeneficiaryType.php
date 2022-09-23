@@ -32,7 +32,7 @@ class BeneficiaryType extends AbstractType
             'email', RepeatedType::class, [
                 'type' => EmailType::class,
                 'invalid_message' => 'Les adresses e-mails doivent être les mêmes, merci de vérifier votre saisie.',
-                'options' => ['required' => true],
+                'options' => ['required' => false],
                 'first_options' => [
                     'label' => 'Adresse e-mail ',
                     'attr' => ['class' => 'form-control ', 'maxlength' => 70],
@@ -57,6 +57,7 @@ class BeneficiaryType extends AbstractType
         ])->add('dateOfBirth', DateType::class, [
             'widget' => 'single_text',
             'html5' => true,
+            'required' => true,
             'attr' => [
                 'class' => 'js-datepicker',
             ],
