@@ -26,7 +26,7 @@ class Beneficiary
     #[ORM\Column(type: 'string', length: 255)]
     private $lastName;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[ORM\Column(type: 'string', length: 255, unique: true,nullable: true)]
     #[Assert\Email]
     private $email;
 
