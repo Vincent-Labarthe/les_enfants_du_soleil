@@ -30,6 +30,7 @@ class BeneficiaryType extends AbstractType
             'label' => 'Nom',
         ])->add('email', EmailType::class, [
             'label' => 'Email',
+            'required' => false,
         ])->add('sexe', ChoiceType::class, [
             'choices' => [
                 'Masculin' => 'H',
