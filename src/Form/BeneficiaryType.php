@@ -42,7 +42,6 @@ class BeneficiaryType extends AbstractType
                     'attr' => ['class' => 'form-control ', 'maxlength' => 70],
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Le champ e-mail est obligatoire.']),
                     new Length(['max' => 70]),
                 ],
                 'attr' => ['class' => 'form-control '],
