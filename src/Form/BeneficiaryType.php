@@ -28,25 +28,9 @@ class BeneficiaryType extends AbstractType
             'label' => 'Prénom',
         ])->add('lastName', TextType::class, [
             'label' => 'Nom',
-        ])->add(
-            'email', RepeatedType::class, [
-                'type' => EmailType::class,
-                'invalid_message' => 'Les adresses e-mails doivent être les mêmes, merci de vérifier votre saisie.',
-                'options' => ['required' => false],
-                'first_options' => [
-                    'label' => 'Adresse e-mail ',
-                    'attr' => ['class' => 'form-control ', 'maxlength' => 70],
-                ],
-                'second_options' => [
-                    'label' => 'Confirmation de l\'adresse e-mail',
-                    'attr' => ['class' => 'form-control ', 'maxlength' => 70],
-                ],
-                'constraints' => [
-                    new Length(['max' => 70]),
-                ],
-                'attr' => ['class' => 'form-control '],
-            ]
-        )->add('sexe', ChoiceType::class, [
+        ])->add('email', EmailType::class, [
+            'label' => 'Email',
+        ])->add('sexe', ChoiceType::class, [
             'choices' => [
                 'Masculin' => 'H',
                 'Féminin' => 'F',
