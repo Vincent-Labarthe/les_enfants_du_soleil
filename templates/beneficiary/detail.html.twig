@@ -10,7 +10,7 @@
                         {% else %}background-color:#ffa5f5{% endif %}">{{ person.data.gender }}
                         </button>
                     </h2>
-                    <p class="ms-5">Identifiant général n° {{ generalIdentifier.id }} </p>
+                    <p class="ms-5">ID général : {{ generalIdentifier.id }} </p>
             <a class="ms-5" href="{{ path('app_beneficiary_edit',{id:person.data.id}) }}">
                 <button class="btn btn-primary">Editer</button>
             </a>

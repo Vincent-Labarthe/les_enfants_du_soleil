@@ -15,8 +15,8 @@ class BeneficiaryLocalisationType extends AbstractType
         $builder->add('edsEntity', EntityType::class, [
             'class' => EdsEntity::class,
             'choice_label' => 'name',
+            'label' => 'Choisir une entité EDS',
             'required' => false,
-            'placeholder' => 'Choisir une entité EDS',
         ])->add('supportStartedAt', DateType::class, [
             'widget' => 'single_text',
             'html5' => true,
@@ -24,7 +24,7 @@ class BeneficiaryLocalisationType extends AbstractType
                 'class' => 'js-datepicker',
             ],
             'required' => true,
-            'label' => 'Date de début de prise en charge',
+            'label' => 'de',
         ])->add('supportEndedAt', DateType::class, [
             'widget' => 'single_text',
             'html5' => true,
@@ -32,7 +32,7 @@ class BeneficiaryLocalisationType extends AbstractType
                 'class' => 'js-datepicker',
             ],
             'required' => false,
-            'label' => 'Date de fin de prise en charge dans la précédente entité EDS (optionnel)',
+            'label' => 'à (facultatif)',
         ]);
     }
 }

@@ -1,14 +1,15 @@
 <div class="table-design" id="localisation_table">
     {% if localisations is null %}
         <p>Aucune localisation n'a été trouvée.</p>
-        <button class="btn btn-outline-primary mb-4"
-                onclick="ajaxCall('app_beneficiary_localisation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une
+        <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#localisationModal">Ajouter
+            une
             localisation
-        </button></a>
+        </button>
+        {#       #}
     {% else %}
         <h4 class="mb-4">Historique des localisations</h4>
-        <button class="btn btn-outline-primary mb-4"
-                onclick="ajaxCall('app_beneficiary_localisation_add_ajax', {'id': {{ beneficiary.id }}})">Ajouter une
+        <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#localisationModal">Ajouter
+            une
             localisation
         </button></a>
         <table class="table datagrid">
@@ -78,4 +79,25 @@
             </tbody>
         </table>
     {% endif %}
+    <div class="modal fade" id="localisationModal" tabindex="-1" aria-labelledby="localisationModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex justify-content-around">
+                    <div class="localisation-icon"
+                         onclick="ajaxCall('app_beneficiary_address_add_ajax', {'id': {{ beneficiary.id }}})"
+                         data-bs-dismiss="modal">
+                        <span class="material-symbols-rounded">home</span>
+                        <p>externe</p>
+                    </div>
+                    <div class="localisation-icon"
+                         onclick="ajaxCall('app_beneficiary_localisation_add_ajax', {'id': {{ beneficiary.id }}})"
+                         data-bs-dismiss="modal">
+                        <span class="material-symbols-rounded">location_city</span>
+                        <p>interne</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

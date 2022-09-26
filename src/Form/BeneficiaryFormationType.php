@@ -14,9 +14,11 @@ class BeneficiaryFormationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', TextType::class, [
-            'label' => 'Nom de la formation',
+        $builder->add('className', EntityType::class, [
+            'class' => ClassName::class,
+            'choice_label' => 'name',
             'required' => true,
+            'label' => 'Niveau de formation',
         ])->add('specialty', TextType::class, [
             'label' => 'Spécialité',
             'required' => true,
@@ -33,6 +35,7 @@ class BeneficiaryFormationType extends AbstractType
                 'class' => 'js-datepicker',
             ],
             'required' => true,
+            'label' => 'Date de début',
         ])->add('endedAt', DateType::class, [
             'widget' => 'single_text',
             'html5' => true,
@@ -40,16 +43,12 @@ class BeneficiaryFormationType extends AbstractType
                 'class' => 'js-datepicker',
             ],
             'required' => false,
+            'label' => 'Date de fin',
         ])->add('trainingInstitution', EntityType::class, [
             'class' => TrainingInstitution::class,
             'choice_label' => 'name',
             'required' => false,
-            'placeholder' => 'Choisir un organisme de formation',
-        ])->add('className', EntityType::class, [
-            'class' => ClassName::class,
-            'choice_label' => 'name',
-            'required' => true,
-            'placeholder' => 'Choisir un niveau de formation',
+            'label' => 'Organisme de formation',
         ]);
     }
 }

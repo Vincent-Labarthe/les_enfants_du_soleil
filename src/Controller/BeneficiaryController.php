@@ -267,6 +267,40 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
+     * Address add page.
+     *
+     * @param Request                $request            Current request
+     * @param EntityManagerInterface $em                 The entity manager
+     * @param BeneficiaryService     $beneficiaryService The beneficiary service
+     *
+     * @return RedirectResponse|Response
+     */
+    #[Route(path: '/address/add', name: 'address_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function addressAdd(Request $request, EntityManagerInterface $em, BeneficiaryService $beneficiaryService): RedirectResponse|Response
+    {
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(AddressType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $beneficiaryService->addAddress($beneficiary, $form->getData());
+
+            return $this->redirectToRoute('app_beneficiary_detail', ['id' => $beneficiary->getId()]);
+        }
+
+
+        $html = $this->render('beneficiary/_include/_add_address.html.twig', [
+            'form' => $form->createView(),
+            'person' => $beneficiary,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
      * Removing a localisation.
      *
      * @param EntityManagerInterface $em      The entity manager

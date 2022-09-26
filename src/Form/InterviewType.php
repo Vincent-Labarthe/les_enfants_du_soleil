@@ -23,6 +23,7 @@ class InterviewType extends AbstractType
                 'class' => 'js-datepicker',
             ],
             'required' => true,
+            'label' => 'Date de l\'entretien ',
         ])->add('manager', EntityType::class, [
             'class' => Employee::class,
             'choice_label' => 'firstname',
