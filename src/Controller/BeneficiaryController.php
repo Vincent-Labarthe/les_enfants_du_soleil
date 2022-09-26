@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\BehaviorEvent;
 use App\Entity\Beneficiary;
 use App\Entity\BeneficiaryEdsEntity;
@@ -223,9 +224,11 @@ class BeneficiaryController extends AbstractController
     {
         $beneficiary = $em->getRepository(Beneficiary::class)->find($request->request->get('id'));
         $localisation = $beneficiary?->getEdsEntity()->toArray();
+        $address = $beneficiary?->getAddress();
 
         $html = $this->render('beneficiary/_include/_localisation.html.twig', [
             'localisations' => $localisation !== [] ? $localisation : null,
+            'address' => $address,
             'beneficiary' => $beneficiary,
         ]);
 
@@ -267,6 +270,23 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
+     * Removing a localisation.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/localisation/delete', name: 'localisation_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function localisationDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $em->remove($em->getRepository(BeneficiaryEdsEntity::class)->find($request->request->get('localisationId')));
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * Address add page.
      *
      * @param Request                $request            Current request
@@ -301,17 +321,22 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * Removing a localisation.
+     * Removing an address.
      *
      * @param EntityManagerInterface $em      The entity manager
      * @param Request                $request Current request
      *
-     * @return JsonResponse
+     * @return RedirectResponse|JsonResponse
      */
-    #[Route(path: '/localisation/delete', name: 'localisation_delete_ajax', options: ['expose' => true], methods: ['POST'])]
-    public function localisationDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    #[Route(path: '/address/delete', name: 'address_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function addressDelete(EntityManagerInterface $em, Request $request): RedirectResponse|JsonResponse
     {
-        $em->remove($em->getRepository(BeneficiaryEdsEntity::class)->find($request->request->get('localisationId')));
+        if (!$beneficiary = $em->getRepository(Beneficiary::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $beneficiary->setAddress(null);
+        $em->remove($em->getRepository(Address::class)->find($request->request->get('addressId')));
         $em->flush();
 
         return new JsonResponse();

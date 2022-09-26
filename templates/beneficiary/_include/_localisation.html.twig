@@ -1,83 +1,92 @@
 <div class="table-design" id="localisation_table">
-    {% if localisations is null %}
+    <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#localisationModal">Ajouter
+        une localisation
+    </button>
+    {% if localisations is null and address is null %}
         <p>Aucune localisation n'a été trouvée.</p>
-        <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#localisationModal">Ajouter
-            une
-            localisation
-        </button>
-        {#       #}
     {% else %}
-        <h4 class="mb-4">Historique des localisations</h4>
-        <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#localisationModal">Ajouter
-            une
-            localisation
-        </button></a>
-        <table class="table datagrid">
-            <thead id="table_head">
-            <tr class="table100-head">
-                <th class="header-for-field-text text-left" dir="ltr">
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        Du
-                    </div>
-                </th>
-                <th scope="col" class="cell" id="date_cell">
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        Au
-                    </div>
-                </th>
-                <th scope="col" class="cell" id="ttc_cell">
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        Entité EDS
-                    </div>
-                </th>
-                <th scope="col" class="cell" id="shipping_cell">
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        Adresse
-                    </div>
-                </th>
-                <th scope="col" class="cell" id="cancel_cell">
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        Ville
-                    </div>
-                </th>
-                <th scope="col" class="cell" id="cancel_cell">
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        Action
-                    </div>
-                </th>
-            </tr>
-            </thead>
-            <tbody class="table_data">
-            {% for localisation in localisations %}
-                <tr class="text-center" id="{{ localisation.id }}">
-                    <td>{{ localisation.startedAt|date("d/m/Y") }}</td>
-                    <td>{% if localisation.endedAt is not null %}{{ localisation.endedAt|date("d/m/Y") }}{% else %} - {% endif %}</td>
-                    <td>{{ localisation.edsEntity.name }}</td>
-                    <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% else %} - {% endif %}</td>
-                    <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% else %} - {% endif %}</td>
-                    <td class="actions actions-as-dropdown">
-                        <div class="dropdown dropdown-actions">
-                            <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="21" width="21" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
-                                </svg>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item action-edit" data-id="{{ localisation.id }}"
-                                   id="localisation_edit_link">Modifier</a>
-                                <a class="dropdown-item action-delete text-danger" data-id="{{ localisation.id }}"
-                                   id="localisation_delete_link"
-                                   onclick="ajaxCallDelete('app_beneficiary_localisation_delete_ajax', {'id': {{ beneficiary.id }}, 'localisationId': {{ localisation.id }}})">Supprimer</a>
-                            </div>
+        {% if localisations is not null %}
+            <h4 class="mb-4">Historique des localisations</h4>
+            <table class="table datagrid mb-5">
+                <thead id="table_head">
+                <tr class="table100-head">
+                    <th class="header-for-field-text text-left" dir="ltr">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            Du
                         </div>
-                    </td>
+                    </th>
+                    <th scope="col" class="cell" id="date_cell">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            Au
+                        </div>
+                    </th>
+                    <th scope="col" class="cell" id="ttc_cell">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            Entité EDS
+                        </div>
+                    </th>
+                    <th scope="col" class="cell" id="shipping_cell">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            Adresse
+                        </div>
+                    </th>
+                    <th scope="col" class="cell" id="cancel_cell">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            Ville
+                        </div>
+                    </th>
+                    <th scope="col" class="cell" id="cancel_cell">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            Action
+                        </div>
+                    </th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="table_data">
+                {% for localisation in localisations %}
+                    <tr class="text-center" id="eds_entity_{{ localisation.id }}">
+                        <td>{{ localisation.startedAt|date("d/m/Y") }}</td>
+                        <td>{% if localisation.endedAt is not null %}{{ localisation.endedAt|date("d/m/Y") }}{% else %} - {% endif %}</td>
+                        <td>{{ localisation.edsEntity.name }}</td>
+                        <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.street }}{% else %} - {% endif %}</td>
+                        <td>{% if localisation.edsEntity.address is not null %}{{ localisation.edsEntity.address.city }}{% else %} - {% endif %}</td>
+                        <td class="actions actions-as-dropdown">
+                            <div class="dropdown dropdown-actions">
+                                <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="21" width="21" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                                    </svg>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item action-edit" data-id="{{ localisation.id }}"
+                                       id="localisation_edit_link">Modifier</a>
+                                    <a class="dropdown-item action-delete text-danger" data-id="{{ localisation.id }}"
+                                       id="localisation_delete_link"
+                                       onclick="ajaxCallDelete('app_beneficiary_localisation_delete_ajax', {'id': {{ beneficiary.id }}, 'localisationId': {{ localisation.id }}}, 'eds_entity_',{{ localisation.id }})">Supprimer</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        {% if address is not null %}
+            <div id="address_{{ address.id }}">
+                <h4 class="mb-4">Adresse externe</h4>
+                <p type="text" class="col-4">Rue : {{ address.street }}</p>
+                <p type="text" class="col-4">Code postal : {{ address.zip }}</p>
+                <p type="text" class="col-4">Ville : {{ address.city }}</p>
+                <p type="text" class="col-4">Pays : {{ address.country }}</p>
+                <button class="btn btn-danger" data-id="{{ address.id }}"
+                        onclick="ajaxCallDelete('app_beneficiary_address_delete_ajax', {'id': {{ beneficiary.id }}, 'addressId': {{ address.id }}}, 'address_',{{ address.id }})">
+                    Supprimer cette adresse
+                </button>
+            </div>
+        {% endif %}
     {% endif %}
     <div class="modal fade" id="localisationModal" tabindex="-1" aria-labelledby="localisationModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -95,7 +104,6 @@
                         <span class="material-symbols-rounded">location_city</span>
                         <p>interne</p>
                     </div>
-
                 </div>
             </div>
         </div>

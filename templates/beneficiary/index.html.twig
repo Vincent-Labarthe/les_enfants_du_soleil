@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="d-flex flex-row">
-        {% include '_include/_sidebar.html.twig' %}
-        <div class="container hero-container mt-5 p-5">
+    {% include '_include/_sidebar.html.twig' %}
+    <div class="container" style="max-width: 100vw!important;">
+        <div class="hero-container mt-5 p-5">
             <div class="row mb-5">
                 <div class="col-md-6">
                     <div>
@@ -17,81 +18,97 @@
                     {{ form_row(form.lastName) }}
 
                 </div>
-                <div class="col-4" >
+                <div class="col-4">
                     {{ form_row(form.sexe) }}
                     {{ form_row(form.dateOfBirth) }}
 
                 </div>
-                <div class="col-4" >
+                <div class="col-4">
                     {{ form_row(form.origin) }}
                     {{ form_row(form.edsEntity) }}
                 </div>
             </div>
             <div class="text-end">
-                <button type="submit" class="btn btn-primary mb-5 text-end">Rechercher</button>
+                <button type="submit" class="btn btn-primary  text-end">Rechercher</button>
             </div>
             {{ form_end(form) }}
-            <table class="table datagrid">
-                <thead>
-                <tr>
-                    <th class="header-for-field-text text-left" dir="ltr">
-                        <a href="#">
-                            Prénom <i class="fa fa-fw fa-sort"></i>
+        </div>
+        <div class="hero-container mt-5 p-5">
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <div>
+                        <a href="{{ path('export_index', {data : app.request.get('beneficiary_search'), type: 'beneficiary'}) }}">
+                            <button class="btn btn-primary mb-5">Exporter</button>
                         </a>
-                    </th>
-                    <th class="sorted  header-for-field-text text-left" dir="ltr">
-                        <a href="#">
-                            Nom de famille <i class="fa fa-fw fa-sort"></i>
-                        </a>
-                    </th>
-                    <th class="sorted  header-for-field-text text-left" dir="ltr">
-                        <a href="#">
-                            Date de naissance <i class="fa fa-fw fa-sort"></i>
-                        </a>
-                    </th>
-                    <th class="sorted  header-for-field-text text-left" dir="ltr">
-                        <a href="#">
-                            Statut <i class="fa fa-fw fa-sort"></i>
-                        </a>
-                    </th>
-                    <th class="sorted  header-for-field-text text-left" dir="ltr">
-                        <a href="#">
-                            Localisation <i class="fa fa-fw fa-sort"></i>
-                        </a>
-                    </th>
-                    <th class="sorted  header-for-field-text text-left">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for beneficiary in beneficiaries %}
-                <tr>
-                        <th>{{ beneficiary.firstname }}</th>
-                        <th>{{ beneficiary.lastname }}</th>
-                        <th>{{ beneficiary.dateOfBirth }}</th>
-                        <th>{{ beneficiary.origin }}</th>
-                        <th>{{ beneficiary.localisation }}</th>
-                        <td class="actions actions-as-dropdown">
-                            <div class="dropdown dropdown-actions">
-                                <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                   aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="21" width="21" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
-                                    </svg>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item action-edit" href="{{ path('app_beneficiary_detail', {'id': beneficiary.id}) }}" data-action-name="détail">Détail</a>
-                                    <a class="dropdown-item action-edit" href="{{ path('app_beneficiary_edit', {'id': beneficiary.id}) }}" data-action-name="modifier">Modifier</a>
-                                    <a class="dropdown-item action-delete text-danger" href="" data-action-name="delete"
-                                       data-bs-toggle="modal" data-bs-target="#modal-delete">Supprimer</a>
+                    </div>
+                </div>
+                <table class="table datagrid">
+                    <thead>
+                    <tr>
+                        <th class="header-for-field-text text-left" dir="ltr">
+                            <a href="#">
+                                Prénom <i class="fa fa-fw fa-sort"></i>
+                            </a>
+                        </th>
+                        <th class="sorted  header-for-field-text text-left" dir="ltr">
+                            <a href="#">
+                                Nom de famille <i class="fa fa-fw fa-sort"></i>
+                            </a>
+                        </th>
+                        <th class="sorted  header-for-field-text text-left" dir="ltr">
+                            <a href="#">
+                                Date de naissance <i class="fa fa-fw fa-sort"></i>
+                            </a>
+                        </th>
+                        <th class="sorted  header-for-field-text text-left" dir="ltr">
+                            <a href="#">
+                                Statut <i class="fa fa-fw fa-sort"></i>
+                            </a>
+                        </th>
+                        <th class="sorted  header-for-field-text text-left" dir="ltr">
+                            <a href="#">
+                                Localisation <i class="fa fa-fw fa-sort"></i>
+                            </a>
+                        </th>
+                        <th class="sorted  header-for-field-text text-left">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for beneficiary in beneficiaries %}
+                        <tr>
+                            <th>{{ beneficiary.firstname }}</th>
+                            <th>{{ beneficiary.lastname }}</th>
+                            <th>{{ beneficiary.dateOfBirth }}</th>
+                            <th>{{ beneficiary.origin }}</th>
+                            <th>{{ beneficiary.localisation }}</th>
+                            <td class="actions actions-as-dropdown">
+                                <div class="dropdown dropdown-actions">
+                                    <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="21" width="21" fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item action-edit"
+                                           href="{{ path('app_beneficiary_detail', {'id': beneficiary.id}) }}"
+                                           data-action-name="détail">Détail</a>
+                                        <a class="dropdown-item action-edit"
+                                           href="{{ path('app_beneficiary_edit', {'id': beneficiary.id}) }}"
+                                           data-action-name="modifier">Modifier</a>
+                                        <a class="dropdown-item action-delete text-danger" href=""
+                                           data-action-name="delete"
+                                           data-bs-toggle="modal" data-bs-target="#modal-delete">Supprimer</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}

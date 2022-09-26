@@ -54,7 +54,7 @@ function ajaxCall(url, data) {
     })
 }
 
-function ajaxCallDelete(url, data) {
+function ajaxCallDelete(url, data,type, id) {
     $.ajax({
         url: Routing.generate(url, data),
         type: 'POST',
@@ -62,7 +62,7 @@ function ajaxCallDelete(url, data) {
         dataType: 'json',
         async: true,
         success: function () {
-           $('#'+ data.localisationId).remove()
+            $('#' + type + id).remove()
         },
         error: function (response) {
             console.log(response)
