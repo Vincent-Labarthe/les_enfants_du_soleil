@@ -67,7 +67,6 @@ class EmployeeType extends AbstractType
     {
         $resolver->setDefaults([
             'translation_domain' => false,
-            'data_class' => Employee::class,
         ]);
     }
 }

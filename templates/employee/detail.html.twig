@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="d-flex flex-row hero-background">
+        {% include 'beneficiary/_include/_sidebar_beneficiary.html.twig' %}
+        <div class="container hero-container mt-5">
+            <h2 class="ms-5 mt-5">{{ person.data.firstname ~ ' ' ~ person.data.lastname }}</h2>
+            <p class="ms-5">ID général : {{ person.data.general_id }} </p>
+            <a class="ms-5" href="{{ path('app_employee_edit',{id:person.data.id}) }}">
+                <button class="btn btn-primary">Editer</button>
+            </a>
+            <div id="general_information" class="mt-5">
+                                {% include 'employee/_include/_general_information.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const user_id = {{ person.data.id }};</script>
+    <script src="{{ asset('js/beneficiary.js') }}"></script>
+{% endblock %}

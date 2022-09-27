@@ -200,12 +200,12 @@ class BeneficiaryService
     }
 
     /**
-     * @param mixed       $imageFile
-     * @param Beneficiary $beneficiary
+     * @param mixed                $imageFile
+     * @param Beneficiary|Employee $person
      *
      * @return void
      */
-    public function saveProfilImage(mixed $imageFile, Beneficiary $beneficiary): void
+    public function saveProfilImage(mixed $imageFile, Beneficiary|Employee $person): void
     {
         $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
@@ -218,7 +218,7 @@ class BeneficiaryService
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
         }
-        $beneficiary->setImageUrl($newFilename);
+        $person->setImageUrl($newFilename);
         $this->em->flush();
     }
 

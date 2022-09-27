@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EmployeeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -48,6 +49,18 @@ class Employee
 
     #[ORM\OneToOne(targetEntity: GeneralIdentifier::class, mappedBy: 'employee', cascade: ['persist', 'remove'])]
     private $generalIdentifier;
+
+    #[ORM\Column(length: 255)]
+    private ?string $gender = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $birthdate = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $StartedAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $EndedAt = null;
 
     public function __construct()
     {
@@ -244,6 +257,54 @@ class Employee
         }
 
         $this->generalIdentifier = $generalIdentifier;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    public function getStartedAt(): ?\DateTimeInterface
+    {
+        return $this->StartedAt;
+    }
+
+    public function setStartedAt(\DateTimeInterface $StartedAt): self
+    {
+        $this->StartedAt = $StartedAt;
+
+        return $this;
+    }
+
+    public function getEndedAt(): ?\DateTimeInterface
+    {
+        return $this->EndedAt;
+    }
+
+    public function setEndedAt(?\DateTimeInterface $EndedAt): self
+    {
+        $this->EndedAt = $EndedAt;
 
         return $this;
     }

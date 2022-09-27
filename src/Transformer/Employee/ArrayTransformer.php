@@ -34,7 +34,7 @@ class ArrayTransformer extends TransformerAbstract
     private function getEdsEntity($employee)
     {
         $data = null;
-        foreach ($employee->getEdsEntities() as $edsEntity) {
+        foreach ($employee->getEdsEntity() as $edsEntity) {
             $data .= $edsEntity->getName().' ';
         }
 
