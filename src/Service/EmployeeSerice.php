@@ -29,14 +29,21 @@ class EmployeeSerice
         $employee = new Employee();
         $generalIdentifier = new GeneralIdentifier();
         $generalIdentifier->setEmployee($employee);
+        $employee->setGeneralIdentifier($generalIdentifier);
         $employee->setFirstName($formData['firstname']);
         $employee->setLastName($formData['lastname']);
+        $employee->setGender($formData['gender']);
+        $employee->setBirthDate($formData['birthdate']);
+        $employee->setTel($formData['tel']);
+        $employee->setStartedAt($formData['startDate']);
+        $employee->setEndedAt($formData['endDate']);
         $employee->setEmail($formData['email']);
         $employee->setStatus($formData['status']);
         $employee->addEdsEntity($this->em->getRepository(EdsEntity::class)->find($formData['edsEntity']));
         if ($imageFile = $formData['imageUrl']) {
             $this->beneficiaryService->saveProfilImage($imageFile, $employee);
         }
+
         $this->em->persist($employee);
         $this->em->flush();
 
@@ -55,6 +62,5 @@ class EmployeeSerice
         $fractal = new Manager();
 
         return $fractal->createData($personsData)->toArray();
-
     }
 }

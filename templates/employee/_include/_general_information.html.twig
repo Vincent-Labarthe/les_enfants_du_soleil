@@ -3,31 +3,15 @@
     <div class="ms-5 d-flex flex-row">
         <div>
 {#            <p type="text" class="form-control">Référence interne : {{ person.data.internRef }}</p>#}
-{#            <p type="text" class="form-control">Né le : {{ person.data.birthdate|date('d-m-Y') }}</p>#}
+            <p type="text" class="form-control">Né le : {{ person.data.birthday|date('d-m-Y') }}</p>
             <p type="text" class="form-control">Dernier statut : {{ person.data.status }}</p>
 {#            <p type="text" class="form-control">Entité EDS : {{ person.data.localisation }}</p>#}
-{#            <p type="text" class="form-control">Tel : {{ person.data.tel }}</p>#}
+            <p type="text" class="form-control">Tel : {{ person.data.tel }}</p>
             <p type="text" class="form-control">Email : {{ person.data.email }}</p>
         </div>
-{#        <div class="ms-5">#}
-{#            <p type="text" class="form-control">Diplomes : {{ person.data.degree }}</p>#}
-{#            <p type="text" class="form-control">Niveau scolaire : {{ person.data.school_level }}</p>#}
-{#            <p type="text" class="form-control">Début support EDS#}
-{#                : {{ person.data.support_start|date('d-m-Y') }}</p>#}
-{#            <p type="text" class="form-control">Fin support EDS#}
-{#                :{% if person.data.support_end is not same as null %} {{ person.data.support_end|date('d-m-Y') }} {% endif %}</p>#}
-{#            <p type="text" class="form-control">Carrière envisagée : {{ person.data.plannedCareer }}</p>#}
-
-{#        </div>#}
-{#        <div class="ms-5">#}
-{#            <p type="text" class="form-control">N°Ord. Placement : {{ person.data.refOrdonnance }}</p>#}
-{#            {% if person.data.birth_certificate is not same as('-') %}#}
-{#                <p> Certificat de naissance</p>#}
-{#                <iframe src="{{ asset('uploads/birth_certificate/' ~ person.data.birth_certificate) }}" width="100%"#}
-{#                        height="500px" title="Certificat de naissance"></iframe>#}
-{#                <a href="{{ asset('uploads/birth_certificate/' ~ person.data.birth_certificate) }}">Télécharger le#}
-{#                    document ici</a>#}
-{#            {% endif %}#}
-{#        </div>#}
+        <div class="ms-5">
+            <p type="text" class="form-control">Date début EDS : {{ person.data.start_date|date('d-m-Y') }}</p>
+            <p type="text" class="form-control">Date fin EDS :{% if person.data.end_date is not null %} {{ person.data.start_date|date('d-m-Y') }} {% endif %}</p>
+        </div>
     </div>
 </div>

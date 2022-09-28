@@ -12,7 +12,7 @@
                     </h2>
                     <p class="ms-5">ID général : {{ generalIdentifier.id }} </p>
             <a class="ms-5" href="{{ path('app_beneficiary_edit',{id:person.data.id}) }}">
-                <button class="btn btn-primary">Editer</button>
+                <button class="btn btn-primary btn-eds">Editer</button>
             </a>
             <div id="general_information" class="mt-5">
                 {% include 'beneficiary/_include/_general_information.html.twig' %}

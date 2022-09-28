@@ -1,31 +1,12 @@
 
-
-.custom-input {
-    width: 100%;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 0 10px;
-    font-size: 16px;
-    color: #333;
+.btn-eds{
+    background: #daeaf1!important;
+    border: 1px solid  #daeaf1;
+    color: #5e5c64;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
-.custom-btn {
-    width: 100%;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 0 10px;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-}
-
-.custom-btn:hover {
-    background: #B83C26;
-}
-
-.custom-link{
-    text-decoration: none;
-    color: #333;
+.btn-eds:hover{
+    background: #acdef6 !important;
+    border: 1px solid  #daeaf1;
 }

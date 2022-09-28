@@ -7,6 +7,7 @@ use App\Entity\Employee;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -24,19 +25,33 @@ class EmployeeType extends AbstractType
             'required' => true,
         ])->add('lastname', TextType::class, [
             'required' => true,
+        ])->add('gender', ChoiceType::class, [
+            'choices' => [
+                'Masculin' => 'H',
+                'Féminin' => 'F',
+            ],
+            'required' => true,
+        ])->add('birthdate', DateType::class, [
+            'widget' => 'single_text',
+            'html5' => true,
+            'required' => true,
+            'attr' => [
+                'class' => 'js-datepicker',
+            ],
+            'label' => 'Date de naissance',
+        ])->add('tel', TextType::class, [
+            'required' => false,
+            'label' => 'Téléphone',
+            'constraints' => [
+                new Length([
+                    'min' => 10,
+                    'max' => 10,
+                    'minMessage' => 'Votre numéro de téléphone doit contenir au moins {{ limit }} chiffres',
+                    'maxMessage' => 'Votre numéro de téléphone doit contenir au plus {{ limit }} chiffres',
+                ]),
+            ],
         ])->add(
-            'email', RepeatedType::class, [
-                'type' => EmailType::class,
-                'invalid_message' => 'Les adresses e-mails doivent être les mêmes, merci de vérifier votre saisie.',
-                'options' => ['required' => true],
-                'first_options' => [
-                    'label' => 'Adresse e-mail ',
-                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70],
-                ],
-                'second_options' => [
-                    'label' => 'Confirmation de l\'adresse e-mail',
-                    'attr' => ['class' => 'form-control form-control-lg', 'maxlength' => 70],
-                ],
+            'email', EmailType::class, [
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Le champ e-mail est obligatoire.']),
                     new Length(['max' => 70]),
@@ -57,6 +72,22 @@ class EmployeeType extends AbstractType
             'choice_label' => 'name',
             'required' => false,
             'placeholder' => 'Choisir une entité',
+        ])->add('startDate', DateType::class, [
+            'widget' => 'single_text',
+            'html5' => true,
+            'required' => true,
+            'attr' => [
+                'class' => 'js-datepicker',
+            ],
+            'label' => 'Date d\'embauche',
+        ])->add('endDate', DateType::class, [
+            'widget' => 'single_text',
+            'html5' => true,
+            'required' => false,
+            'attr' => [
+                'class' => 'js-datepicker',
+            ],
+            'label' => 'Date de fin de contrat',
         ]);
     }
 

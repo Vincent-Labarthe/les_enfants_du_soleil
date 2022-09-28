@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="text-end">
-                <button type="submit" class="btn btn-primary  text-end">Rechercher</button>
+                <button type="submit" class="btn btn-primary  text-end btn-eds">Rechercher</button>
             </div>
             {{ form_end(form) }}
         </div>
@@ -38,7 +38,7 @@
                 <div class="col-md-6">
                     <div>
                         <a href="{{ path('export_index', {data : app.request.get('beneficiary_search'), type: 'beneficiary'}) }}">
-                            <button class="btn btn-primary mb-5">Exporter</button>
+                            <button class="btn btn-primary mb-5 btn-eds">Exporter</button>
                         </a>
                     </div>
                 </div>

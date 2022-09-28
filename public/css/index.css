@@ -20,7 +20,7 @@
 }
 
 .order-cart {
-    padding: 10px 5px 5px 5px;
+    padding: 17px 5px 0 5px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -53,4 +53,14 @@
     background: #6151FF;
     border: 1px solid #6151FF;
     --bs-text-opacity: 1;
+}
+
+.batch-icon {
+    position: absolute;
+    color: #FFF;
+    top: -10px;
+    left: -12px;
+    background-color: #FFE6E6;
+    padding: 12px 12px;
+    border-radius: 0.75rem;
 }

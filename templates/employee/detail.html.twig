@@ -2,12 +2,17 @@
 
 {% block body %}
     <div class="d-flex flex-row hero-background">
-        {% include 'beneficiary/_include/_sidebar_beneficiary.html.twig' %}
+        {% include 'beneficiary/_include/_sidebar_employee.html.twig' %}
         <div class="container hero-container mt-5">
-            <h2 class="ms-5 mt-5">{{ person.data.firstname ~ ' ' ~ person.data.lastname }}</h2>
+            <h2 class="ms-5 mt-5">{{ person.data.firstname ~ ' ' ~ person.data.lastname }}-
+                <button type="button" class="btn"
+                        style="{% if person.data.gender is same as ('H')%}background-color:#0dcaf0
+                        {% else %}background-color:#ffa5f5{% endif %}">{{ person.data.gender }}
+                </button>
+            </h2>
             <p class="ms-5">ID général : {{ person.data.general_id }} </p>
             <a class="ms-5" href="{{ path('app_employee_edit',{id:person.data.id}) }}">
-                <button class="btn btn-primary">Editer</button>
+                <button class="btn btn-primary btn-eds">Editer</button>
             </a>
             <div id="general_information" class="mt-5">
                 {% include 'employee/_include/_general_information.html.twig' %}
