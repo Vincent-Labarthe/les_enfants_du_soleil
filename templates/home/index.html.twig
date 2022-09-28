@@ -2,15 +2,22 @@
 {% block body %}
     <div class="d-flex flex-row">
         {% include '_include/_sidebar.html.twig' %}
-        <div class="container hero-container mt-5 p-5">
+    <div class="container" style="max-width: 100vw!important;">
+    <div class="hero-container mt-5 p-5">
             <div class="row mb-5">
                 <div class="col-md-12">
                     <div>
                         <h1 class="hero-title"> Bienvenue sur l'application de gestion des Enfants du Soleil.</h1>
                     </div>
                 </div>
+                <div class="card-group mt-5">
+                    {% include 'home/include/_dash_board.html.twig' with {'beneficiary': persons, 'employee':employees} %}
+                </div>
             </div>
-            <table class="table datagrid">
+    </div>
+        <div class="hero-container mt-5 p-5">
+
+        <table class="table datagrid">
                 <thead>
                 <tr>
                     <th class="  header-for-field-text text-left" dir="ltr">

@@ -39,28 +39,16 @@ class EmployeeRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Employee[] Returns an array of Employee objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Employee
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * Get active employees.
+     *
+     * @return float|int|mixed|string
+     */
+    public function getActiveEmployees()
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.EndedAt is null')
+            ->getQuery()
+            ->getResult();
+    }
 }

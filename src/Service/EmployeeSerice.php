@@ -5,7 +5,10 @@ namespace App\Service;
 use App\Entity\EdsEntity;
 use App\Entity\Employee;
 use App\Entity\GeneralIdentifier;
+use App\Transformer\Employee\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
 
 class EmployeeSerice
 {
@@ -38,5 +41,20 @@ class EmployeeSerice
         $this->em->flush();
 
         return $employee;
+    }
+
+    /**
+     * Get active employees.
+     *
+     * @return array|null
+     */
+    public function getActiveEmployees()
+    {
+        $personCollection = $this->em->getRepository(Employee::class)->getActiveEmployees();
+        $personsData = new Collection($personCollection, new ArrayTransformer());
+        $fractal = new Manager();
+
+        return $fractal->createData($personsData)->toArray();
+
     }
 }
