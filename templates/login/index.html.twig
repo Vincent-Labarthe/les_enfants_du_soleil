@@ -8,12 +8,12 @@
                     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
                 <h3 style="color: #B63A1F; font-weight: 500">{% trans %}Connexion{% endtrans %}</h3>
-                <form action="{{ path('app_login') }}" method="post" class="d-flex flex-column mt-3 mb-3">
-                    <input class="custom-input" type="email" id="username" name="_username" value="{{ last_username }}"
+                <form action="{{ path('app_login') }}" method="post" class="d-flex flex-column mt-3 mb-4">
+                    <input class="form-control" type="email" id="username" name="_username" value="{{ last_username }}"
                            placeholder="E-mail"/>
-                    <input class="custom-input mt-4" type="password" id="password" name="_password" placeholder="Mot de pass"/>
+                    <input class="form-control mt-4" type="password" id="password" name="_password" placeholder="Mot de pass"/>
                     <input type="hidden" name="{{ path('app_home') }}"/>
-                    <button class="custom-btn mt-4" type="submit">Se connecter</button>
+                    <button class="btn btn-login mt-4" type="submit">Se connecter</button>
                 </form>
                 <a href="" style="font-size: 0.8rem;color: #B63A1F">J'ai oublié mon mot de passe</a>
 
