@@ -27,7 +27,7 @@ class BeneficiaryCrudController extends AbstractCrudController
             ChoiceField::new('sexe')->setLabel('Genre')->setChoices(['Homme' => 'M', 'Femme' => 'F']),
             AssociationField::new('origin')->setLabel('Origine'),
             DateField::new('dateOfBirth')->setLabel('Date de naissance'),
-            TextField::new('familyRelation')->setLabel('Rélation familiale'),
+            AssociationField::new('familyRelation')->setLabel('Rélation familiale'),
             EmailField::new('email')->setLabel('Email'),
             TelephoneField::new('tel')->setLabel('Téléphone'),
             ImageField::new('image_url')->setLabel('Image')->setUploadDir('/public/images/person'),
