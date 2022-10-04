@@ -35,7 +35,7 @@ class Formation implements \Stringable
     private $startedAt;
 
     #[ORM\ManyToOne(targetEntity: ClassName::class, inversedBy: 'formation')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $className;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -43,6 +43,10 @@ class Formation implements \Stringable
 
     #[ORM\ManyToMany(targetEntity: Beneficiary::class, inversedBy: 'formations')]
     private Collection $student;
+
+    #[ORM\ManyToOne(inversedBy: 'formation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Employee $employee = null;
 
     public function __construct()
     {
@@ -175,6 +179,18 @@ class Formation implements \Stringable
     public function removeStudent(Beneficiary $student): self
     {
         $this->student->removeElement($student);
+
+        return $this;
+    }
+
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?Employee $employee): self
+    {
+        $this->employee = $employee;
 
         return $this;
     }

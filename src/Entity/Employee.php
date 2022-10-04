@@ -65,12 +65,16 @@ class Employee
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: EmployeeFunction::class)]
     private Collection $functions;
 
+    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Formation::class, orphanRemoval: true)]
+    private Collection $formation;
+
     public function __construct()
     {
         $this->edsEntity = new ArrayCollection();
         $this->trainingInstitutions = new ArrayCollection();
         $this->interviewReports = new ArrayCollection();
         $this->functions = new ArrayCollection();
+        $this->formation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -337,6 +341,36 @@ class Employee
             // set the owning side to null (unless already changed)
             if ($function->getEmployee() === $this) {
                 $function->setEmployee(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Formation>
+     */
+    public function getFormation(): Collection
+    {
+        return $this->formation;
+    }
+
+    public function addFormation(Formation $formation): self
+    {
+        if (!$this->formation->contains($formation)) {
+            $this->formation->add($formation);
+            $formation->setEmployee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormation(Formation $formation): self
+    {
+        if ($this->formation->removeElement($formation)) {
+            // set the owning side to null (unless already changed)
+            if ($formation->getEmployee() === $this) {
+                $formation->setEmployee(null);
             }
         }
 

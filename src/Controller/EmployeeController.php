@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Beneficiary;
 use App\Entity\Employee;
 use App\Entity\EmployeeFunction;
+use App\Entity\Formation;
 use App\Entity\GeneralIdentifier;
 use App\Entity\HealthEvent;
 use App\Form\EmployeeSearchType;
 use App\Form\EmployeeType;
+use App\Form\FormationType;
 use App\Form\FunctionType;
 use App\Service\EdsEntityService;
 use App\Service\EmployeeService;
@@ -134,8 +136,8 @@ class EmployeeController extends AbstractController
     /**
      * function add page.
      *
-     * @param Request                $request            Current request
-     * @param EntityManagerInterface $em                 The entity manager
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
      *
      * @return RedirectResponse|JsonResponse|Response
      */
@@ -185,4 +187,79 @@ class EmployeeController extends AbstractController
         return new JsonResponse();
     }
 
+    /**
+     * Ajax call to display employee formation history.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return JsonResponse|RedirectResponse
+     */
+    #[Route(path: '/formation/ajax', name: 'formation_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function formationAjax(Request $request, EntityManagerInterface $em): RedirectResponse|JsonResponse
+    {
+        if (!$employee = $em->getRepository(Employee::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_employee_index');
+        }
+        $formations = $employee->getFormation()->toArray();
+
+        $html = $this->render('employee/_include/_formations.html.twig', [
+            'formations' => $formations !== [] ? $formations : null,
+            'person' => $employee,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * formation add page.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return RedirectResponse|JsonResponse|Response
+     */
+    #[Route(path: '/formation/add', name: 'formation_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function formationAdd(
+        Request $request,
+        EntityManagerInterface $em,
+        EmployeeService $employeeService
+    ): RedirectResponse|JsonResponse|Response {
+        if (!$employee = $em->getRepository(Employee::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(FormationType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $employeeService->addFormation($employee, $form->getData());
+
+            return $this->redirectToRoute('app_employee_detail', ['id' => $employee->getId()]);
+        }
+
+        $html = $this->render('employee/form/_add_formation.html.twig', [
+            'form' => $form->createView(),
+            'person' => $employee,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * Removing an employee's formation.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/formation/delete', name: 'formation_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function formationDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $employee = $em->getRepository(Employee::class)->find($request->query->get('id'));
+        $employee?->removeFormation($em->getRepository(Formation::class)->find($request->query->get('formationId')));
+        $em->flush();
+
+        return new JsonResponse();
+    }
 }

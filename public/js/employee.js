@@ -2,6 +2,14 @@ $(document).ready(function () {
     $("#function_link").on('click', function () {
         ajaxCall('app_employee_function_ajax', {'id': user_id})
     });
+
+    $("#localisation_link").on('click', function () {
+        ajaxCall('app_employee_localisation_ajax', {'id': user_id})
+    });
+
+    $("#formation_link").on('click', function () {
+        ajaxCall('app_employee_formation_ajax', {'id': user_id})
+    });
 })
 
 
