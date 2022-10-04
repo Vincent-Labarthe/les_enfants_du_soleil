@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Beneficiary;
 use App\Entity\Employee;
+use App\Entity\EmployeeFunction;
 use App\Entity\GeneralIdentifier;
+use App\Entity\HealthEvent;
 use App\Form\EmployeeSearchType;
 use App\Form\EmployeeType;
+use App\Form\FunctionType;
 use App\Service\EdsEntityService;
-use App\Service\EmployeeSerice;
+use App\Service\EmployeeService;
 use App\Transformer\Employee\DetailToArrayTransformer;
 use App\Transformer\Employee\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +19,8 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,7 +54,7 @@ class EmployeeController extends AbstractController
      * @return Response
      */
     #[Route(path: '/add', name: 'add')]
-    public function add(Request $request, EdsEntityService $edsEntityService, EmployeeSerice $employeeSerice)
+    public function add(Request $request, EdsEntityService $edsEntityService, EmployeeService $employeeSerice)
     {
         $form = $this->createForm(EmployeeType::class);
 
@@ -101,4 +107,82 @@ class EmployeeController extends AbstractController
             'person' => $employeeArray,
         ]);
     }
+
+    /**
+     * Ajax call to display employee function history.
+     *
+     * @param Request                $request Current request
+     * @param EntityManagerInterface $em      The entity manager
+     *
+     * @return JsonResponse|RedirectResponse
+     */
+    #[Route(path: '/function/ajax', name: 'function_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function functionAjax(Request $request, EntityManagerInterface $em): RedirectResponse|JsonResponse
+    {
+        if (!$employee = $em->getRepository(Employee::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_employee_index');
+        }
+        $functions = $employee->getFunctions()->toArray();
+        $html = $this->render('employee/_include/_functions.html.twig', [
+            'functions' => $functions !== [] ? $functions : null,
+            'person' => $employee,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * function add page.
+     *
+     * @param Request                $request            Current request
+     * @param EntityManagerInterface $em                 The entity manager
+     *
+     * @return RedirectResponse|JsonResponse|Response
+     */
+    #[Route(path: '/function/add', name: 'function_add_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function functionAdd(
+        Request $request,
+        EntityManagerInterface $em,
+        EmployeeService $employeeService
+    ): RedirectResponse|JsonResponse|Response {
+        if (!$employee = $em->getRepository(Employee::class)->find($request->query->get('id'))) {
+            return $this->redirectToRoute('app_beneficiary_index');
+        }
+
+        $form = $this->createForm(FunctionType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $employeeService->addFunction($employee, $form->getData());
+
+            return $this->redirectToRoute('app_employee_detail', ['id' => $employee->getId()]);
+        }
+
+        $html = $this->render('employee/form/_add_function.html.twig', [
+            'form' => $form->createView(),
+            'person' => $employee,
+        ]);
+
+        return new JsonResponse($html->getContent());
+    }
+
+    /**
+     * Removing an employee's function.
+     *
+     * @param EntityManagerInterface $em      The entity manager
+     * @param Request                $request Current request
+     *
+     * @return JsonResponse
+     */
+    #[Route(path: '/function/delete', name: 'function_delete_ajax', options: ['expose' => true], methods: ['POST'])]
+    public function functionDelete(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $employee = $em->getRepository(Employee::class)->find($request->query->get('id'));
+        $employeeFunction = $em->getRepository(EmployeeFunction::class)->find($request->query->get('functionId'));
+        $employee?->removeFunction($employeeFunction);
+        $em->remove($employeeFunction);
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
 }

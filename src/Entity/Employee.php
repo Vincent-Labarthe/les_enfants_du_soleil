@@ -62,11 +62,15 @@ class Employee
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $EndedAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: EmployeeFunction::class)]
+    private Collection $functions;
+
     public function __construct()
     {
         $this->edsEntity = new ArrayCollection();
         $this->trainingInstitutions = new ArrayCollection();
         $this->interviewReports = new ArrayCollection();
+        $this->functions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -305,6 +309,36 @@ class Employee
     public function setEndedAt(?\DateTimeInterface $EndedAt): self
     {
         $this->EndedAt = $EndedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EmployeeFunction>
+     */
+    public function getFunctions(): Collection
+    {
+        return $this->functions;
+    }
+
+    public function addFunction(EmployeeFunction $function): self
+    {
+        if (!$this->functions->contains($function)) {
+            $this->functions->add($function);
+            $function->setEmployee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFunction(EmployeeFunction $function): self
+    {
+        if ($this->functions->removeElement($function)) {
+            // set the owning side to null (unless already changed)
+            if ($function->getEmployee() === $this) {
+                $function->setEmployee(null);
+            }
+        }
 
         return $this;
     }

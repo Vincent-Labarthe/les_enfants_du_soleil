@@ -129,4 +129,9 @@ class FamilyRelation
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
 }

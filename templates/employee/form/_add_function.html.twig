@@ -1,0 +1,8 @@
+<div class="table-design" id="localisation_table">
+    <h4 class="mb-4">Ajouter une fonction</h4>
+    {{ form_start(form, {'action': path('app_employee_function_add_ajax', {'id': person.id} )}) }}
+    {{ form_widget(form) }}
+    <button onclick="" class="btn btn-primary mb-5 text-end btn-eds">Créer</button>
+    {{ form_end(form) }}
+</div>
+

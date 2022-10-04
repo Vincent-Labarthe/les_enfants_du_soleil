@@ -38,12 +38,16 @@ class EdsEntity implements \Stringable
     #[ORM\OneToMany(mappedBy: 'edsEntity', targetEntity: BeneficiaryEdsEntity::class)]
     private Collection $beneficiary;
 
+    #[ORM\OneToMany(mappedBy: 'edsEntity', targetEntity: EmployeeFunction::class)]
+    private Collection $employeeFunctions;
+
     public function __construct()
     {
         $this->edsChildren = new ArrayCollection();
         $this->people = new ArrayCollection();
         $this->employees = new ArrayCollection();
         $this->beneficiary = new ArrayCollection();
+        $this->employeeFunctions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,6 +189,36 @@ class EdsEntity implements \Stringable
             // set the owning side to null (unless already changed)
             if ($beneficiary->getEdsEntity() === $this) {
                 $beneficiary->setEdsEntity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EmployeeFunction>
+     */
+    public function getEmployeeFunctions(): Collection
+    {
+        return $this->employeeFunctions;
+    }
+
+    public function addEmployeeFunction(EmployeeFunction $employeeFunction): self
+    {
+        if (!$this->employeeFunctions->contains($employeeFunction)) {
+            $this->employeeFunctions->add($employeeFunction);
+            $employeeFunction->setEdsEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployeeFunction(EmployeeFunction $employeeFunction): self
+    {
+        if ($this->employeeFunctions->removeElement($employeeFunction)) {
+            // set the owning side to null (unless already changed)
+            if ($employeeFunction->getEdsEntity() === $this) {
+                $employeeFunction->setEdsEntity(null);
             }
         }
 

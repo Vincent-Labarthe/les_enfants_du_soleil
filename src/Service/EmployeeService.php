@@ -4,13 +4,14 @@ namespace App\Service;
 
 use App\Entity\EdsEntity;
 use App\Entity\Employee;
+use App\Entity\EmployeeFunction;
 use App\Entity\GeneralIdentifier;
 use App\Transformer\Employee\ArrayTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 
-class EmployeeSerice
+class EmployeeService
 {
 
     public function __construct(private readonly BeneficiaryService $beneficiaryService, private readonly EntityManagerInterface $em)
@@ -55,12 +56,34 @@ class EmployeeSerice
      *
      * @return array|null
      */
-    public function getActiveEmployees()
+    public function getActiveEmployees(): ?array
     {
         $personCollection = $this->em->getRepository(Employee::class)->getActiveEmployees();
         $personsData = new Collection($personCollection, new ArrayTransformer());
         $fractal = new Manager();
 
         return $fractal->createData($personsData)->toArray();
+    }
+
+    /**
+     * @param Employee $employee Current employee
+     * @param mixed    $formData Array of form data
+     *
+     * @return void
+     */
+    public function addFunction(Employee $employee, mixed $formData): void
+    {
+        $function = new EmployeeFunction();
+        $function->setEmployee($employee);
+        $employee->addFunction($function);
+        $function->setFunctionName($formData['function_name']);
+        $function->setStartedAt($formData['started_at']);
+        if ($formData['ended_at']) {
+            $function->setEndedAt($formData['ended_at']);
+        }
+        $function->setStatus($formData['status']);
+        $function->setEdsEntity($this->em->getRepository(EdsEntity::class)->find($formData['eds_entity']));
+        $this->em->persist($function);
+        $this->em->flush();
     }
 }
